@@ -30,7 +30,7 @@
     --c_highlightBlue: #1cb8f6;
     --c_mainWhite: #fff;
     --c_mainGray: #666;
-    --c_bg: url(../images/bg.png);
+    // --c_bg: url(../images/bg.png);
     //--c_bg: #a6a64b;
     --c_bg_chart: rgba(0, 138, 255, 0.1);
   }
@@ -80,6 +80,18 @@
   & > main {
     flex: 1;
     display: flex;
-    padding: 2rem 1rem 2rem 1rem ;
+    // padding: 2rem 1rem 2rem 1rem ;
+    justify-content: space-around;;
   }
+  .video_bg{
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: -1111;
+
+  }
+
+
+
+
 }

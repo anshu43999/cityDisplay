@@ -1,8 +1,8 @@
 /******************默认配置*************************/
 let settings = {
     chartRefreshPeriod: 10,
-    designW: 3840,
-    designH: 2160,
+    designW: 1920,
+    designH: 1080,
     zoomMode:'stretch',
     notebookOptim:true
 };

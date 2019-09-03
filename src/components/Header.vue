@@ -2,8 +2,8 @@
 <template>
 <div id='header_wrap' @click="handleClick">
     <div id="header_main">
-        <div style="margin: 0 auto;width:40%;display : flex">
-            <div id="header_title">山西省公安厅110指挥中心警情数据可视化平台</div>
+        <div class="main_center" style="">
+            <div id="header_title">山西省公安厅情报指挥中心统计分析系统</div>
             <time id="headerTime"></time>
         </div>
         
@@ -65,13 +65,29 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
     // height: 7rem;
     #header_main{
         height: 100%;
+        .main_center{
+
+            margin: 0 auto;
+            width:50%;
+            display : flex;
+            justify-content: center
+
+
+        }
     }
     #header_title{
         height: 7rem;
         overflow: hidden;
         line-height: 7rem;
         text-align: center;
-        font-size: 4rem;
+        font-size:2rem;
+
+        font-weight: 600;
+        background: linear-gradient(-180deg, #ffffff 50%, #0731FF 70%);
+        -webkit-background-clip: text;
+        color: transparent;
+        -webkit-text-fill-color: transparent;
+        // text-fill-color: transparent;
     }
     #headerTime{
         margin-left: 1rem;
