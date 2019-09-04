@@ -206,7 +206,7 @@
                 ],
                 jqtjjcSource: [
                     {name: '处警事件占比', value: 0, radius: '50%'},
-                    {name: '有效警情占比', value: 0, radius: '65%'},
+                    {name: '有效警情占比', value: 0, radius: '58%'},
                     {name: '反馈事件占比', value: 0, radius: '50%'}
                 ],
 
@@ -276,47 +276,108 @@
                     [1, '#1af7f1']
                 ];
                 let option = {
-                    series: (function () {
+                    series: (function() {
                         let result = [];
-                        sourceArr.forEach(function (item, index) {
+                        sourceArr.forEach(function(item, index) {
                             result.push(
-                                // 外围刻度
+                                // 外围仪表盘刻度与数字
                                 {
+                                    name: item.name,
                                     type: 'gauge',
+                                    center: [index * 28 + 22 + '%', '36%'],
                                     radius: item.radius,
-                                    center: [index * 30 + 20 + '%', '44%'],
                                     splitNumber: 2,
                                     axisLine: {
+                                        show: true,
+                                        lineStyle: {
+                                            color: colorSet,
+                                            width: 18 * that.scale,
+                                            shadowOffsetX: 0,
+                                            shadowOffsetY: 0,
+                                            opacity: 1
+                                        }
+                                    },
+                                    pointer: {
                                         show: false,
                                     },
-                                    
-
                                     detail: {
-                                        show: 0
-                                    },
-                                    axisTick: {
                                         show: false,
                                     },
                                     splitLine: {
-                                        length: 5 * that.scale,
+                                        length: 14 * that.scale,
                                         lineStyle: {
                                             width: 2 * that.scale
                                         }
                                     },
+                                    axisTick: {
+                                        show: true,
+                                        splitNumber: 5,
+                                        length: 10 * that.scale,
+                                        lineStyle: {
+                                            width: 1 * that.scale
+                                        }
+                                    },
                                     axisLabel: {
-                                        fontSize:12 * that.scale, // 刻度盘 数字
+                                        fontSize: 8 * that.scale, // 刻度盘 数字
                                         color: '#91c7ae'
                                     },
+                                    data: [{
+                                        value: item.value
+                                    }]
+                                },
+                                // 小刻度
+                                {
+                                    name: item.name,
+                                    type: 'gauge',
+                                    center: [index * 28 + 22 + '%', '36%'],
+                                    radius: item.radius,
+                                    splitNumber: 2,
+                                    axisLine: {
+                                        show: false,
+                                        lineStyle: {
+                                            color: colorSet,
+                                            width: 18 * that.scale,
+                                            shadowOffsetX: 0,
+                                            shadowOffsetY: 0,
+                                            opacity: 1
+                                        }
+                                    },
+                                    pointer: {
+                                        show: false,
+                                    },
+                                    detail: {
+                                        show: false,
+                                    },
+                                    splitLine: {
+                                        length: 14 * that.scale,
+                                        lineStyle: {
+                                            width: 1 * that.scale
+                                        }
+                                    },
+                                    axisTick: {
+                                        show: true,
+                                        splitNumber: 25,
+                                        length: 2 * that.scale,
+                                        lineStyle: {
+                                            width: 1 * that.scale
+                                        }
+                                    },
+                                    axisLabel: {
+                                        show: false,
+                                    },
+                                    data: [{
+                                        value: item.value
+                                    }]
                                 },
                                 // 内侧指针、数值显示
                                 {
                                     name: item.name,
                                     type: 'gauge',
-                                    center: [index * 30 + 20 + '%', '40%'],
+                                    center: [index * 28 + 22 + '%', '36%'],
                                     radius: item.radius,
                                     splitNumber: 2,
                                     axisLine: {
-                                        show: true,
+                                        show: false,
                                         lineStyle: {
                                             color: colorSet,
                                             width: 15 * that.scale,
@@ -327,14 +388,14 @@
                                     },
                                     pointer: {
                                         show: true,
-                                        length: '60%',     // 指针
-                                        width: 4 * that.scale
+                                        length: '70%', // 指针
+                                        width: 5 * that.scale
                                     },
                                     detail: {
                                         show: true,
                                         offsetCenter: [0, '140%'],
                                         textStyle: {
-                                            fontSize: 20 * that.scale,    //百分比
+                                            fontSize: 25 * that.scale, //百分比
                                             color: that.axisesColor,
                                         },
                                         formatter: [
@@ -343,37 +404,30 @@
                                         ].join('\n'),
                                         rich: {
                                             name: {
-                                                fontSize: 16 * that.scale,
-                                                lineHeight: 20 * that.scale,   //下方文字描述
-                                                color: '#ffffff'
+                                                fontSize: 20 * that.scale,
+                                                lineHeight: 25 * that.scale, //下方文字描述
+                                                color: '#ffffff',
                                             }
                                         }
                                     },
                                     splitLine: {
-                                        length: 15 * that.scale,
-                                        lineStyle: {
-                                            width: 2 * that.scale
-                                        }
+                                        show: false,
                                     },
-                                    // splitNumber: 6,
                                     axisTick: {
-                                        length: 8 * that.scale,
-                                        lineStyle: {
-                                            width: 2 * that.scale
-                                        }
+                                        show: false,
                                     },
                                     axisLabel: {
-                                        show: false
+                                        show: false,
                                     },
                                     data: [{
                                         value: item.value
                                     }]
                                 },
+                                // 扩大提示范围
                                 {
-                                    
                                     name: item.name,
                                     type: 'gauge',
-                                    center: [index * 30 + 20 + '%', '50%'],
+                                    center: [index * 28 + 22 + '%', '36%'],
                                     radius: item.radius,
                                     splitNumber: 2,
                                     axisLine: {
@@ -381,22 +435,22 @@
                                     },
                                     pointer: {
                                         show: true,
-                                        length: '200%',
-                                        width: '200%',
+                                        length: '150%',
+                                        width: '150%',
                                     },
-                                    itemStyle:{
-                                        normal:{
-                                            color:'transparent'
+                                    itemStyle: {
+                                        normal: {
+                                            color: 'transparent'
                                         }
                                     },
                                     detail: {
                                         show: false,
                                     },
                                     splitLine: {
-                                        show:false
+                                        show: false
                                     },
                                     axisTick: {
-                                        show:false
+                                        show: false
                                     },
                                     axisLabel: {
                                         show: false
@@ -410,7 +464,7 @@
                         return result;
                     })(),
                     tooltip: {
-                        formatter: function (params) {
+                        formatter: function(params) {
                             return params.seriesName + '：' + params.data.value + '%';
                         }
                     },
@@ -886,11 +940,25 @@
                                 color: colorList[i]
                             }
                         },
+                        areaStyle: {
+                            normal: {
+                                color: new this.$echarts.graphic.LinearGradient(0, 1, 0, 0, [{
+                                    offset: 0,
+                                    color: 'rgba(162,162,162,0.77)'
+                                },
+                                    {
+                                        offset: 1,
+                                        color: colorList[i]
+                                    }
+                                ], false),
+                            }
+                        },
                         lineStyle: {
                             width: 2
                         },
                         data: sourceArr[i].value
                     });
+
                 }
                 let option = {
                     legend: {
@@ -2146,33 +2214,29 @@
                 //数据
                 .statistics {
                     width: 80%;
-                    height: 35%;
+                    height: 30%;
                     margin: 3% 10% 0;
                     display: flex;
                     justify-content: space-around;
-
                     li {
-                        transform: scale(0.7);
-                        transform-origin: center;
-
                         p {
                             text-align: center;
                             color: #ffe754;
-
+                            letter-spacing: 2px;
                             &:first-child {
-                                margin-bottom: 2rem;
+                                margin-bottom: 1rem;
                                 color: #ffffff;
-                                font-size: 1.5rem;
+                                font-size: 1.2rem;
                             }
 
                             &:nth-child(2) {
-                                transform: scale(1.5);
+                                /*transform: scale(1.5);*/
                                 // font-family: heijian;
-                                letter-spacing: 2px;
+                                font-weight: bold;
+                                font-size: 1.2rem;
                             }
                         }
                     }
-
                 }
 
                 // 图表
