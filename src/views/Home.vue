@@ -46,29 +46,7 @@
                         </div>
                     </div>
                     
-
-
-
-                    <!-- <div class="filter">
-                        <div class="iconBox"></div>
-                        <i class="iconfont iconguolv"></i>
-                        <div data-id="jqfl" class="option">
-                            <div class="filterTitle">
-                                <div>时间筛选</div>
-                            </div>
-                            <ul class="filterItem" @click="selectItem">
-                                <li v-for="item in periodArr1" :key="item">
-                                    <div data-id="jqfl">{{item}}</div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div> -->
-                    <!-- <div class="chart-wrap">
-                        <h3 @click="jump">警情分类数据分析</h3>
-                        <div class="chartBox">
-                            <div class="chart" id="jqflsjfxChart"></div>
-                        </div>
-                    </div> -->
+             
                 </div>
             </div>
 
@@ -86,51 +64,19 @@
             </div>
 
             <div class="r">
-                <!-- <div class="r-l">
-                    <div class="r-l-t">
-                        <div class="chart-wrap">
-                            <h3>今日接警类型数据分析</h3>
-                            <div class="chartBox">
-                                <div class="chart" id="jrPieChart"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="r-l-b">
-                        <div class="chart-wrap">
-                            <h3>今日报警方式数据分析</h3>
-                            <div class="chartBox">
-                                <div class="chart" id="jrbjfssjfxChart"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="r-l-m">
-                        <div class="chart-wrap">
-                            <h3>今日来话类型数据分析</h3>
-                            <div class="chartBox">
-                                <div class="chart" id="jrrlhlxsjfxChart"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
-
-
-
   
                     <div class="r-t">
                         <div class="options">
-                            <!-- <div>
-                                <img src="../assets/images/index/filter_time.png">
-                            </div> -->
-                            <div>
-                                <img class="iconBox" src='../assets/images/index/filter_time.png'>
+                            <div class="timer_btn"  @click="selectItem">
+                                <img class="iconBox"  data-id="jqfl" src='../assets/images/index/filter_time.png'>
                             </div>
-                            <div class="option">
+                            <div data-id="jqfl" class="option">
                                     <div class="filterTitle">
                                         <div>时间筛选</div>
                                     </div>
                                     <ul class="filterItem" @click="selectItem">
                                         <li v-for="item in periodArr1" :key="item">
-                                            <div>{{item}}</div>
+                                            <div data-id="jqfl">{{item}}</div>
                                         </li>
                                     </ul>
                             </div>
@@ -150,27 +96,16 @@
                     <div class="r-b">
                         <div class="options">
                             <div>
-                                <img class="iconBox" src="../assets/images/index/filter_time.png">
-                                <div data-id="jqfl" class="option">
+                                <div>
+                                    <img class="iconBox" data-id="jjlx" src="../assets/images/index/filter_time.png">  
+                                </div>
+                                <div data-id="jjlx" class="option">
                                     <div class="filterTitle">
                                         <div>时间筛选</div>
                                     </div>
                                     <ul class="filterItem" @click="selectItem">
-                                        <li v-for="item in periodArr1" :key="item">
-                                            <div data-id="jqfl">{{item}}</div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div>
-                                <img class="iconBox" src='../assets/images/index/childrenPage.png'>
-                                <div data-id="jqfl" class="option">
-                                    <div class="filterTitle">
-                                        <div>页面跳转</div>
-                                    </div>
-                                    <ul class="filterItem" @click="selectItem">
-                                        <li v-for="item in periodArr2" :key="item">
-                                            <div data-id="jqfl">{{item}}</div>
+                                        <li v-for="item in periodArr" :key="item">
+                                            <div data-id="jjlx">{{item}}</div>
                                         </li>
                                     </ul>
                                 </div>
@@ -206,73 +141,6 @@
 
 
                     </div>
-
-                    <!-- <div class="r-r-t">
-                        <div class="filter">
-                            <div class="iconBox"></div>
-                            <i class="iconfont iconguolv"></i>
-                            <div data-id="jjlx" class="option">
-                                <div class="filterTitle">
-                                    <div>时间筛选</div>
-                                </div>
-                                <ul class="filterItem" @click="selectItem">
-                                    <li v-for="item in periodArr" :key="item">
-                                        <div data-id="jjlx">{{item}}</div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="chart-wrap">
-                            <h3 @click="jump">近七日接警类型数据分析</h3>
-                            <div class="chartBox">
-                                <div class="chart" id="sevenjjlxsjfxChart"></div>
-                            </div>
-                        </div>
-                    </div> -->
-                    <!-- <div class="r-r-m">
-                        <div class="filter">
-                            <div class="iconBox"></div>
-                            <i class="iconfont iconguolv"></i>
-                            <div data-id="bjfs" class="option">
-                                <div class="filterTitle">
-                                    <div>时间筛选</div>
-                                </div>
-                                <ul class="filterItem" @click="selectItem">
-                                    <li v-for="item in periodArr" :key="item">
-                                        <div data-id="bjfs">{{item}}</div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="chart-wrap">
-                            <h3 @click="jump">近七日报警方式数据分析</h3>
-                            <div class="chartBox">
-                                <div class="chart" id="sevenbjfssjfxChart"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="r-r-b">
-                        <div class="filter">
-                            <div class="iconBox"></div>
-                            <i class="iconfont iconguolv"></i>
-                            <div data-id="lhlx" class="option">
-                                <div class="filterTitle">
-                                    <div>时间筛选</div>
-                                </div>
-                                <ul class="filterItem" @click="selectItem">
-                                    <li v-for="item in periodArr" :key="item">
-                                        <div data-id="lhlx">{{item}}</div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="chart-wrap">
-                            <h3 @click="jump">近七日来话类型数据分析</h3>
-                            <div class="chartBox">
-                                <div class="chart" id="sevenlhlxsjfxChart"></div>
-                            </div>
-                        </div>
-                    </div> -->
            
             </div>
         </main>
@@ -354,9 +222,7 @@
                 // jqjqtjXdata: ['10-1', '10-2', '10-3', '10-4', '10-5', '10-6', '10-7'],
 
                 //    警情分类数据分析
-                jqflsjfxSource: [
-                 
-                ],
+                jqflsjfxSource: [ ],
                 grading: [0.2, 0.4, 0.6, 0.8, 1],
                 mapSource: [
                     {name: "太原市", value: 0, value1: 5000},
@@ -373,37 +239,21 @@
                 ],
                 mapData: {name: '报警事件', value: 0},
                 //    今日接警类型数据分析、今日来话类型数据分析
-                jrjjlxsjfxSourceSource: [
-                    /*{name: '110报警', value: 0},
-                    {name: '122报警', value: 0},
-                    {name: '119报警', value: 0},
-                    {name: '综合报警', value: 0},
-                    {name: '其他接警类型', value: 0}*/
-                ],
+                jrjjlxsjfxSourceSource: [],
                 jrjjlxsjfxSourceColor: ['#05dbb0', '#00a3c0', '#4160fd', '#bd0fdc', '#803ff7'],
                 //    今日报警方式数据分析
-                jrbjfssjfxSource: [
-                
-                ],
+                jrbjfssjfxSource: [ ],
                 jrbjfssjfxColor: ['#ffd75d', '#00a3c0', '#0d28a6', '#e344ff', '#6400cb'],
                 //    今日来话类型数据分析
-                jrrlhlxsjfxSource: [
-                 
-                ],
+                jrrlhlxsjfxSource: [  ],
                 jrrlhlxsjfxColor: ['#6c96ff', '#4160fb', '#2626e7', '#e344ff', '#00b3e9', '#803ff7', '#6905c6', '#17fff3'],
                 //    近七日接警类型数据分析
-                sevenjjlxsjfxSource: [
-                 
-                ],
+                sevenjjlxsjfxSource: [ ],
                 // sevenjjlxsjfxSource: {},
                 //    近七日报警方式数据分析
-                sevenbjfssjfxSource: [
-                
-                ],
+                sevenbjfssjfxSource: [ ],
                
-                sevenlhlxsjfxSource: [
-                   
-                ],
+                sevenlhlxsjfxSource: [  ],
                 showIndex :1,
                 rankShow : false,
                 // sevenlhlxsjfxSource:{}
@@ -1115,14 +965,15 @@
             // 跳转
             jump(e) {
                 let h3 = e.currentTarget;
+                console.log(h3.innerText)
                 switch (h3.innerText) {
-                    case '近七日接警类型数据分析':
+                    case '接警类型数据分析':
                         this.$router.push({name: '省接警类型数据分析', query: {title: '全省接警类型数据分析'}});
                         break;
-                    case '近七日报警方式数据分析':
+                    case '报警方式数据分析':
                         this.$router.push({name: '省接警类型数据分析', query: {title: '全省报警方式数据分析'}});
                         break;
-                    case '近七日来话类型数据分析':
+                    case '来话类型数据分析':
                         this.$router.push({name: '省接警类型数据分析', query: {title: '全省来话类型数据分析'}});
                         break;
                     case '警情分类数据分析':
@@ -1171,8 +1022,7 @@
                         // that.getJqjq();  //近期警情统计
                         that.getMapData(); // 地图数据  排名 
                         // that.getJjlx(); 接警类型数据分析    饼
-                        that.getFlsj();
-
+                        that.getFlsj(); 
                         that.getJjlxSeven();
                         // that.getBjfs();  今日报警方式
                         that.getBjfsSeven();
@@ -1252,18 +1102,37 @@
             //选择选项
             selectItem(e) {
                 console.log(e);
+                // return;
                 let item = document.querySelectorAll('.option');
                 let type = e.target.getAttribute('data-id');
                 item.forEach(value => {
                     let children = value.childNodes[1].childNodes;
                     if (value.getAttribute('data-id') === type) {
+                        // console.log(e.target.innerHTML);
                         switch (e.target.innerHTML) {
+                            // sessionStorage.setItem('jqfl', JSON.stringify(this.jqfl));
+
+                            // sessionStorage.setItem('jjlx', JSON.stringify(this.jjlx));
+                            // sessionStorage.setItem('bjfs', JSON.stringify(this.bjfs));
+                            // sessionStorage.setItem('lhlx', JSON.stringify(this.lhlx));
+
                             case'近7日':
                                 e.target.parentNode.parentNode.parentNode.style.display = 'none';
                                 let type1 = e.target.getAttribute('data-id');
-                                this[type1].end = this.todayIndex;
-                                this[type1].start = this.sevenDaysAgo;
-                                this[type1].per = 'week';
+                                // console.log(type1);
+
+                                this['jjlx'].end = this.todayIndex;
+                                this['jjlx'].start = this.sevenDaysAgo;
+                                this['jjlx'].per = 'week';
+
+                                this['bjfs'].end = this.todayIndex;
+                                this['bjfs'].start = this.sevenDaysAgo;
+                                this['bjfs'].per = 'week';
+
+                                this['lhlx'].end = this.todayIndex;
+                                this['lhlx'].start = this.sevenDaysAgo;
+                                this['lhlx'].per = 'week';
+
                                 // this.start = this.todayIndex;
                                 // console.log(value.childNodes[1].childNodes);
                                 for (let i = 0; i < children.length; i++) {
@@ -1283,9 +1152,22 @@
                                 let Sunday = date4.getFullYear().toString() + (date4.getMonth() + 1).toString().padStart(2, '0') + date4.getDate().toString().padStart(2, '0');
                                 e.target.parentNode.parentNode.parentNode.style.display = 'none';
                                 let type2 = e.target.getAttribute('data-id');
-                                this[type2].end = Sunday;
-                                this[type2].start = Monday;
-                                this[type2].per = 'lastWeek';
+                                
+                                this['jjlx'].end = Sunday;
+                                this['jjlx'].start = Monday;
+                                this['jjlx'].per = 'lastWeek';
+
+                                this['bjfs'].end = Sunday;
+                                this['bjfs'].start = Monday;
+                                this['bjfs'].per = 'lastWeek';
+
+                                this['lhlx'].end = Sunday;
+                                this['lhlx'].start = Monday;
+                                this['lhlx'].per = 'lastWeek';
+
+
+
+
                                 for (let i = 0; i < children.length; i++) {
                                     children[i].childNodes[0].classList.remove('active');
                                 }
@@ -1305,9 +1187,22 @@
 
                                 e.target.parentNode.parentNode.parentNode.style.display = 'none';
                                 let type3 = e.target.getAttribute('data-id');
-                                this[type3].end = beforeSunday;
-                                this[type3].start = beforeMonday;
-                                this[type3].per = 'halfYear';
+                            
+
+                                this['jjlx'].end = beforeSunday;
+                                this['jjlx'].start = beforeMonday;
+                                this['jjlx'].per = 'halfYear';
+
+                                this['bjfs'].end = beforeSunday;
+                                this['bjfs'].start = beforeMonday;
+                                this['bjfs'].per = 'halfYear';
+
+                                this['lhlx'].end = beforeSunday;
+                                this['lhlx'].start = beforeMonday;
+                                this['lhlx'].per = 'halfYear';
+
+
+
                                 for (let i = 0; i < children.length; i++) {
                                     children[i].childNodes[0].classList.remove('active');
                                 }
@@ -1353,6 +1248,20 @@
                                 }
                                 e.target.classList.add('active');
                                 break;
+
+                            case '警情数据分析详情':
+                                console.log('警情数据分析详情');
+
+
+                                break;
+                            case '报警方式数据详情':
+                                console.log('报警方式数据详情')
+                                break;
+                            case '来话类型数据分析':
+                                console.log('来话类型数据分析')
+                                break;
+
+
                             default:
                                 console.log('false');
                                 break;
@@ -1388,13 +1297,15 @@
             //筛选显示隐藏
             filter(e) {
                 let ele = e.target.getAttribute('class');
-                console.log(ele);
+                // console.log(ele);
                 let option = document.getElementsByClassName('option');
-                if (ele === 'iconBox') {
+                // console.log(ele);
+                if (ele == 'iconBox') {
+                    
                     for (let i = 0; i < option.length; i++) {
                         option[i].style.display = 'none';
                     }
-                    let selected = e.target.parentNode.lastChild;
+                    let selected = e.target.parentNode.parentNode.lastChild;
                     selected.style.display = 'block';
                 }
                 if (ele === null) {
@@ -2104,7 +2015,7 @@
             this.getScale();
             // this.selectedItem();
             this.renderChart();
-            // this.goSwiper();
+            this.goSwiper();
         }
     }
 </script>
@@ -2366,6 +2277,7 @@
                 background-size: 100% 100%;
                 position: relative;
                 .options{
+                    z-index: 999999;
                     display: flex;
                     flex-direction: row-reverse;
                     position: absolute;
@@ -2374,20 +2286,95 @@
                     // background: #ffffff;
                     right:8%;
                     top:-6%;
-                   
+                    // >div{
+                    //     cursor: pointer;
+                    //     width : 3rem;
+                    //     height :2.6rem;
+                    // }
+                    .timer_btn{
+                        cursor: pointer;
+                    }
                     
 
-                    
+                    .option {
+                        width: 12rem;
+                        height: 11.43rem;
+                        position: absolute;
+                        top: 2rem;
+                        right: -0.5rem;
+                        background: url("../assets/images/index/filter.png");
+                        background-repeat: no-repeat;
+                        background-size: 100% 100%;
+                        display: none;
 
+                        .filterTitle {
+                            color: #17fff3;
+                            position: absolute;
+                            top: 1.3rem;
+                            left: 0;
+                            right: 0;
+                            margin: auto;
+                            height: 16%;
 
+                            div {
+                                width: 167%;
+                                height: 167%;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                transform: scale(0.6);
+                                transform-origin: left top;
+                                letter-spacing: 2px;
+                            }
+                        }
 
+                        .filterItem {
+                            position: absolute;
+                            top: 33%;
+                            width: 70%;
+                            height: 50%;
+                            left: 0;
+                            right: 0;
+                            margin: auto;
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: space-between;
 
+                            li {
+                                width: 100%;
+                                height: 27.4%;
 
+                                div {
+                                    width: 167%;
+                                    height: 167%;
+                                    transform: scale(0.6);
+                                    transform-origin: left top;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    letter-spacing: 2px;
+                                    cursor: pointer;
+                                    background-image: linear-gradient(-86deg,
+                                            #0b5fa7 0%,
+                                            #0b5fa7 100%);
+                                    border-style: solid;
+                                    border-width: 1px;
+                                    border-image-source: linear-gradient(268deg,
+                                            #0493e4 41%,
+                                            #0492e3 43%,
+                                            rgba(8, 120, 197, 0.5) 71%,
+                                            #0b5fa7 100%);
+                                    border-image-slice: 1;
 
-
-
-
-
+                                    &.active {
+                                        background-image: linear-gradient(-86deg,
+                                                #53b0ff 0%,
+                                                #0b5fa7 100%);
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
                 .chart-wrap{
                     .title_wrap{
@@ -2412,17 +2399,96 @@
                 background-repeat: no-repeat;
                 background-size: 100% 100%;
                 .options{
+                    z-index: 999999;
                     display: flex;
                     position: absolute;
-                    width : 6rem;
+                    width : 3rem;
                     height : 2.6rem;
                     // background: #ffffff;
                     right:8%;
                     top:-6%;
-                    >div{
+                    .iconBox{
                         cursor: pointer;
-                        width : 3rem;
-                        height :2.6rem;
+                    }
+
+                    .option {
+                        width: 12rem;
+                        height: 11.43rem;
+                        position: absolute;
+                        top: 2rem;
+                        right: -0.5rem;
+                        background: url("../assets/images/index/filter.png");
+                        background-repeat: no-repeat;
+                        background-size: 100% 100%;
+                        display: none;
+
+                        .filterTitle {
+                            color: #17fff3;
+                            position: absolute;
+                            top: 1.3rem;
+                            left: 0;
+                            right: 0;
+                            margin: auto;
+                            height: 16%;
+
+                            div {
+                                width: 167%;
+                                height: 167%;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                transform: scale(0.6);
+                                transform-origin: left top;
+                                letter-spacing: 2px;
+                            }
+                        }
+
+                        .filterItem {
+                            position: absolute;
+                            top: 33%;
+                            width: 70%;
+                            height: 50%;
+                            left: 0;
+                            right: 0;
+                            margin: auto;
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: space-between;
+
+                            li {
+                                width: 100%;
+                                height: 27.4%;
+
+                                div {
+                                    width: 167%;
+                                    height: 167%;
+                                    transform: scale(0.6);
+                                    transform-origin: left top;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    letter-spacing: 2px;
+                                    cursor: pointer;
+                                    background-image: linear-gradient(-86deg,
+                                            #0b5fa7 0%,
+                                            #0b5fa7 100%);
+                                    border-style: solid;
+                                    border-width: 1px;
+                                    border-image-source: linear-gradient(268deg,
+                                            #0493e4 41%,
+                                            #0492e3 43%,
+                                            rgba(8, 120, 197, 0.5) 71%,
+                                            #0b5fa7 100%);
+                                    border-image-slice: 1;
+
+                                    &.active {
+                                        background-image: linear-gradient(-86deg,
+                                                #53b0ff 0%,
+                                                #0b5fa7 100%);
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
                 .chart-wrap{
@@ -2431,6 +2497,9 @@
                     position: absolute;
                     left: 0;
                     top: 0;
+                    .title_wrap{
+                        cursor: pointer;
+                    }
                     .chartBox{
                         padding: 3% 5% 15%;
                     }
