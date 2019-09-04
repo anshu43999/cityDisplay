@@ -117,8 +117,18 @@
 
   
                     <div class="r-t">
+                        <div class="options">
+                            <!-- <div>
+                                <img src="../assets/images/index/filter_time.png">
+                            </div> -->
+                            <div>
+                                <img src='../assets/images/index/filter_time.png'>
+                            </div>
+
+
+                        </div>
                         <div class="chart-wrap" >
-                            <div @click="jump"  class="title_wrap">警情分类数据分析</div>
+                            <div @click="jump"  class="title_wrap" >警情分类数据分析</div>
                             <div class="chartBox">
                                 <div class="chart" id="jqflsjfxChart"></div>
                             </div>
@@ -128,6 +138,17 @@
                     </div>
 
                     <div class="r-b">
+                        <div class="options">
+                            <div>
+                                <img src="../assets/images/index/filter_time.png">
+                            </div>
+                            <div>
+                                <img src='../assets/images/index/childrenPage.png'>
+                            </div>
+
+
+                        </div>
+
                         <div :class="[showIndex === 1 ? 'showIndex' : 'disappear'    ,'chart-wrap']">
                             <div @click="jump"  class="title_wrap">接警类型数据分析</div>
                             <div class="chartBox">
@@ -1525,16 +1546,7 @@
                         let arr = [];
                         let brr = [];
                         let crr = [];
-                        // [{
-                        //     value: 300,
-                        //     symbolPosition: 'end'
-                        // }, {
-                        //     value: 50,
-                        //     symbolPosition: 'end'
-                        // }, {
-                        //     value: 20,
-                        //     symbolPosition: 'end'
-                        // }]
+
                         res.data.forEach((item,index) => {
                             console.log(item['name'])
                             if(item['fldm']){
@@ -2059,7 +2071,7 @@
             this.getScale();
             // this.selectedItem();
             this.renderChart();
-            this.goSwiper();
+            // this.goSwiper();
         }
     }
 </script>
@@ -2322,7 +2334,7 @@
                 display: flex;
 				align-items: center;
                 justify-content: center;
-                font-size: 1.2rem;
+                font-size: 1.5rem;
                 font-weight: 600;
         background: linear-gradient(-180deg, #ffffff 50%, #0731FF 70%);
         -webkit-background-clip: text;
@@ -2396,7 +2408,26 @@
                 background-image: url('../assets/images/index/r-t.png');
                 background-repeat: no-repeat;
                 background-size: 100% 100%;
+                position: relative;
+                .options{
+                    display: flex;
+                    flex-direction: row-reverse;
+                    position: absolute;
+                    width : 6rem;
+                    height : 2.6rem;
+                    // background: #ffffff;
+                    right:8%;
+                    top:-6%;
+                    >div{
+                        cursor: pointer;
+                        width : 3rem;
+                        height :2.6rem;
+                    }
+                }
                 .chart-wrap{
+                    .title_wrap{
+                        cursor: pointer;
+                    }
                     .chartBox{
                         height: 88%;
                         padding-bottom: 2.5rem;
@@ -2415,6 +2446,20 @@
                 background-image: url('../assets/images/index/r-b.png');
                 background-repeat: no-repeat;
                 background-size: 100% 100%;
+                .options{
+                    display: flex;
+                    position: absolute;
+                    width : 6rem;
+                    height : 2.6rem;
+                    // background: #ffffff;
+                    right:8%;
+                    top:-6%;
+                    >div{
+                        cursor: pointer;
+                        width : 3rem;
+                        height :2.6rem;
+                    }
+                }
                 .chart-wrap{
                     width: 100%;
                     height: 100%;

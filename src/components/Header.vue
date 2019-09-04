@@ -3,7 +3,7 @@
 <div id='header_wrap' @click="handleClick">
     <div id="header_main">
         <div class="main_center" style="">
-            <div id="header_title">山西省公安厅情报指挥中心统计分析系统</div>
+            <div id="header_title">情报中心警情分析统计系统</div>
             <time id="headerTime"></time>
         </div>
         
