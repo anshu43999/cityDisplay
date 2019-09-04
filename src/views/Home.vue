@@ -30,7 +30,7 @@
                         <!--                    标题-->
                         <div class="title_wrap">今日地市警情数据分析</div>
                         <!--                    内容-->
-                        <div class="chartBox">
+                        <div class="chartBox" v-show="rankShow">
                            <ul>
                                <li>
                                    <span class="span1">地市</span>
@@ -122,11 +122,21 @@
                                 <img src="../assets/images/index/filter_time.png">
                             </div> -->
                             <div>
-                                <img src='../assets/images/index/filter_time.png'>
+                                <img class="iconBox" src='../assets/images/index/filter_time.png'>
                             </div>
-
-
+                            <div class="option">
+                                    <div class="filterTitle">
+                                        <div>时间筛选</div>
+                                    </div>
+                                    <ul class="filterItem" @click="selectItem">
+                                        <li v-for="item in periodArr1" :key="item">
+                                            <div>{{item}}</div>
+                                        </li>
+                                    </ul>
+                            </div>
+                            
                         </div>
+
                         <div class="chart-wrap" >
                             <div @click="jump"  class="title_wrap" >警情分类数据分析</div>
                             <div class="chartBox">
@@ -140,11 +150,32 @@
                     <div class="r-b">
                         <div class="options">
                             <div>
-                                <img src="../assets/images/index/filter_time.png">
+                                <img class="iconBox" src="../assets/images/index/filter_time.png">
+                                <div data-id="jqfl" class="option">
+                                    <div class="filterTitle">
+                                        <div>时间筛选</div>
+                                    </div>
+                                    <ul class="filterItem" @click="selectItem">
+                                        <li v-for="item in periodArr1" :key="item">
+                                            <div data-id="jqfl">{{item}}</div>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                             <div>
-                                <img src='../assets/images/index/childrenPage.png'>
+                                <img class="iconBox" src='../assets/images/index/childrenPage.png'>
+                                <div data-id="jqfl" class="option">
+                                    <div class="filterTitle">
+                                        <div>页面跳转</div>
+                                    </div>
+                                    <ul class="filterItem" @click="selectItem">
+                                        <li v-for="item in periodArr2" :key="item">
+                                            <div data-id="jqfl">{{item}}</div>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
+
 
 
                         </div>
@@ -246,19 +277,7 @@
             </div>
         </main>
         <!-- <my-setting></my-setting> -->
-        <video  autoplay loop muted class="video_bg"  >
-            <!-- <source src="static/images/index/dongtu1.mp4" type="video/mp4"/>
-            浏览器不支持 video 标签，建议升级浏览器。
-            <source src="static/images/index/dongtu2.webm" type="video/webm"/>
-            浏览器不支持 video 标签，建议升级浏览器。 -->
-            <source src="../assets/video/newbg.mp4" type="video/mp4"/>
-            浏览器不支持 video 标签，建议升级浏览器。
-            <!-- <source src="../assets/video/dongtu2.webm" type="video/webm"/>
-            浏览器不支持 video 标签，建议升级浏览器。 -->
-
-
-
-        </video>
+        
 
 
     </div>
@@ -303,6 +322,8 @@
                 //筛选选项
                 periodArr: ['近7日', '上周', '上上周'],
                 periodArr1: ['今天', '昨天', '前天'],
+                periodArr2: ['警情数据分析详情', '报警方式数据详情', '来话类型数据分析'],
+
                 //默认获取本周数据
                 jqfl: {date:'', per: ''},
                 jjlx: {start: '', end: '', per: ''},
@@ -384,6 +405,7 @@
                    
                 ],
                 showIndex :1,
+                rankShow : false,
                 // sevenlhlxsjfxSource:{}
             }
         },
@@ -792,10 +814,11 @@
                                             viewControl: {//用于鼠标的旋转，缩放等视角控制
                                                 distance: 250,//默认视角距离主体的距离
                                                 panMouseButton: 'left',//平移操作使用的鼠标按键
-                                                rotateMouseButton: 'right',//旋转操作使用的鼠标按键
+                                                rotateMouseButton: 'left',//旋转操作使用的鼠标按键
                                                 alpha: 60, // 让canvas在x轴有一定的倾斜角度
                                                 // autoRotate : true,
                                                 animation :true,
+                                                panSensitivity :0,
                                             },
                                             postEffect: {//后处理特效的相关配置，后处理特效可以为画面添加高光，景深，环境光遮蔽（SSAO），调色等效果。可以让整个画面更富有质感。
                                                 enable: true,
@@ -1144,9 +1167,9 @@
                         ], that.refreshCharts)
                     },
                     loadData() {
-                        that.getJqtj();
+                        that.getJqtj(); //警情统计监测  左上角
                         // that.getJqjq();  //近期警情统计
-                        that.getMapData();
+                        that.getMapData(); // 地图数据  排名 
                         // that.getJjlx(); 接警类型数据分析    饼
                         that.getFlsj();
 
@@ -1228,6 +1251,7 @@
             },
             //选择选项
             selectItem(e) {
+                console.log(e);
                 let item = document.querySelectorAll('.option');
                 let type = e.target.getAttribute('data-id');
                 item.forEach(value => {
@@ -1364,6 +1388,7 @@
             //筛选显示隐藏
             filter(e) {
                 let ele = e.target.getAttribute('class');
+                console.log(ele);
                 let option = document.getElementsByClassName('option');
                 if (ele === 'iconBox') {
                     for (let i = 0; i < option.length; i++) {
@@ -1546,7 +1571,16 @@
                         let arr = [];
                         let brr = [];
                         let crr = [];
-
+                        // [{
+                        //     value: 300,
+                        //     symbolPosition: 'end'
+                        // }, {
+                        //     value: 50,
+                        //     symbolPosition: 'end'
+                        // }, {
+                        //     value: 20,
+                        //     symbolPosition: 'end'
+                        // }]
                         res.data.forEach((item,index) => {
                             console.log(item['name'])
                             if(item['fldm']){
@@ -1563,6 +1597,7 @@
             },
             // 地图
             getMapData() {
+                console.log('走 地图方法')
                 let that = this;
                 this.$http({
                     method: 'post',
@@ -1583,12 +1618,13 @@
                     }
                 })
                     .then(function (res) {
-                        // console.log(res);
+                        console.log(res);
                         res['data'].forEach( (item,index)=>{
-                            console.log(item);
-                            that.ranking[index]['xzqhdm']  = item['xzqhdm']
-                            that.ranking[index]['jjsl']  = item['jjsl']
-                            that.ranking[index]['yxjq']  = item['yxjq']
+                            // console.log(item);
+                            that.ranking[index]['xzqhdm']  = item['xzqhdm'];
+                            that.ranking[index]['jjsl']  = item['jjsl'];
+                            that.ranking[index]['yxjq']  = item['yxjq'];
+                            that.rankShow = true;
                         } )
                         res.data.map(item => {
                             item.name = item.xzqhdm + '市';
@@ -2058,10 +2094,7 @@
                     that.showIndex ++;
                     if(that.showIndex === 4) {
                         that.showIndex = 1;
-
                     }
-
-
                 },10000)
             }
         },
@@ -2128,86 +2161,9 @@
                 right: 0.2rem;
             }
 
-            .option {
-                width: 12rem;
-                height: 11.43rem;
-                position: absolute;
-                top: 0;
-                right: -0.5rem;
-                background: url("../assets/images/index/filter.png");
-                background-repeat: no-repeat;
-                background-size: 100% 100%;
-                display: none;
-
-                .filterTitle {
-                    color: #17fff3;
-                    position: absolute;
-                    top: 1.3rem;
-                    left: 0;
-                    right: 0;
-                    margin: auto;
-                    height: 16%;
-
-                    div {
-                        width: 167%;
-                        height: 167%;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        transform: scale(0.6);
-                        transform-origin: left top;
-                        letter-spacing: 2px;
-                    }
-                }
-
-                .filterItem {
-                    position: absolute;
-                    top: 33%;
-                    width: 70%;
-                    height: 50%;
-                    left: 0;
-                    right: 0;
-                    margin: auto;
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: space-between;
-
-                    li {
-                        width: 100%;
-                        height: 27.4%;
-
-                        div {
-                            width: 167%;
-                            height: 167%;
-                            transform: scale(0.6);
-                            transform-origin: left top;
-                            display: flex;
-                            align-items: center;
-                            justify-content: center;
-                            letter-spacing: 2px;
-                            cursor: pointer;
-                            background-image: linear-gradient(-86deg,
-                                    #0b5fa7 0%,
-                                    #0b5fa7 100%);
-                            border-style: solid;
-                            border-width: 1px;
-                            border-image-source: linear-gradient(268deg,
-                                    #0493e4 41%,
-                                    #0492e3 43%,
-                                    rgba(8, 120, 197, 0.5) 71%,
-                                    #0b5fa7 100%);
-                            border-image-slice: 1;
-
-                            &.active {
-                                background-image: linear-gradient(-86deg,
-                                        #53b0ff 0%,
-                                        #0b5fa7 100%);
-                            }
-                        }
-                    }
-                }
-            }
+            
         }
+        
 
         .l {
             width: 30%;
@@ -2334,7 +2290,7 @@
                 display: flex;
 				align-items: center;
                 justify-content: center;
-                font-size: 1.5rem;
+                font-size: 1.4rem;
                 font-weight: 600;
         background: linear-gradient(-180deg, #ffffff 50%, #0731FF 70%);
         -webkit-background-clip: text;
@@ -2418,11 +2374,20 @@
                     // background: #ffffff;
                     right:8%;
                     top:-6%;
-                    >div{
-                        cursor: pointer;
-                        width : 3rem;
-                        height :2.6rem;
-                    }
+                   
+                    
+
+                    
+
+
+
+
+
+
+
+
+
+
                 }
                 .chart-wrap{
                     .title_wrap{

@@ -242,7 +242,7 @@ input{
                 // padding: 10px;
                 h4{
                     color: #00baff;
-                    font-size: 3rem;
+                    font-size: 1.5rem;
                     font-weight: 550;
 
                 }
@@ -273,7 +273,7 @@ input{
                     // line-height: 4rem;
                     display:flex;align-items:center;justify-content:center;
                     border-radius: 4px;
-                    font-size: 2.5rem;
+                    font-size: 1.5rem;
                     letter-spacing: 5px;
                     margin-top:20%; 
                     background: linear-gradient(to right,#037fe2,#00309b);
