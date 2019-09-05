@@ -31,22 +31,22 @@
                         <div class="title_wrap">今日地市警情数据分析</div>
                         <!--                    内容-->
                         <div class="chartBox" v-show="rankShow">
-                           <ul>
-                               <li>
-                                   <span class="span1">地市</span>
-                                   <span class="span2">报警总数</span>
-                                   <span class="span3">有效警情</span>
-                               </li>
-                               <li v-for="(item,index) in  ranking"   :key="index" >
-                                   <span class="span1 sp1">{{item['xzqhdm']}}</span>
-                                   <span class="span2 sp2">{{item['jjsl']}}</span>
-                                   <span class="span3 sp3">{{item['yxjq']}}</span>
-                               </li>
-                           </ul>
+                            <ul>
+                                <li>
+                                    <span class="span1">地市</span>
+                                    <span class="span2">报警总数</span>
+                                    <span class="span3">有效警情</span>
+                                </li>
+                                <li v-for="(item,index) in  ranking"   :key="index" >
+                                    <span class="span1 sp1">{{item['xzqhdm']}}</span>
+                                    <span class="span2 sp2">{{item['jjsl']}}</span>
+                                    <span class="span3 sp3">{{item['yxjq']}}</span>
+                                </li>
+                            </ul>
                         </div>
                     </div>
-                    
-             
+
+
                 </div>
             </div>
 
@@ -64,88 +64,88 @@
             </div>
 
             <div class="r">
-  
-                    <div class="r-t">
-                        <div class="options">
-                            <div class="timer_btn"  @click="selectItem">
-                                <img class="iconBox"  data-id="jqfl" src='../assets/images/index/filter_time.png'>
-                            </div>
-                            <div data-id="jqfl" class="option">
-                                    <div class="filterTitle">
-                                        <div>时间筛选</div>
-                                    </div>
-                                    <ul class="filterItem" @click="selectItem">
-                                        <li v-for="item in periodArr1" :key="item">
-                                            <div data-id="jqfl">{{item}}</div>
-                                        </li>
-                                    </ul>
-                            </div>
-                            
-                        </div>
 
-                        <div class="chart-wrap" >
-                            <div @click="jump"  class="title_wrap" >警情分类数据分析</div>
-                            <div class="chartBox">
-                                <div class="chart" id="jqflsjfxChart"></div>
-                            </div>
+                <div class="r-t">
+                    <div class="options">
+                        <div class="timer_btn"  @click="selectItem">
+                            <img class="iconBox"  data-id="jqfl" src='../assets/images/index/filter_time.png'>
                         </div>
-
+                        <div data-id="jqfl" class="option">
+                            <div class="filterTitle">
+                                <div>时间筛选</div>
+                            </div>
+                            <ul class="filterItem" @click="selectItem">
+                                <li v-for="item in periodArr1" :key="item">
+                                    <div data-id="jqfl">{{item}}</div>
+                                </li>
+                            </ul>
+                        </div>
 
                     </div>
 
-                    <div class="r-b">
-                        <div class="options">
+                    <div class="chart-wrap" >
+                        <div @click="jump"  class="title_wrap" >警情分类数据分析</div>
+                        <div class="chartBox">
+                            <div class="chart" id="jqflsjfxChart"></div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="r-b">
+                    <div class="options">
+                        <div>
                             <div>
-                                <div>
-                                    <img class="iconBox" data-id="jjlx" src="../assets/images/index/filter_time.png">  
+                                <img class="iconBox" data-id="jjlx" src="../assets/images/index/filter_time.png">
+                            </div>
+                            <div data-id="jjlx" class="option">
+                                <div class="filterTitle">
+                                    <div>时间筛选</div>
                                 </div>
-                                <div data-id="jjlx" class="option">
-                                    <div class="filterTitle">
-                                        <div>时间筛选</div>
-                                    </div>
-                                    <ul class="filterItem" @click="selectItem">
-                                        <li v-for="item in periodArr" :key="item">
-                                            <div data-id="jjlx">{{item}}</div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-
-
-
-                        </div>
-
-                        <div :class="[showIndex === 1 ? 'showIndex' : 'disappear'    ,'chart-wrap']">
-                            <div @click="jump"  class="title_wrap">接警类型数据分析</div>
-                            <div class="chartBox">
-                                <div class="chart" id="sevenjjlxsjfxChart"></div>
+                                <ul class="filterItem" @click="selectItem">
+                                    <li v-for="item in periodArr" :key="item">
+                                        <div data-id="jjlx">{{item}}</div>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
-
-                        <div :class="[showIndex === 2 ? 'showIndex' : 'disappear'    ,'chart-wrap']" >
-                            <div @click="jump"  class="title_wrap">报警方式数据分析</div>
-                            <div class="chartBox">
-                                <div class="chart" id="sevenbjfssjfxChart"></div>
-                            </div>
-                        </div>
-
-                        <div  :class="[showIndex === 3 ? 'showIndex' : 'disappear'    ,'chart-wrap']">
-                            <div @click="jump"  class="title_wrap">来话类型数据分析</div>
-                            <div class="chartBox">
-                                <div class="chart" id="sevenlhlxsjfxChart"></div>
-                            </div>
-                        </div>
-
-
 
 
 
                     </div>
-           
+
+                    <div :class="[showIndex === 1 ? 'showIndex' : 'disappear'    ,'chart-wrap']">
+                        <div @click="jump"  class="title_wrap">接警类型数据分析</div>
+                        <div class="chartBox">
+                            <div class="chart" id="sevenjjlxsjfxChart"></div>
+                        </div>
+                    </div>
+
+                    <div :class="[showIndex === 2 ? 'showIndex' : 'disappear'    ,'chart-wrap']" >
+                        <div @click="jump"  class="title_wrap">报警方式数据分析</div>
+                        <div class="chartBox">
+                            <div class="chart" id="sevenbjfssjfxChart"></div>
+                        </div>
+                    </div>
+
+                    <div  :class="[showIndex === 3 ? 'showIndex' : 'disappear'    ,'chart-wrap']">
+                        <div @click="jump"  class="title_wrap">来话类型数据分析</div>
+                        <div class="chartBox">
+                            <div class="chart" id="sevenlhlxsjfxChart"></div>
+                        </div>
+                    </div>
+
+
+
+
+
+                </div>
+
             </div>
         </main>
-        <!-- <my-setting></my-setting> -->
-        
+<!--         <my-setting></my-setting>-->
+
 
 
     </div>
@@ -174,7 +174,7 @@
                     'recJQTJB/findXZQHNum',//map
                     'recJJLXTJB/findJJLXShen',///  饼    今日接警类型数据分析
                     'recJJLXTJB/findJJLXSevenDayShen',///  右   七日接警类型数据分析
-                    'recBJFSTJB/findBJFSShen',  //   今日报警方式数据分析   
+                    'recBJFSTJB/findBJFSShen',  //   今日报警方式数据分析
                     'recBJFSTJB/findBJFSSevenDayShen', //    七日报警方式数据分析
                     'recLHLXTJB/findLHLXShen',//今日来话类型数据分析
                     'recLHLXTJB/findLHLXSevenDayShen'//七日来话类型数据分析
@@ -206,14 +206,14 @@
                 ],
                 jqtjjcSource: [
                     {name: '处警事件占比', value: 0, radius: '50%'},
-                    {name: '有效警情占比', value: 0, radius: '58%'},
+                    {name: '有效警情占比', value: 0, radius: '50%'},
                     {name: '反馈事件占比', value: 0, radius: '50%'}
                 ],
 
                 // 排名
                 ranking : [
                     {},{},{},{},{},{},{},{},{},{},{}
-                    
+
                 ],
 
                 //    近期警情统计  y
@@ -252,7 +252,7 @@
                 // sevenjjlxsjfxSource: {},
                 //    近七日报警方式数据分析
                 sevenbjfssjfxSource: [ ],
-               
+
                 sevenlhlxsjfxSource: [  ],
                 showIndex :1,
                 rankShow : false,
@@ -291,7 +291,7 @@
                                         show: true,
                                         lineStyle: {
                                             color: colorSet,
-                                            width: 18 * that.scale,
+                                            width: 14 * that.scale,
                                             shadowOffsetX: 0,
                                             shadowOffsetY: 0,
                                             opacity: 1
@@ -304,7 +304,7 @@
                                         show: false,
                                     },
                                     splitLine: {
-                                        length: 14 * that.scale,
+                                        length: 10 * that.scale,
                                         lineStyle: {
                                             width: 2 * that.scale
                                         }
@@ -312,7 +312,7 @@
                                     axisTick: {
                                         show: true,
                                         splitNumber: 5,
-                                        length: 10 * that.scale,
+                                        length: 6 * that.scale,
                                         lineStyle: {
                                             width: 1 * that.scale
                                         }
@@ -395,7 +395,7 @@
                                         show: true,
                                         offsetCenter: [0, '140%'],
                                         textStyle: {
-                                            fontSize: 25 * that.scale, //百分比
+                                            fontSize: 20 * that.scale, //百分比
                                             color: that.axisesColor,
                                         },
                                         formatter: [
@@ -405,7 +405,7 @@
                                         rich: {
                                             name: {
                                                 fontSize: 20 * that.scale,
-                                                lineHeight: 25 * that.scale, //下方文字描述
+                                                lineHeight: 50 * that.scale, //下方文字描述
                                                 color: '#ffffff',
                                             }
                                         }
@@ -548,7 +548,7 @@
                     tooltip: {},
                     xAxis: {
                         data: Arr,
-                        // "行政(治安)", "交通类",'消防救援','群众求助','应急联动事件（非警情事件）','群体事件','纠纷','灾害事故','举报','投诉监督','其它警情'       
+                        // "行政(治安)", "交通类",'消防救援','群众求助','应急联动事件（非警情事件）','群体事件','纠纷','灾害事故','举报','投诉监督','其它警情'
                         axisTick: {
                             show: false
                         },
@@ -559,14 +559,16 @@
                             show: true,
                             textStyle: {
                                 color: '#00d7d4',
-                                lineHeight: 20,
+                                lineHeight: 24*this.scale,
+                                fontSize:14*this.scale,
                             },
-                            rotate : 45,
-                            // margin:40
+                            rotate : 30,
+                            interval:0,
+                            margin:24*this.scale,
                             formatter: function (params) {
                                 let newParamsName = "";
                                 let paramsNameNumber = params.length;
-                                let provideNumber = 5;  //一行显示几个字
+                                let provideNumber = 6;  //一行显示几个字
                                 let rowNumber = Math.ceil(paramsNameNumber / provideNumber);
                                 if (paramsNameNumber > provideNumber) {
                                     for (let p = 0; p < rowNumber; p++) {
@@ -646,7 +648,7 @@
                 };
                 myChart.setOption(option);
             },
-            
+
 
             //地图
             mapChart() {
@@ -683,144 +685,144 @@
                 };
 
                 function renderMap(map, data) {
-                // 初始化绘制全国地图配置
-                                    option.title.subtext = map;
-                                    option.series = [
-                                        {
-                                            name: '散点',
-                                            type: 'scatter',
-                                            coordinateSystem: 'geo',
-                                            data: data,
-                                            symbolSize: 0,
-                                        },
-                                        {
-                                            map: map,
-                                            type: 'map3D',
-                                            roam: true,
-                                            data: data,
-                                            nameMap: {
-                                                '山西省': '山西省'
-                                            },
-                                            shading: 'realistic',//光照
-                                            light: {
-                                                main: {//主光源设置
-                                                    intensity: 2,//主光源强度
-                                                    shadow: false,//主光源是否投射阴影
-                                                    shadowQuality: 'low',//阴影的质量
-                                                    alpha: 120, //主光源绕 x 轴偏离的角度
-                                                    beta: 190 //主光源绕 y 轴偏离的角度
-                                                },
-                                                ambient: { //全局的环境光设置。
-                                                    intensity: 0//环境光的强度
-                                                }
-                                            },
-                                            boxWidth:100,
-                                            viewControl: {//用于鼠标的旋转，缩放等视角控制
-                                                distance: 250,//默认视角距离主体的距离
-                                                panMouseButton: 'left',//平移操作使用的鼠标按键
-                                                rotateMouseButton: 'left',//旋转操作使用的鼠标按键
-                                                alpha: 60, // 让canvas在x轴有一定的倾斜角度
-                                                // autoRotate : true,
-                                                animation :true,
-                                                panSensitivity :0,
-                                            },
-                                            postEffect: {//后处理特效的相关配置，后处理特效可以为画面添加高光，景深，环境光遮蔽（SSAO），调色等效果。可以让整个画面更富有质感。
-                                                enable: true,
-                                                bloom: {//光晕
-                                                    enable: false
-                                                },
-                                                SSAO: {//屏幕空间环境光遮蔽
-                                                    radius: 1,//环境光遮蔽的强度。值越大颜色越深。
-                                                    intensity: 1,//环境光遮蔽的强度。值越大颜色越深。
-                                                    enable: true
-                                                },
-                                                depthOfField: {//景深
-                                                    enable: false,
-                                                    focalRange: 10,//完全聚焦的区域范围，在此范围内的物体时完全清晰的，不会有模糊
-                                                    blurRadius: 10,//焦外的模糊半径
-                                                    fstop: 1//焦外的模糊半径
-                                                }
-                                            },
-                                            temporalSuperSampling: {//分帧超采样。在开启 postEffect 后，WebGL 默认的 MSAA 会无法使用,分帧超采样用来解决锯齿的问题
-                                                enable: true
-                                            },
-                                            itemStyle: {//三维图形的视觉属性
-                                                color: '#2355ac',//地图颜色
-                                                borderWidth: 1,
-                                                borderColor: '#000'
-                                            },
-                                            regionHeight: 10,
-                                            label: {
-                                                normal: {
-                                                    show: true,
-                                                    formatter: function (params) {
-                                                        return params.name
-                                                    },
-                                                    position: 'inside',
-                                                    textStyle: {
-                                                        color: '#fff',
-                                                        opacity: 1,                     // 字体透明度
-                                                        backgroundColor: 'transparent',
-                                                        fontSize:20*that.scale
-                                                    }
-                                                },
-                                                emphasis: {
-                                                    show: true
-                                                }
-                                            },
-                                        },
-                                    ];
-                                    option.tooltip={
-                                        formatter:function (params) {
-                                            return params.marker+params.data.name+'：'+params.data.value1
-                                        }
-                                    };
-                                    // let color=['rgba(255,0,0,0.2)','rgba(255,0,0,0.4)','rgba(255,0,0,0.6)','rgba(255,0,0,0.8)','rgba(255,0,0,1)'];
-                                    option.visualMap = {
-                                        type: 'piecewise',
-                                        pieces: [{
-                                            max: that.grading[0],
-                                            label: '一级',
-                                            color: '#5ea2f5'
-                                        }, {
-                                            min: that.grading[0],
-                                            max: that.grading[1],
-                                            label: '二级',
-                                            color: '#3d8bea',
-                                        }, {
-                                            min: that.grading[1],
-                                            max: that.grading[2],
-                                            label: '三级',
-                                            color: '#2a5cc0',
-                                        },
-                                            {
-                                                min: that.grading[2],
-                                                max: that.grading[3],
-                                                label: '四级',
-                                                color: '#0f07b0'
-                                            },
-                                            {
-                                                min: that.grading[3],
-                                                // max: that.grading[4],
-                                                label: '五级',
-                                                color: '#060086'
-                                            }
-                                        ],
-                                        left: 'right',
-                                        top: 'bottom',
-                                        calculable: true,
-                                        seriesIndex: [1],
-                                        textStyle: {
-                                            color: '#fff'
-                                        },
-                                        /*itemWidth:24*that.scale,
-                                        itemHeight:24*that.scale*/
+                    // 初始化绘制全国地图配置
+                    option.title.subtext = map;
+                    option.series = [
+                        {
+                            name: '散点',
+                            type: 'scatter',
+                            coordinateSystem: 'geo',
+                            data: data,
+                            symbolSize: 0,
+                        },
+                        {
+                            map: map,
+                            type: 'map3D',
+                            roam: true,
+                            data: data,
+                            nameMap: {
+                                '山西省': '山西省'
+                            },
+                            shading: 'realistic',//光照
+                            light: {
+                                main: {//主光源设置
+                                    intensity: 2,//主光源强度
+                                    shadow: false,//主光源是否投射阴影
+                                    shadowQuality: 'low',//阴影的质量
+                                    alpha: 120, //主光源绕 x 轴偏离的角度
+                                    beta: 190 //主光源绕 y 轴偏离的角度
+                                },
+                                ambient: { //全局的环境光设置。
+                                    intensity: 0//环境光的强度
+                                }
+                            },
+                            boxWidth:100,
+                            viewControl: {//用于鼠标的旋转，缩放等视角控制
+                                distance: 250,//默认视角距离主体的距离
+                                panMouseButton: 'left',//平移操作使用的鼠标按键
+                                rotateMouseButton: 'left',//旋转操作使用的鼠标按键
+                                alpha: 60, // 让canvas在x轴有一定的倾斜角度
+                                // autoRotate : true,
+                                animation :true,
+                                panSensitivity :0,
+                            },
+                            postEffect: {//后处理特效的相关配置，后处理特效可以为画面添加高光，景深，环境光遮蔽（SSAO），调色等效果。可以让整个画面更富有质感。
+                                enable: true,
+                                bloom: {//光晕
+                                    enable: false
+                                },
+                                SSAO: {//屏幕空间环境光遮蔽
+                                    radius: 1,//环境光遮蔽的强度。值越大颜色越深。
+                                    intensity: 1,//环境光遮蔽的强度。值越大颜色越深。
+                                    enable: true
+                                },
+                                depthOfField: {//景深
+                                    enable: false,
+                                    focalRange: 10,//完全聚焦的区域范围，在此范围内的物体时完全清晰的，不会有模糊
+                                    blurRadius: 10,//焦外的模糊半径
+                                    fstop: 1//焦外的模糊半径
+                                }
+                            },
+                            temporalSuperSampling: {//分帧超采样。在开启 postEffect 后，WebGL 默认的 MSAA 会无法使用,分帧超采样用来解决锯齿的问题
+                                enable: true
+                            },
+                            itemStyle: {//三维图形的视觉属性
+                                color: '#2355ac',//地图颜色
+                                borderWidth: 1,
+                                borderColor: '#000'
+                            },
+                            regionHeight: 10,
+                            label: {
+                                normal: {
+                                    show: true,
+                                    formatter: function (params) {
+                                        return params.name
+                                    },
+                                    position: 'inside',
+                                    textStyle: {
+                                        color: '#fff',
+                                        opacity: 1,                     // 字体透明度
+                                        backgroundColor: 'transparent',
+                                        fontSize:20*that.scale
+                                    }
+                                },
+                                emphasis: {
+                                    show: true
+                                }
+                            },
+                        },
+                    ];
+                    option.tooltip={
+                        formatter:function (params) {
+                            return params.marker+params.data.name+'：'+params.data.value1
+                        }
+                    };
+                    // let color=['rgba(255,0,0,0.2)','rgba(255,0,0,0.4)','rgba(255,0,0,0.6)','rgba(255,0,0,0.8)','rgba(255,0,0,1)'];
+                    option.visualMap = {
+                        type: 'piecewise',
+                        pieces: [{
+                            max: that.grading[0],
+                            label: '一级',
+                            color: '#5ea2f5'
+                        }, {
+                            min: that.grading[0],
+                            max: that.grading[1],
+                            label: '二级',
+                            color: '#3d8bea',
+                        }, {
+                            min: that.grading[1],
+                            max: that.grading[2],
+                            label: '三级',
+                            color: '#2a5cc0',
+                        },
+                            {
+                                min: that.grading[2],
+                                max: that.grading[3],
+                                label: '四级',
+                                color: '#0f07b0'
+                            },
+                            {
+                                min: that.grading[3],
+                                // max: that.grading[4],
+                                label: '五级',
+                                color: '#060086'
+                            }
+                        ],
+                        left: 'right',
+                        top: 'bottom',
+                        calculable: true,
+                        seriesIndex: [1],
+                        textStyle: {
+                            color: '#fff'
+                        },
+                        /*itemWidth:24*that.scale,
+                        itemHeight:24*that.scale*/
 
-                                        /*inRange: {
-                                            color: ['#00e57c', '#ed0000']
-                                        }*/
-                                    };
-                // 渲染地图
+                        /*inRange: {
+                            color: ['#00e57c', '#ed0000']
+                        }*/
+                    };
+                    // 渲染地图
                     myChart.setOption(option);
                 }
             },
@@ -963,13 +965,13 @@
                 let option = {
                     legend: {
                         textStyle: {
-                            fontSize: 12 * this.scale,
+                            fontSize: 18 * this.scale,
                             color: function (params) {
                                 return colorList[params.dataIndex]
                             }
                         },
-                        itemWidth: 12 * this.scale,
-                        itemHeight: 12 * this.scale,
+                        itemWidth: 16 * this.scale,
+                        itemHeight: 16 * this.scale,
                     },
                     xAxis: {
                         type: 'category',
@@ -987,7 +989,7 @@
                             show: false
                         },
                         axisLabel: {
-                            fontSize: 16 * this.scale
+                            fontSize: 18 * this.scale
                         },
                         data: dateArr
                     },
@@ -1010,7 +1012,7 @@
                             show: false
                         },
                         axisLabel: {
-                            fontSize: 16 * this.scale
+                            fontSize: 18 * this.scale
                         },
                     },
                     series: seriesArr,
@@ -1024,7 +1026,7 @@
                     },
                     grid: {
                         top: 90 * this.scale,
-                        bottom: 60 * this.scale,
+                        bottom: 30 * this.scale,
                         left : 80 * this.scale,
                     }
                 };
@@ -1088,14 +1090,14 @@
                     loadData() {
                         that.getJqtj(); //警情统计监测  左上角
                         // that.getJqjq();  //近期警情统计
-                        that.getMapData(); // 地图数据  排名 
+                        that.getMapData(); // 地图数据  排名
                         // that.getJjlx(); 接警类型数据分析    饼
-                        that.getFlsj(); 
+                        that.getFlsj();
                         that.getJjlxSeven();
                         // that.getBjfs();  今日报警方式
                         that.getBjfsSeven();
                         // that.getLhlx();  今日来话类型
-                        that.getLhlxSeven();                  
+                        that.getLhlxSeven();
                     },
                 };
                 Index.init();
@@ -1220,7 +1222,7 @@
                                 let Sunday = date4.getFullYear().toString() + (date4.getMonth() + 1).toString().padStart(2, '0') + date4.getDate().toString().padStart(2, '0');
                                 e.target.parentNode.parentNode.parentNode.style.display = 'none';
                                 let type2 = e.target.getAttribute('data-id');
-                                
+
                                 this['jjlx'].end = Sunday;
                                 this['jjlx'].start = Monday;
                                 this['jjlx'].per = 'lastWeek';
@@ -1255,7 +1257,7 @@
 
                                 e.target.parentNode.parentNode.parentNode.style.display = 'none';
                                 let type3 = e.target.getAttribute('data-id');
-                            
+
 
                                 this['jjlx'].end = beforeSunday;
                                 this['jjlx'].start = beforeMonday;
@@ -1369,7 +1371,7 @@
                 let option = document.getElementsByClassName('option');
                 // console.log(ele);
                 if (ele == 'iconBox') {
-                    
+
                     for (let i = 0; i < option.length; i++) {
                         option[i].style.display = 'none';
                     }
@@ -1561,22 +1563,24 @@
                         //     symbolPosition: 'end'
                         // }]
                         res.data.forEach((item,index) => {
-                            console.log(item['name'])
-                            if(item['fldm']){
-                                arr.push(item['fldm']) 
-                                brr.push(item['jjsl'])
-                                crr.push({ value : item['jjsl'], symbolPosition: 'end'  })
+                            // console.clear();
+                            // console.log(item['name']);
+                            if(!item['fldmmc']){
+                                item['fldmmc']='其它';
                             }
-                            
-                            
+                            arr.push(item['fldmmc'])
+                            brr.push(item['jjsl'])
+                            crr.push({ value : item['jjsl'], symbolPosition: 'end'  })
+                            // console.log(arr);
+
                         });
-                       console.log(crr);
+                        // console.log(crr);
                         that.jqflsjfxChart(arr,brr,crr);
                     })
             },
             // 地图
             getMapData() {
-                console.log('走 地图方法')
+                // console.log('走 地图方法')
                 let that = this;
                 this.$http({
                     method: 'post',
@@ -1690,7 +1694,7 @@
                     .then(function (res) {
                         // console.log(res.data);
                         // console.log(res.data.sevenDays);
-                        /*let s=JSON.parse(sessionStorage.getItem('jjlx'));
+                        let s=JSON.parse(sessionStorage.getItem('jjlx'));
                         let d=new Date(s.start.slice(0,4)+'-'+s.start.slice(4,6)+'-'+s.start.slice(6,8)).getTime();
                         let dateArr1=[];
                         for (let i=0;i<7;i++){
@@ -1701,24 +1705,25 @@
                                 (d1.getMonth()+1).toString().padStart(2, '0')+
                                 d1.getDate().toString().padStart(2, '0')
                             );
-                        }*/
+                        }
                         // console.log(dateArr1);
-                        for (let i in res.data.sevenDays){
-                            if(res.data.sevenDays[i].length<7){
-                                /*for (let j=0;j<7;j++){
-                                    res.data.sevenDays[i].push({tjrq:dateArr1[j],jjsl:0,jjlxdm:i});
-                                }*/
-                                // console.log(i);
-                                delete res.data.sevenDays[i]
-                            }
-                        };
                         // console.log(res.data.sevenDays);
                         let data1=[];
+                        let data2=[];
                         for (let i in res.data.sevenDays){
+                            // console.log(i);
                             data1.push(...res.data.sevenDays[i]);
+                            if(res.data.sevenDays[i].length<7){
+                                for (let j=0;j<7;j++){
+                                    data2.push({tjrq:dateArr1[j],jjlxdm:i});
+                                }
+                                // console.log(i);
+                                // delete res.data.sevenDays[i]
+                            }
+                            // console.clear();
+                            // console.log(i);
                         }
-                        // res.data=da;
-                        // console.log(data1);
+                        data1.push(...data2);
                         res.data=data1;
                         let r = [];
                         let narr = [];
@@ -1735,6 +1740,7 @@
                                 narr[n].dataArr.push({name: res.data[i].jjlxdm, value: res.data[i].jjsl})
                             }
                         }
+                        // console.clear();
                         // console.log(narr);
                         let dateArr = [];
                         let data = [];
@@ -1866,22 +1872,31 @@
                     }
                 })
                     .then(function (res) {
-                        for (let i in res.data.sevenDays){
-                            if(res.data.sevenDays[i].length<7){
-                                /*for (let j=0;j<7;j++){
-                                    res.data.sevenDays[i].push({tjrq:dateArr1[j],jjsl:0,jjlxdm:i});
-                                }*/
-                                // console.log(i);
-                                delete res.data.sevenDays[i]
-                            }
-                        };
-                        // console.log(res.data.sevenDays);
+                        let s=JSON.parse(sessionStorage.getItem('bjfs'));
+                        let d=new Date(s.start.slice(0,4)+'-'+s.start.slice(4,6)+'-'+s.start.slice(6,8)).getTime();
+                        let dateArr1=[];
+                        for (let i=0;i<7;i++){
+                            let t=d+i* 24 * 60 * 60 * 1000;
+                            let d1=new Date(t);
+                            dateArr1.push(
+                                d1.getFullYear().toString()+
+                                (d1.getMonth()+1).toString().padStart(2, '0')+
+                                d1.getDate().toString().padStart(2, '0')
+                            );
+                        }
                         let data1=[];
+                        let data2=[];
                         for (let i in res.data.sevenDays){
                             data1.push(...res.data.sevenDays[i]);
+                            if(res.data.sevenDays[i].length<7){
+                                for (let j=0;j<7;j++){
+                                    data2.push({tjrq:dateArr1[j],bjfsdm:i});
+                                }
+                                // console.log(i);
+                                // delete res.data.sevenDays[i]
+                            }
                         }
-                        // res.data=da;
-                        // console.log(data1);
+                        data1.push(...data2);
                         res.data=data1;
                         let r = [];
                         let narr = [];
@@ -1898,6 +1913,7 @@
                                 narr[n].dataArr.push({name: res.data[i].bjfsdm, value: res.data[i].jjsl})
                             }
                         }
+                        // console.clear();
                         // console.log(narr);
                         let dateArr = [];
                         let data = [];
@@ -1989,22 +2005,30 @@
                 })
                     .then(function (res) {
                         // console.log(res);
-                        for (let i in res.data.sevenDays){
-                            if(res.data.sevenDays[i].length<7){
-                                /*for (let j=0;j<7;j++){
-                                    res.data.sevenDays[i].push({tjrq:dateArr1[j],jjsl:0,jjlxdm:i});
-                                }*/
-                                // console.log(i);
-                                delete res.data.sevenDays[i]
-                            }
-                        };
+                        let s=JSON.parse(sessionStorage.getItem('jjlx'));
+                        let d=new Date(s.start.slice(0,4)+'-'+s.start.slice(4,6)+'-'+s.start.slice(6,8)).getTime();
+                        let dateArr1=[];
+                        for (let i=0;i<7;i++){
+                            let t=d+i* 24 * 60 * 60 * 1000;
+                            let d1=new Date(t);
+                            dateArr1.push(
+                                d1.getFullYear().toString()+
+                                (d1.getMonth()+1).toString().padStart(2, '0')+
+                                d1.getDate().toString().padStart(2, '0')
+                            );
+                        }
                         // console.log(res.data.sevenDays);
                         let data1=[];
+                        let data2=[];
                         for (let i in res.data.sevenDays){
                             data1.push(...res.data.sevenDays[i]);
+                            if(res.data.sevenDays[i].length<7){
+                                for (let j=0;j<7;j++){
+                                    data2.push({tjrq:dateArr1[j],lhlxdm:i});
+                                }
+                            }
                         }
-                        // res.data=da;
-                        // console.log(data1);
+                        data1.push(...data2);
                         res.data=data1;
                         let r = [];
                         let narr = [];
@@ -2100,8 +2124,8 @@
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        margin-top:1rem; 
-        margin-bottom:.6rem; 
+        margin-top:1rem;
+        margin-bottom:.6rem;
 
 
         h3 {
@@ -2140,9 +2164,9 @@
                 right: 0.2rem;
             }
 
-            
+
         }
-        
+
 
         .l {
             width: 30%;
@@ -2156,7 +2180,7 @@
 
                 background-repeat: no-repeat;
                 background-size: 100% 100%;
-                // margin-bottom:3.3%; 
+                // margin-bottom:3.3%;
             }
 
             .l-m {
@@ -2164,7 +2188,7 @@
                 background-image: url('../assets/images/index/l-m-bg.png');
                 background-repeat: no-repeat;
                 background-size: 100% 100%;
-                // margin-bottom:3.3%; 
+                // margin-bottom:3.3%;
             }
 
             .l-b {
@@ -2258,19 +2282,19 @@
             width: 100%;
             height: 100%;
 
-            
+
             //标题
             .title_wrap{
                 height: 12%;
                 display: flex;
-				align-items: center;
+                align-items: center;
                 justify-content: center;
-                font-size: 1.4rem;
+                font-size: 1.5rem;
                 font-weight: 600;
-        background: linear-gradient(-180deg, #ffffff 50%, #0731FF 70%);
-        -webkit-background-clip: text;
-        color: transparent;
-        -webkit-text-fill-color: transparent;
+                background: linear-gradient(-180deg, #ffffff 50%, #0731FF 70%);
+                -webkit-background-clip: text;
+                color: transparent;
+                -webkit-text-fill-color: transparent;
 
             }
             // > h3 {
@@ -2288,7 +2312,7 @@
             width: 32%;
             background-image: url('../assets/images/index/m1.png');
             background-repeat: no-repeat;
-            background-size: 100% 100%;;
+            background-size: 100% 100%; 
 
             .chart-wrap{
                 width: 100%;
@@ -2300,7 +2324,7 @@
 
             .chartBox {
                 position: relative;
-                // padding : 2% 
+                // padding : 2%
 
                 #mapData {
                     position: absolute;
@@ -2332,7 +2356,7 @@
             justify-content: space-around;
 
 
-              
+
             .r-t {
                 width: 100%;
                 height: 48%;
@@ -2356,9 +2380,15 @@
                     //     height :2.6rem;
                     // }
                     .timer_btn{
+                        width: 2rem;
+                        height: 2rem;
                         cursor: pointer;
+                        img{
+                            width: 100%;
+                            height: 100%;
+                        }
                     }
-                    
+
 
                     .option {
                         width: 12rem;
@@ -2471,8 +2501,14 @@
                     // background: #ffffff;
                     right:8%;
                     top:-6%;
+                    div{
+                        width: 2rem;
+                        height: 2rem;
+                    }
                     .iconBox{
                         cursor: pointer;
+                        width: 100%;
+                        height: 100%;
                     }
 
                     .option {

@@ -236,7 +236,7 @@
     main {
         display: flex;
         flex: 1;
-        padding: 0 2rem 4rem;
+        padding: 0 2rem 2rem;
         flex-direction: row;
         justify-content: space-between;
 
@@ -262,7 +262,7 @@
         .l {
             width: 25.73%;
             height: 100%;
-            background-image: url('../assets/images/index/m.png');
+            background-image: url('../assets/images/index/m1.png');
             background-repeat: no-repeat;
             background-size: 100% 100%;
 

@@ -3,7 +3,15 @@
     <div class='r'>
         <div class="r-t">
             <div class="chart-wrap">
-                <h3>{{this.title[0]}}</h3>
+                <div class="title_wrap">{{this.chartTitle[0]}}</div>
+                <div class="chartBox">
+                    <div class="chart" id="jqflsjfxChart"></div>
+                </div>
+            </div>
+
+
+            <div class="chart-wrap">
+                <div class="title_wrap">{{this.chartTitle[1]}}</div>
                 <div class="chartBox">
                     <div class="chart" id="proportionChart"></div>
                 </div>
@@ -12,97 +20,18 @@
 
 
         <div class="r-b">
-            <div class="r-b-t">
-                <div class="r-b-t-l-1" v-if="show">
-                    <div class="chart-wrap">
-                        <h3>{{this.title[1]}}</h3>
-                        <div class="chartBox">
-                            <div class="chart" id="subClassChart1"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="r-b-t-r-1" v-if="show">
-                    <div class="chart-wrap">
-                        <h3>{{this.title[2]}}</h3>
-                        <div class="chartBox">
-                            <div class="chart" id="subClassChart2"></div>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="r-b-t-l-2" v-if="!show">
-                    <div class="chart-wrap">
-                        <h3>{{this.title[1]}}</h3>
-                        <div class="chartBox">
-                            <div class="chart" id="subClassChart5"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="r-b-t-m-2" v-if="!show">
-                    <div class="chart-wrap">
-                        <h3>{{this.title[2]}}</h3>
-                        <div class="chartBox">
-                            <div class="chart" id="subClassChart6"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="r-b-t-r-2" v-if="!show">
-                    <div class="chart-wrap">
-                        <h3>{{this.title[3]}}</h3>
-                        <div class="chartBox">
-                            <div class="chart" id="subClassChart7"></div>
-                        </div>
-                    </div>
+            <div class="chart-wrap">
+                <div class="title_wrap">{{this.chartTitle[2]}}</div>
+                <div class="chartBox">
+                    <table>
+                        <tr v-for="(item,index) in bottomList" :key="index" :class="index ===0 ? 'topStyle' : ''">
+                            <td  v-for="(val,i) in item " :key="i" :class="i === 0  ? 'firstcolum' :'normalColor' ">
+                                    {{val}}
+                            </td>
+                        </tr>
+                    </table>
                 </div>
             </div>
-
-            <div class="r-b-b">
-                <div class="r-b-b-l-1" v-if="show">
-                    <div class="chart-wrap">
-                        <h3>{{this.title[3]}}</h3>
-                        <div class="chartBox">
-                            <div class="chart" id="subClassChart3"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="r-b-b-r-1" v-if="show">
-                    <div class="chart-wrap">
-                        <h3>{{this.title[4]}}</h3>
-                        <div class="chartBox">
-                            <div class="chart" id="subClassChart4"></div>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="r-b-b-l-2" v-if="!show">
-                    <div class="chart-wrap">
-                        <h3>{{this.title[4]}}</h3>
-                        <div class="chartBox">
-                            <div class="chart" id="subClassChart8"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="r-b-b-m-2" v-if="!show">
-                    <div class="chart-wrap">
-                        <h3>{{this.title[5]}}</h3>
-                        <div class="chartBox">
-                            <div class="chart" id="subClassChart9"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="r-b-b-r-2" v-if="!show">
-                    <div class="chart-wrap">
-                        <h3>{{this.title[6]}}</h3>
-                        <div class="chartBox">
-                            <div class="chart" id="subClassChart10"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
         </div>
 
 
@@ -174,6 +103,15 @@
                 },
                 tableData :[],
                 xAxisData :[],
+                // 左上
+                leftTop : [],
+                leftTopy :[],
+                leftTopBy : [],
+
+                // 列表
+                bottomList :[ [],[],[],[],[],[],[]],
+                chartTitle : [],
+                leftTopAgin :[],   // 
 
 
             };
@@ -232,8 +170,10 @@
                             data: [{
                                 value: item.value,
                                 label: {
+                                    show:true,
                                     normal: {
                                         formatter: function (params) {
+                                            console.log(params.value)
                                             return params.value + '%';
                                         },
                                         position: 'center',
@@ -265,9 +205,162 @@
                 };
                 myChart.setOption(option);
             },
-            subclassBar(container, sourceArr, colorList) {
-                let myChart = this.$echarts.init(document.getElementById(container));
-                this.chartsObj[container] = myChart;
+
+            // 左一
+
+            //    警情分类数据分析
+
+            jqflsjfxChart() {
+                // this.leftTopAgin   = this.leftTop ;
+                // leftTop : [],
+                // leftTopy :[],
+                // leftTopBy : [],
+                let  Arr = [];
+                console.log(this.leftTop);
+                this.leftTop.forEach( (item,index)=>{
+                    console.log(item);
+                    if(item !== ' ' ){
+                        Arr.push(item);
+                    }
+                } )
+                console.log(Arr);
+
+
+
+                let brr = this.leftTopy;
+                let crr = this.leftTopBy;
+                // console.log(Arr);
+                // Arr.shift();
+                // console.log(Arr);
+                
+                let myChart = this.$echarts.init(document.getElementById('jqflsjfxChart'));
+                this.chartsObj.jqflsjfxChart = myChart;
+                let xData = [];
+                // let sourceArr = this.jqflsjfxSource;
+                // sourceArr.forEach(value => {
+                //     xData.push(value.name);
+                // });
+                // console.log(Arr);
+                let option = {
+                    tooltip: {},
+                    xAxis: {
+                        data: Arr,
+                        // "行政(治安)", "交通类",'消防救援','群众求助','应急联动事件（非警情事件）','群体事件','纠纷','灾害事故','举报','投诉监督','其它警情'       
+                        axisTick: {
+                            show: false
+                        },
+                        axisLine: {
+                            show: false
+                        },
+                        axisLabel: {
+                            show: true,
+                            textStyle: {
+                                color: '#00d7d4',
+                                lineHeight: 20,
+                            },
+                            rotate : 45,
+                            // margin:40
+                            formatter: function (params) {
+                                let newParamsName = "";
+                                let paramsNameNumber = params.length;
+                                let provideNumber = 5;  //一行显示几个字
+                                let rowNumber = Math.ceil(paramsNameNumber / provideNumber);
+                                if (paramsNameNumber > provideNumber) {
+                                    for (let p = 0; p < rowNumber; p++) {
+                                        let tempStr = "";
+                                        let start = p * provideNumber;
+                                        let end = start + provideNumber;
+                                        if (p == rowNumber - 1) {
+                                            tempStr = params.substring(start, paramsNameNumber);
+                                        } else {
+                                            tempStr = params.substring(start, end) + "\n";
+                                        }
+                                        newParamsName += tempStr;
+                                    }
+
+                                } else {
+                                    newParamsName = params;
+                                }
+                                return newParamsName
+                            }
+                        }
+                    },
+                    yAxis: {
+                        splitLine: {
+                            show: false
+                        },
+                        axisTick: {
+                            show: false
+                        },
+                        axisLine: {
+                            show: false
+                        },
+                        axisLabel: {
+                            show: false
+                        }
+                    },
+                    series: [{
+                        name: '',
+                        type: 'pictorialBar',
+                        symbolSize: [20, 10],
+                        symbolOffset: [0, -5],
+                        z: 12,
+                        itemStyle: {
+                            normal: {
+                                color: '#14b1eb'
+                            }
+                        },
+                        label:{
+                            show :true,
+                            position :'top',
+                        },
+                        data: crr
+                    }, {
+                        name: '',
+                        type: 'pictorialBar',
+                        symbolSize: [20, 10],
+                        symbolOffset: [0, 5],
+                        z: 12,
+                        itemStyle: {
+                            normal: {
+                                color: '#14b1eb'
+                            }
+                        },
+                        data: brr
+                    }, {
+                        type: 'bar',
+                        itemStyle: {
+                            normal: {
+                                color: '#14b1eb',
+                                opacity: .7
+                            }
+                        },
+                        silent: true,
+                        barWidth: 20,
+                        barGap: '-100%', // Make series be overlap
+                        data:brr
+                    }],
+                    grid : {
+                        bottom: 40 + '%',
+                    }
+                };
+                myChart.setOption(option);
+            },
+
+
+
+
+            // 左二
+            //占比
+            percent() {
+                let myChart = this.$echarts.init(document.getElementById('proportionChart'));
+                this.chartsObj['proportionChart'] = myChart;
+                let colorList = this.proportionColor;
+                let xData = [];
+                let sourceArr = this.proportionSource;
+                sourceArr.forEach(value => {
+                    xData.push(value.name);
+                });
                 let option = {
                     xAxis: {
                         type: 'category',
@@ -284,13 +377,19 @@
                             show: false
                         },
                         axisLabel: {
-                            fontSize: 20 * this.scale
+                            show: true,
+                            interval : 0,
+                          
+                            fontSize: 16 * this.scale
                         },
-                        data: this.dateArr
+                        data: xData,
                     },
                     yAxis: {
                         type: 'value',
                         splitLine: {
+                            show: false
+                        },
+                        axisTick: {
                             show: false
                         },
                         axisLine: {
@@ -299,74 +398,64 @@
                                 color: this.axisesColor
                             }
                         },
-                        axisTick: {
-                            show: false
-                        },
                         axisLabel: {
+                            show: true,
+                            formatter: '{value} %',
                             fontSize: 20 * this.scale
-                        },
+                        }
                     },
-                    series: [{
-                        type: 'bar',
-                        stack: 'chart',
-                        data: sourceArr,
+                    series: {
+                        type: 'pictorialBar',
+                        barCategoryGap: '-16%',
+                        symbol: 'path://M0,10 L10,10 C5.5,10 5.5,5 5,0 C4.5,5 4.5,10 0,10 z',
                         itemStyle: {
                             normal: {
-                                color: new this.$echarts.graphic.LinearGradient(
-                                    //右，下，左，上
-                                    0, 0, 0, 1, [{
-                                        //0%位置的颜色
-                                        offset: 0,
-                                        color: colorList[0]
-                                    },
-                                        {
-                                            //100%位置的颜色
-                                            offset: 1,
-                                            color: colorList[1]
-                                        }
-                                    ]
-                                )
+                                color: function (params) {
+                                    return colorList[params.dataIndex]
+                                },
+                                opacity: 0.8
+                            },
+                            emphasis: {
+                                opacity: 1
                             }
                         },
-                        barWidth: 17 * this.scale
-                    },{
-                        type: 'line',
+                        label: {
+                            normal: {
+                                show: true,
+                                position: 'top',
+                                formatter: function (params) {
+                                    return params.value + '%'
+                                },
+                                fontSize: 20 * this.scale
+                            }
+                        },
                         data: sourceArr,
-                        itemStyle: {
-                            normal:{
-                                color: colorList[2],
-                            }
-                        },
-                        lineStyle:{
-                            normal:{
-                                width:1
-                            }
-                        },
-                        showSymbol:false
-                    }],
-                    tooltip: {},
+                        z: 10
+                    },
+                    tooltip: {
+                        formatter:function (params) {
+                            return params.marker+params.data.name+'：'+params.data.value+'%';
+                        }
+                    },
                     grid: {
                         top: 90 * this.scale,
-                        bottom: 80 * this.scale,
-                        left: 100 * this.scale,
-                        right: 80 * this.scale
+                        bottom: 90 * this.scale,
+                        left: 140 * this.scale
                     }
                 };
                 myChart.setOption(option);
             },
+
+
+
+
+           
             renderChart() {
                 switch (this.$route.query.title) {
                     case '市接警类型数据分析':
                         this.show=true;
-                        // this.proportionSource = [
-                        //     {name: '110报警', value: 25},
-                        //     {name: '122报警', value: 25},
-                        //     {name: '119报警', value: 25},
-                        //     {name: '综合报警', value: 25},
-                        //     {name: '其他接警类型', value: 25},
-                        // ];
                         this.proportionColor = [['#05dbb0', '#ccfff5'], ['#00a3c0', '#9ff1ff'], ['#4160fd', '#a5b4ff'], ['#bd0fdc', '#f2aaff'], ['#803ff7', '#c3a2ff']];
-                        this.title = ['近七日警情数据占比分析'];
+                        this.chartTitle = ['接警类型数据分析','接警类型占比分析','七日接警类型数据分析'];
                         // this.subClassSource1 = [1200, 1500, 900, 900, 1300, 1200, 1500, 1400, 800, 800, 700];
                         this.subClassColorList1 = ['#6ffeff', '#00a0a6','#05dbb0'];
                         // this.subClassSource2 = [1200, 1500, 900, 900, 1300, 1200, 1500, 1400, 800, 800, 700];
@@ -387,7 +476,7 @@
                         //     {name: '其他报警方式', value: 25},
                         // ];
                         this.proportionColor = [['#ffd75d', '#ffe9a6'], ['#00a3c0', '#9ff1ff'], ['#4160fd', '#a5b4ff'], ['#6400cb', '#ce9eff'], ['#e344ff', '#f9d8ff']];
-                        this.title = ['近七日报警方式数据占比分析'];
+                        this.chartTitle = ['报警方式数据分析','报警方式占比分析','七日报警方式数据分析'];
                         // this.subClassSource1 = [1200, 1500, 900, 900, 1300, 1200, 1500, 1400, 800, 800, 700];
                         this.subClassColorList1 = ['#ffebaf', '#ffd75e','#ffd75d'];
                         // this.subClassSource2 = [1200, 1500, 900, 900, 1300, 1200, 1500, 1400, 800, 800, 700];
@@ -400,17 +489,9 @@
                         break;
                     case '市来话类型数据分析':
                         this.show=false;
-                        // this.proportionSource = [
-                        //     {name: '报警求助、举报投诉', value: 25},
-                        //     {name: '处警反馈', value: 25},
-                        //     {name: '信息咨询', value: 25},
-                        //     {name: '重复报警', value: 25},
-                        //     {name: '骚扰电话', value: 25},
-                        //     {name: '系统测试', value: 25},
-                        //     {name: '其他来话类型', value: 25},
-                        // ];
+ 
                         this.proportionColor = [['#ed69ec', '#ffdeff'], ['#4a66ed', '#aebcff'], ['#1b22ac', '#7b8bff'], ['#8c4ff9', '#c7a8ff'], ['#6c08c8', '#b361ff'], ['#20f5ed', '#c3fffd'], ['#8b06a6', '#ed95ff']];
-                        this.title = ['近七日来话类型数据占比分析'];
+                        this.chartTitle = ['来话类型数据分析','来话类型占比分析','七日来话类型数据分析'];
                         // this.subClassSource1 = [1200, 1500, 900, 900, 1300, 1200, 1500, 1400, 800, 800, 700];
                         this.subClassColorList1 = ['#ff6cfa', '#a0009b','#ff6cfa'];
                         // this.subClassSource2 = [1200, 1500, 900, 900, 1300, 1200, 1500, 1400, 800, 800, 700];
@@ -444,28 +525,18 @@
                         Public.chartsReDraw(that.chartsObj, null, [], this.refreshCharts)
                     },
                     loadData() {
-                        that.percent(that.proportionSource, that.proportionColor,that.position);
-                        if(that.show){
-                            that.subclassBar('subClassChart1',that.subClassSource1,that.subClassColorList1);
-                            that.subclassBar('subClassChart2',that.subClassSource2,that.subClassColorList2);
-                            that.subclassBar('subClassChart3',that.subClassSource3,that.subClassColorList3);
-                            that.subclassBar('subClassChart4',that.subClassSource4,that.subClassColorList4);
-                        }else{
-                            setTimeout(function () {
-                                that.subclassBar('subClassChart5', that.subClassSource1, that.subClassColorList1);
-                                that.subclassBar('subClassChart6', that.subClassSource2, that.subClassColorList2);
-                                that.subclassBar('subClassChart7', that.subClassSource3, that.subClassColorList3);
-                                that.subclassBar('subClassChart8', that.subClassSource4, that.subClassColorList4);
-                                that.subclassBar('subClassChart9', that.subClassSource5, that.subClassColorList5);
-                                that.subclassBar('subClassChart10', that.subClassSource6, that.subClassColorList6);
-                            },100)
-
-                        }
+                        
+                        that.percent();
+                        that.jqflsjfxChart();
+                        // leftTop : [],
+                            // leftTopy :[],
+                            // leftTopBy : [],
+                        
 
                         
                         
 
-                        // if(that.show) return;
+                       
                         
                     },
                 };
@@ -502,9 +573,32 @@
                             }
                         })
                         .then(function (res) { 
-                            // console.log(res);
                             console.log(res['data']);
                             that.tableData = res['data'];
+                            that.leftTop = res['data']['type'];
+
+                            let sum ;
+                            that.leftTopy = [];
+                            that.leftTopBy = [];
+                            that.leftTop.forEach((item,index)=>{
+                                sum = 0;
+                                // console.log(that.tableData[item]);
+                                
+                                that.tableData[item].forEach((val,i)=>{
+                                    // console.log(val);
+                                    sum += parseInt(val['jjsl']) 
+                                })
+                                that.leftTopy.push(sum);
+                                // leftTopy[index]  = sum;
+
+                                that.leftTopBy.push({ value : sum, symbolPosition: 'end'  });
+                            })
+
+                            console.log(that.leftTop);
+                            console.log(that.leftTopy);
+                            console.log(that.leftTopBy);
+
+
                             if(that.tableData){
                                 let obj1 = that.tableData['110报警'];
                                 let str1 ;
@@ -520,21 +614,8 @@
                                     str1 = qian + '-' + hou;
                                     that.dateArr.push(str1);
                                 })
-                                obj1.forEach( (item,index)=>{
-                                    that.subClassSource1[index] = parseInt(item['jjsl']) 
-                                } )
-                                let obj2 = that.tableData['122报警'];
-                                obj2.forEach( (item,index)=>{
-                                    that.subClassSource2[index] = parseInt(item['jjsl']) 
-                                } )
-                                let obj3 = that.tableData['119报警'];
-                                obj3.forEach( (item,index)=>{
-                                    that.subClassSource3[index] = parseInt(item['jjsl']) 
-                                } )
-                                let obj4 = that.tableData['综合报警'];
-                                obj4.forEach( (item,index)=>{
-                                    that.subClassSource4[index] = parseInt(item['jjsl']) 
-                                } )
+
+
                                 let obj5 = that.tableData['proportion'];
                                 that.proportionSource = [
                                     {name: '110报警', value: 0},
@@ -549,6 +630,44 @@
                                     item['value'] =  obj5[item['name']]
                                     console.log(obj5[item['name']])
                                 } )
+
+                                
+                                console.log(that.tableData['num']);
+                                console.log(that.leftTop);   // ["110报警", "122报警", "119报警", "综合报警", "其它接警类型", __ob__: Observer]
+
+
+
+                                // bottomList
+                                let yDate = [];
+                                // 加入时间
+                                yDate = that.tableData['days'];   
+                                console.log(yDate);   //"08-30", "08-31", "09-01", "09-02", "09-03", "09-04", "09-05"
+                                that.bottomList.forEach( (item,index) =>{
+                                    item.push(yDate[index])
+                                } )
+                                console.log(that.bottomList);
+
+                                // 加入数据
+
+
+                                that.leftTop.forEach((item,index)=>{
+                                    console.log(that.tableData['num'][item]);
+                                    yDate.forEach( (val,i) => {
+                                        console.log(that.tableData['num'][item][val])
+                                        console.log(that.bottomList[i]);
+                                        if(!that.tableData['num'][item][val]){
+                                            that.bottomList[i].push(0)  ;
+                                        }else{
+                                            that.bottomList[i].push(that.tableData['num'][item][val])  ;
+                                        }   
+                                    } )
+                                }) 
+                                console.log(that.bottomList);
+                                let arr = that.leftTop;
+                                arr.unshift(' ');
+                                // console.log(arr);
+                                that.bottomList.unshift(arr);
+
                                 that.renderChart();
                             }
                          })
@@ -566,6 +685,28 @@
                             console.log(res['data']);
                             that.tableData = res['data'];
                             if(that.tableData){
+                                that.leftTopAgin = res['data']['type'];
+                                console.log(res['data']['type']);
+                                
+                                that.leftTop = res['data']['type'];
+                                let sum ;
+                                that.leftTopy = [];
+                                that.leftTopBy = [];
+                                that.leftTop.forEach((item,index)=>{
+                                    sum = 0;
+                                    // console.log(that.tableData[item]);
+                                    
+                                    that.tableData[item].forEach((val,i)=>{
+                                        // console.log(val);
+                                        sum += parseInt(val['jjsl']) 
+                                    })
+                                    that.leftTopy.push(sum);
+                                    // leftTopy[index]  = sum;
+
+                                    that.leftTopBy.push({ value : sum, symbolPosition: 'end'  });
+                                })
+
+
                                 let obj1 = that.tableData['电话报警'];
                                 let str1 ;
                                 let qian ;
@@ -612,6 +753,41 @@
                                     item['value'] =  obj5[item['name']]
                                     console.log(obj5[item['name']])
                                 } )
+
+
+                                // bottomList
+                                let yDate = [];
+                                // 加入时间
+                                yDate = that.tableData['days'];   
+                                console.log(yDate);   //"08-30", "08-31", "09-01", "09-02", "09-03", "09-04", "09-05"
+                                that.bottomList.forEach( (item,index) =>{
+                                    item.push(yDate[index])
+                                } )
+                                console.log(that.bottomList);
+
+                                // 加入数据
+
+
+                                that.leftTop.forEach((item,index)=>{
+                                    console.log(that.tableData['num'][item]);
+                                    yDate.forEach( (val,i) => {
+                                        console.log(that.tableData['num'][item][val])
+                                        console.log(that.bottomList[i]);
+                                        if(!that.tableData['num'][item][val]){
+                                            that.bottomList[i].push(0)  ;
+                                        }else{
+                                            that.bottomList[i].push(that.tableData['num'][item][val])  ;
+                                        }   
+                                    } )
+                                }) 
+                                console.log(that.bottomList);
+                                let arr = that.leftTop;
+                                arr.unshift(' ');
+                                console.log(arr);
+                                that.bottomList.unshift(arr);
+
+
+
                                 that.renderChart();
                             }
                          })
@@ -627,10 +803,32 @@
                             }
                         })
                         .then(function (res) { 
+                            
                             // console.log(res);
                             console.log(res['data']);
                             that.tableData = res['data'];
                             if(that.tableData){
+                            
+                                that.leftTop = res['data']['type'];
+                                let sum ;
+                                that.leftTopy = [];
+                                that.leftTopBy = [];
+                                that.leftTop.forEach((item,index)=>{
+                                    sum = 0;
+                                    // console.log(that.tableData[item]);
+                                    
+                                    that.tableData[item].forEach((val,i)=>{
+                                        // console.log(val);
+                                        sum += parseInt(val['jjsl']) 
+                                    })
+                                    that.leftTopy.push(sum);
+                                    // leftTopy[index]  = sum;
+
+                                    that.leftTopBy.push({ value : sum, symbolPosition: 'end'  });
+                                })
+
+                            
+                            
                                 let obj1 = that.tableData['报警求助、举报投诉'];
                                 let str1 ;
                                 let qian ;
@@ -691,6 +889,44 @@
                                     item['value'] =  obj5[item['name']]
                                     console.log(obj5[item['name']])
                                 } )
+
+
+
+                                // bottomList
+                                let yDate = [];
+                                // 加入时间
+                                yDate = that.tableData['days'];   
+                                console.log(yDate);   //"08-30", "08-31", "09-01", "09-02", "09-03", "09-04", "09-05"
+                                that.bottomList.forEach( (item,index) =>{
+                                    item.push(yDate[index])
+                                } )
+                                console.log(that.bottomList);
+
+                                // 加入数据
+
+
+                                that.leftTop.forEach((item,index)=>{
+                                    console.log(that.tableData['num'][item]);
+                                    yDate.forEach( (val,i) => {
+                                        console.log(that.tableData['num'][item][val])
+                                        console.log(that.bottomList[i]);
+                                        if(!that.tableData['num'][item][val]){
+                                            that.bottomList[i].push(0)  ;
+                                        }else{
+                                            that.bottomList[i].push(that.tableData['num'][item][val])  ;
+                                        }   
+                                    } )
+                                }) 
+                                console.log(that.bottomList);
+                                let arr = that.leftTop;
+                                arr.unshift(' ');
+                                console.log(arr);
+                                that.bottomList.unshift(arr);
+
+
+
+
+
                                 that.renderChart();
                             }
                          })
@@ -703,7 +939,6 @@
                     //     break;
                 }
                 console.log(that.dateArr);
-                // this.renderChart();
 
 
 
@@ -717,6 +952,7 @@
 
                
             },
+
         },
 //生命周期 - 创建完成（可以访问当前this实例）
         created() {
@@ -730,8 +966,23 @@
             this.getInitData();
             // console.log(1111);
             // console.log(this.tableData)
-            console.log(this.title);
+            // console.log(this.title);
 
+            // let arr = ["110报警", "122报警", "119报警", "综合报警", "其它接警类型"]
+            // let brr = [7001, 1470, 204, 0, 0]
+            // let crr = [
+            //     {value: 7001,symbolPosition: "end"},
+            //     {value: 1470,symbolPosition: "end"},
+            //     {value: 204,symbolPosition: "end"},
+            //     {value: 0,symbolPosition: "end"},
+            //     {value: 0,symbolPosition: "end"},
+
+                
+            // ]
+
+
+
+            // this.jqflsjfxChart(arr,brr,crr);
 
 
 
@@ -760,14 +1011,23 @@
         width: 100%;
         height: 100%;
 
-        h3 {
-            height: 10%;
+        .title_wrap {
+            height: 12%;
             text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            // background: linear-gradient(-180deg, #ffffff 50%, #384a6b 70%);
+            // -webkit-background-clip: text;
+            // color: transparent;
+            // font-size: 2.3rem;
+            // -webkit-text-fill-color: transparent;
         }
 
         .chartBox {
             width: 100%;
-            height: 90%;
+            height: 88%;
 
             .chart {
                 width: 100%;
@@ -786,9 +1046,16 @@
         .r-t {
             width: 100%;
             height: 38%;
-            background-image: url('../assets/images/index/l-t-bg.png');
-            background-repeat: no-repeat;
-            background-size: 100% 100%;
+            display: flex;
+            
+            .chart-wrap{
+                width: 50%;
+                height: 100%;
+                background-image: url('../assets/images/index/l-t-bg1.png');
+                background-repeat: no-repeat;
+                background-size: 100% 100%;
+                // padding-bottom: 1%;
+            }
         }
 
         .r-b {
@@ -797,49 +1064,41 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-
-            .r-b-t {
-                height: 47.2%;
-                display: flex;
-                flex-direction: row;
-                justify-content: space-between;
-
-                .r-b-t-r-1,.r-b-t-l-1 {
-                    width: 48%;
-                    height: 100%;
-                    background-image: url('../assets/images/index/l-t-bg.png');
-                    background-repeat: no-repeat;
-                    background-size: 100% 100%;
-                }
-
-
+            background-image: url('../assets/images/index/l-t-bg2.png');
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            // padding: 4%;
+            .chart-wrap{
+                padding: 0 4% 4% 4%;
             }
-        ;
-            .r-b-t-l-2,.r-b-t-m-2, .r-b-t-r-2,.r-b-b-l-2,.r-b-b-r-2,.r-b-b-m-2 {
-                width: 32%;
+
+            table{
+                width: 100%;
                 height: 100%;
-                // background: white;
-                background-image: url('../assets/images/index/l-t-bg.png') ;
-                background-repeat: no-repeat;
-                background-size:100% 100%;
-            }
+                tr{
+                    td{
+                        text-align: center;
+                    }
+                    .firstcolum{
+                        color: #5abcff
+                    }
+                    .normalColor{
+                        color: #ffe754
+                    }
 
-            .r-b-b {
-                height: 47.2%;
-                display: flex;
-                flex-direction: row;
-                justify-content: space-between;
-                // background-image: url('../assets/images/index/l-t-bg.png') ;
-                // background-repeat: no-repeat;
-                // background-size:100% 100%;
-                .r-b-b-l-1,.r-b-b-r-1 {
-                    width: 48%;
-                    height: 100%;
-                    background-image: url('../assets/images/index/l-t-bg.png');
-                    background-repeat: no-repeat;
-                    background-size: 100% 100%;
+                }
+                .topStyle{
+                    td{
+                        color: #5abcff
+                    }
                 }
             }
+
+         
+
+           
+        ;
+         
 
         }
 

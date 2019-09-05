@@ -31,18 +31,7 @@
             </div>
         </main>
 
-        <video  autoplay loop muted class="video_bg"  >
-            <!-- <source src="static/images/index/dongtu1.mp4" type="video/mp4"/>
-            浏览器不支持 video 标签，建议升级浏览器。
-            <source src="static/images/index/dongtu2.webm" type="video/webm"/>
-            浏览器不支持 video 标签，建议升级浏览器。 -->
-            <source src="../assets/video/newbg.mp4" type="video/mp4"/>
-            浏览器不支持 video 标签，建议升级浏览器。
-            <!-- <source src="../assets/video/dongtu2.webm" type="video/webm"/>
-            浏览器不支持 video 标签，建议升级浏览器。 -->
 
-
-        </video>
     </div>
 </template>
 
@@ -233,7 +222,7 @@
         justify-content: space-around;
 
         main {
-            padding: 0 2rem 4rem;
+            padding: 0 2rem 2rem;
         }
     }
 
@@ -313,7 +302,10 @@
         .l {
             width: 25.73%;
             height: 100%;
-            background-image: url('../assets/images/index/m.png');
+            // background-image: url('../assets/images/index/m.png');
+            background-image: url('../assets/images/index/m1.png');
+
+
             background-repeat: no-repeat;
             background-size: 100% 100%;
 

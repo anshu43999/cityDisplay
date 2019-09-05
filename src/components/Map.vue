@@ -224,7 +224,7 @@
                             type: 'map',
                             mapType: map,
                             roam: false,
-                            zoom: 1.18,   //这里是关键，一定要放在 series中
+                            zoom: 1.0,   //这里是关键，一定要放在 series中
                             data: data,
                             nameMap: {
                                 '山西省': '山西省'
