@@ -21,22 +21,15 @@
                             <input type="text" v-model="name">
                             <i class="iconfont iconusername icons"></i>
                         </div>
-
                         <div class="inputs_wrap">
-
                             <div>密码</div>
                             <input type="password" v-model="password"  @keyup.enter="submit()">
                             <i class="iconfont iconmima   icons"></i>
-
                         </div>
-
                         <div class="inputs_btn" :class="[ active? 'btnActive':'btnFocurs','btn','input']" @click="submit" >
-                            
                             <span>登录</span>
                             </div>
-
                     </div>
-
 
                 </div>
 
