@@ -18,7 +18,7 @@
 
                         <div class="inputs_wrap">
                             <div>账号</div>
-                            <input type="text" v-model="name">
+                            <input v-focus='true' type="text" v-model="name">
                             <i class="iconfont iconusername icons"></i>
                         </div>
                         <div class="inputs_wrap">
@@ -44,7 +44,7 @@
 
 
 
-        <div class="copyright">山西硬汉网络科技有限公司 版权所有:Copyright©2018—2019</div>
+        <div class="copyright">山西硬汉网络科技有限公司提供技术支持</div>
 
 
 
@@ -147,7 +147,18 @@
 
                 });
             }
-        }
+        },
+        directives:{
+            focus:{
+                inserted : function (el,{value}) {
+                    console.log(el,{value})
+                    if(value){
+                        el.focus();
+                    }
+                }
+            }
+        },
+
     }
 </script>
 
@@ -156,7 +167,9 @@ input{
     background: transparent;
     border: none;
     color: white;
+    
 }
+input:focus{outline:none;}
 .copyright{
      width: 100%;
     color: #f8fbff;

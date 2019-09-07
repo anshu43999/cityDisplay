@@ -28,12 +28,20 @@
                         </li>
                     </ul>
                 </div>
-<!--                <div class="chart" id="detailChart"></div>-->
+                <!--                <div class="chart" id="detailChart"></div>-->
                 <div class="detail" ref="detail">
                     <ul>
                         <li v-for="item in detailSource" :key="item.name">
-                            <p>{{item.name}}</p>
-                            <p>{{item.value}}</p>
+                            <div>
+                                <p>{{item.name}}</p>
+                            </div>
+                            <div>
+                                <p>{{item.value}}</p>
+                            </div>
+                        </li>
+                        <li v-for="item in detailAdd">
+                            <div></div>
+                            <div></div>
                         </li>
                     </ul>
                 </div>
@@ -44,11 +52,10 @@
 </template>
 
 <script>
-
     export default {
         name: "small_proRight",
-        props: ['typeAnalyze','isClick'],
-        data(){
+        props: ['typeAnalyze', 'isClick'],
+        data() {
             return {
                 scale: 1,
                 //需要刷新的图表
@@ -61,17 +68,17 @@
                 chartTitle: [],
 
                 jqflsjfxSource: [
-                   /* {name: '刑事', value: 1300},
-                    {name: '行政(治安)', value: 1500},
-                    {name: '交通类', value: 900},
-                    {name: '消防救援', value: 900},
-                    {name: '群众救助', value: 1400},
-                    {name: '应急联动事件(非警情事件)', value: 1100},
-                    {name: '群体事件', value: 1500},
-                    {name: '纠纷', value: 1400},
-                    {name: '灾害事故', value: 800},
-                    {name: '举报', value: 850},
-                    {name: '投诉监督', value: 700}*/
+                    /* {name: '刑事', value: 1300},
+                     {name: '行政(治安)', value: 1500},
+                     {name: '交通类', value: 900},
+                     {name: '消防救援', value: 900},
+                     {name: '群众救助', value: 1400},
+                     {name: '应急联动事件(非警情事件)', value: 1100},
+                     {name: '群体事件', value: 1500},
+                     {name: '纠纷', value: 1400},
+                     {name: '灾害事故', value: 800},
+                     {name: '举报', value: 850},
+                     {name: '投诉监督', value: 700}*/
                 ],
                 proportionSource: [
                     /*{name: '刑事', value: 23.5},
@@ -109,11 +116,14 @@
                     {name: '破坏环境资源 ', value: 16},
                     {name: '其他刑事警情 ', value: 15},*/
                 ],
-                totalSource:[],
+                totalSource: [],
 
-                selectOptions:[],
-                date:'',
-                myPeriod:{},
+                selectOptions: [],
+                date: '',
+                myPeriod: {},
+
+                detailLength: 22,
+                detailAdd: []
             }
         },
         methods: {
@@ -126,18 +136,13 @@
                 this.$router.go(-1);
             },
             setName() {
-                this.chartTitle = ['警情分类数据分析', '警情分类数据占比分析','警情分类数据占比分析']
+                this.chartTitle = ['警情分类数据分析', '警情分类数据占比分析', '警情分类数据细类占比分析']
             },
             //柱状图
-            barChart(Arr,brr,crr) {
+            barChart(Arr, brr) {
                 let myChart = this.$echarts.init(document.getElementById('bar'));
                 this.chartsObj.jqflsjfxChart = myChart;
-                let xData = [];
-                // let sourceArr = this.jqflsjfxSource;
-                // sourceArr.forEach(value => {
-                //     xData.push(value.name);
-                // });
-                // console.log(Arr);
+                // console.log(brr);
                 let option = {
                     tooltip: {},
                     xAxis: {
@@ -149,102 +154,126 @@
                         axisLine: {
                             show: false
                         },
-                        axisLabel: {
-                            show: true,
-                            textStyle: {
-                                color: '#00d7d4',
-                                lineHeight: 24*this.scale,
-                                fontSize:14*this.scale,
-                            },
-                            rotate : 30,
-                            interval:0,
-                            margin:24*this.scale,
-                            formatter: function (params) {
-                                let newParamsName = "";
-                                let paramsNameNumber = params.length;
-                                let provideNumber = 6;  //一行显示几个字
-                                let rowNumber = Math.ceil(paramsNameNumber / provideNumber);
-                                if (paramsNameNumber > provideNumber) {
-                                    for (let p = 0; p < rowNumber; p++) {
-                                        let tempStr = "";
-                                        let start = p * provideNumber;
-                                        let end = start + provideNumber;
-                                        if (p == rowNumber - 1) {
-                                            tempStr = params.substring(start, paramsNameNumber);
-                                        } else {
-                                            tempStr = params.substring(start, end) + "\n";
-                                        }
-                                        newParamsName += tempStr;
-                                    }
-
-                                } else {
-                                    newParamsName = params;
-                                }
-                                return newParamsName
-                            }
-                        }
+						axisLabel: {
+							show: true,
+							textStyle: {
+								color: '#00d7d4',
+								fontSize: 14 * this.scale,
+							},
+							interval: 0,
+							formatter: function(value, index) {
+								let type = index % 2 === 0 ? 'up' : 'down';
+								// console.log(type);
+								return '{' + type + '|' + value + '}'
+							},
+							rich: {
+								up: {
+									height: 20 * this.scale,
+								},
+								down: {
+									height: 60 * this.scale,
+								}
+							}
+						},
                     },
-                    yAxis: {
-                        splitLine: {
-                            show: false
-                        },
-                        axisTick: {
-                            show: false
-                        },
-                        axisLine: {
-                            show: false
-                        },
-                        axisLabel: {
-                            show: false
-                        }
-                    },
+                    yAxis:  [{
+						type: 'value',
+						gridIndex: 0,
+						splitLine: {
+							show: false
+						},
+						axisTick: {
+							show: false
+						},
+						// min: min,
+						// max: 100,
+						axisLine: {
+							lineStyle: {
+								color: '#0c3b71'
+							}
+						},
+						axisLabel: {
+							color: 'rgb(170,170,170)',
+							formatter: '{value}'
+						}
+					},
+						{
+							type: 'value',
+							gridIndex: 0,
+							min: 0,
+							max: 100,
+							splitNumber: 12,
+							splitLine: {
+								show: false
+							},
+							axisLine: {
+								show: false
+							},
+							axisTick: {
+								show: false
+							},
+							axisLabel: {
+								show: false
+							},
+							splitArea: {
+								show: false,
+							}
+						}
+					],
                     series: [{
                         name: '',
-                        type: 'pictorialBar',
-                        symbolSize: [20, 10],
-                        symbolOffset: [0, -5],
-                        z: 12,
-                        itemStyle: {
-                            normal: {
-                                color: '#14b1eb'
-                            }
-                        },
-                        label:{
-                            show :true,
-                            position :'top',
-                            fontSize:14*this.scale
-                        },
-                        data: crr
-                    }, {
-                        name: '',
-                        type: 'pictorialBar',
-                        symbolSize: [20, 10],
-                        symbolOffset: [0, 5],
-                        z: 12,
-                        itemStyle: {
-                            normal: {
-                                color: '#14b1eb'
-                            }
-                        },
-                        data: brr
-                    }, {
                         type: 'bar',
+                        data: brr,
+                        barWidth: '30%',
+                        yAxisIndex: 0,
                         itemStyle: {
                             normal: {
-                                color: '#14b1eb',
-                                opacity: .7
+                                barBorderRadius: 30,
+                                color: new this.$echarts.graphic.LinearGradient(
+                                    0, 0, 0, 1, [{
+                                        offset: 0,
+                                        color: '#00feff'
+                                    },
+                                        {
+                                            offset: 0.5,
+                                            color: '#027eff'
+                                        },
+                                        {
+                                            offset: 1,
+                                            color: '#0286ff'
+                                        }
+                                    ]
+                                )
                             }
                         },
-                        silent: true,
-                        barWidth: 20,
-                        barGap: '-100%', // Make series be overlap
-                        data:brr
-                    }],
-                    grid:{
-                        top:50*this.scale,
-                        left:70*this.scale,
-                        right:20*this.scale,
-                        bottom : 100*this.scale
+						label:{
+							normal: {
+								show: true,
+								position: 'top',
+								color:'#00feff',
+								fontSize: 14 * this.scale,
+							}
+						}
+                    },
+                        {
+                            type: 'bar',
+                            barWidth: '50%',
+                            xAxisIndex: 0,
+                            yAxisIndex: 1,
+							silent: true,
+                            barGap: '-135%',
+                            data: [100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100],
+                            itemStyle: {
+                                normal: {
+                                    color: 'rgba(255,255,255,0.1)'
+                                }
+                            },
+                        }],
+                    grid: {
+                        top: 40 * this.scale,
+                        bottom: 100 * this.scale,
+                        left: 70 * this.scale,
+                        right: 20 * this.scale
                     }
                 };
                 myChart.setOption(option);
@@ -253,7 +282,9 @@
             percent() {
                 let myChart = this.$echarts.init(document.getElementById('proportionChart'));
                 this.chartsObj['proportionChart'] = myChart;
-                let colorList = ['#ff4860', '#84fff7', '#e3ff7c', '#b137ff', '#387eff', '#ffa4d6', '#a4ffb1', '#cde3ff', '#ec7b15', '#1fa78f', '#8dffd5', '#8e88ff'];
+                let colorList = ['#ff4860', '#84fff7', '#e3ff7c', '#b137ff', '#387eff', '#ffa4d6', '#a4ffb1', '#cde3ff', '#ec7b15',
+                    '#1fa78f', '#8dffd5', '#8e88ff'
+                ];
                 let xData = [];
                 let sourceArr = this.proportionSource;
                 sourceArr.forEach(value => {
@@ -275,25 +306,25 @@
                             show: false
                         },
                         axisLabel: {
-                            showL: true,
+                            show: true,
                             textStyle: {
                                 color: function (value, index) {
                                     return colorList[index];
                                 },
                             },
                             interval: 0,
-                            formatter:function (value,index) {
-                                let type=index%2===0?'up':'down';
-                                return '{'+type+'|'+value+'}'
+                            formatter: function (value, index) {
+                                let type = index % 2 === 0 ? 'up' : 'down';
+                                return '{' + type + '|' + value + '}'
                             },
-                            rich:{
-                                up:{
-                                    height:20*this.scale,
-                                    fontSize:14*this.scale
+                            rich: {
+                                up: {
+                                    height: 20 * this.scale,
+                                    fontSize: 14 * this.scale
                                 },
-                                down:{
-                                    height:80*this.scale,
-                                    fontSize:14*this.scale
+                                down: {
+                                    height: 60 * this.scale,
+                                    fontSize: 14 * this.scale
                                 }
                             }
                         },
@@ -316,7 +347,7 @@
                         axisLabel: {
                             show: true,
                             formatter: '{value} %',
-                            fontSize:20*this.scale,
+                            fontSize: 14 * this.scale,
                         }
                     },
                     series: {
@@ -341,20 +372,20 @@
                                 formatter: function (params) {
                                     return params.value + '%'
                                 },
-                                fontSize:16*this.scale,
+                                fontSize: 14 * this.scale,
                             }
                         },
                         data: sourceArr,
                         z: 10
                     },
                     tooltip: {
-                        formatter:function (params) {
+                        formatter: function (params) {
                             // return params.marker+params.data.name+'：'+params.data.value+'%';
                         }
                     },
                     grid: {
                         top: 50 * this.scale,
-                        bottom: 100 * this.scale,
+                        bottom: 90 * this.scale,
                         left: 90 * this.scale,
                         right: 40 * this.scale,
                     }
@@ -444,39 +475,50 @@
                                     return params.value
                                 },
                                 color: '#0c9ca3',
-                                fontSize:20*this.scale
+                                fontSize: 20 * this.scale
                             }
                         },
                         barWidth: 17 * this.scale
                     },
                     grid: {
-                        left:80,
+                        left: 80,
                         top: 0,
                         bottom: 0
                     },
-                    tooltip:{}
+                    tooltip: {}
                 };
                 myChart.setOption(option);
             },
-            detailProportionChart(){
-                let myChart=this.$echarts.init(document.getElementById('detailProportionChart'));
-                let sourceArr=this.detailSource;
-                let colorList1=['#815179','#66a99f','#fc6262','#8cacc7','#eacf79','#63d3c3','#e9ab50','#b7564f','#d8bcca','#89b8c7','#a4c585','#49bcf3','#8e88ff', '#ff8155','#3ecf6a','#fff497','#c64f47','#81799e','#2f9a94','#9e57b7','#d58a85'];
+            detailProportionChart() {
+                let myChart = this.$echarts.init(document.getElementById('detailProportionChart'));
+                let sourceArr = this.detailSource;
+                let colorList1 = ['#815179', '#66a99f', '#fc6262', '#8cacc7', '#eacf79', '#63d3c3', '#e9ab50', '#b7564f', '#d8bcca',
+                    '#89b8c7', '#a4c585', '#49bcf3', '#8e88ff', '#ff8155', '#3ecf6a', '#fff497', '#c64f47', '#81799e', '#2f9a94',
+                    '#9e57b7', '#d58a85'
+                ];
+                let total = 0;
                 sourceArr.forEach((value, index) => {
-                    value.itemStyle={
+                    total += value.value
+                });
+                sourceArr.forEach((value, index) => {
+                    value.itemStyle = {
                         normal: {
                             color: colorList1[index],
                         },
                     };
-                    value.label={
+                    value.label = {
                         textStyle: {
                             color: colorList1[index],
-                            fontSize:18*this.scale,
+                            fontSize: 14 * this.scale,
                         },
                     };
                 });
-                let option={
-                    tooltip: {},
+                let option = {
+                    tooltip: {
+                        formatter: function (params) {
+                            return params.marker + params.name + '：' + ((params.data.value / total) * 100).toFixed(2) + '%'
+                        }
+                    },
                     series: {
                         // type: 'sunburst',
                         type: 'pie',
@@ -499,8 +541,10 @@
             },
             renderChart() {
                 // console.log(2);
-                this.myPeriod=JSON.parse(sessionStorage.getItem('jqfl'));
-                this.date=this.myPeriod.date;
+                clearInterval(counter);
+                counter = null;
+                this.myPeriod = JSON.parse(sessionStorage.getItem('jqfl'));
+                this.date = this.myPeriod.date;
                 let myCharts = document.querySelectorAll('.chart');
                 myCharts.forEach(value => {
                     this.refreshCharts.push(value.getAttribute('id'))
@@ -510,7 +554,8 @@
                     init() {
                         this.loadData();
                         Public.chartsResize(that.chartsObj);
-                        Public.chartsReDraw(that.chartsObj, null, [], this.refreshCharts)
+                        // Public.chartsReDraw(that.chartsObj, null, [], this.refreshCharts)
+                        Public.chartsReDraw(that.chartsObj, null, [], [])
                     },
                     loadData() {
                         that.getFlsj();
@@ -523,50 +568,53 @@
                 };
                 Index.init();
             },
-            selectedItem(){
+            selectedItem() {
                 let item = document.querySelectorAll('.selectListBox>ul>li>div');
-                if (this.isClick){
+                if (this.isClick) {
                     item.forEach(value => {
                         value.classList.remove('active')
                     })
                 }
                 item[0].classList.add('active');
             },
-            selectItem(e){
+            selectItem(e) {
                 let item = document.querySelectorAll('.selectListBox>ul>li>div');
-                if(e.target.nodeName == 'UL') return;
+                if (e.target.nodeName == 'UL') return;
                 item.forEach((value) => {
                     value.classList.remove('active');
                 });
                 e.target.classList.add('active');
                 this.totalSource.forEach(value => {
-                    if (e.target.innerText===value.name){
-                        this.detailSource=value.dataArr;
+                    if (e.target.innerText === value.name) {
+                        this.detailSource = value.dataArr;
                         // this.detailChart();
                         this.detailProportionChart();
                     }
                 });
             },
-            pdFilter_btn(){
-                console.log('zheshi zhixing ');
+            pdFilter_btn() {
+                // console.log('zheshi zhixing ');
                 let str = this.$route.query.title;
 
-                str = str.substring(0,1);
+                str = str.substring(0, 1);
                 // console.log(str);
 
-                if(str == '全'){
-                    this.$emit('filter_btn',true)
-                }else{
-                    this.$emit('filter_btn',false)
+                if (str == '全') {
+                    this.$emit('filter_btn', true)
+                } else {
+                    this.$emit('filter_btn', false)
                 }
             },
-            getProDetail(){
-                this.jqfl=JSON.parse(sessionStorage.getItem('jqfl'));
-                let that=this;
+            getProDetail() {
+                this.jqfl = JSON.parse(sessionStorage.getItem('jqfl'));
+                let that = this;
                 this.$http({
                     method: 'post',
                     url: this.apiRoot + 'recJQFLTJB/findJQFLsecondNum',
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded', 'crossDomain': true},
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'crossDomain': true
+                    },
                     transformRequest: [function (data) {
                         let ret = '';
                         for (let it in data) {
@@ -584,45 +632,63 @@
                 })
                     .then(function (res) {
                         // console.clear();
-                        let r =[];
-                        let narr=[];
-                        for(let i =0;i<res.data.length;i++){
+                        let r = [];
+                        let narr = [];
+                        for (let i = 0; i < res.data.length; i++) {
                             // arr.push({name:res.data[i].fldmmc,value:res.data[i].jjsl});
                             let n = r.indexOf(res.data[i].sjdmmc);
-                            if(n == -1){
+                            if (n == -1) {
                                 r.push(res.data[i].sjdmmc);
-                                narr.push({"name":res.data[i].sjdmmc,dataArr:[{name:res.data[i].fldmmc,value:res.data[i].jjsl}]});
-                            }else{
-                                narr[n].dataArr.push({name:res.data[i].fldmmc,value:res.data[i].jjsl})
+                                narr.push({
+                                    "name": res.data[i].sjdmmc,
+                                    dataArr: [{
+                                        name: res.data[i].fldmmc,
+                                        value: res.data[i].jjsl
+                                    }]
+                                });
+                            } else {
+                                narr[n].dataArr.push({
+                                    name: res.data[i].fldmmc,
+                                    value: res.data[i].jjsl
+                                })
                             }
                         }
-                        let nameArr=[];
-                        for (let i=0;i<narr.length;i++){
-                            if (narr[i].name===undefined){
-                                narr[i].name='其它'
+                        let nameArr = [];
+                        for (let i = 0; i < narr.length; i++) {
+                            if (narr[i].name === undefined) {
+                                narr[i].name = '其它警情'
                             }
                             nameArr.push(narr[i].name);
                         }
-                        that.selectOptions=nameArr;
-                        that.totalSource=narr;
-                        that.detailSource=that.totalSource[0].dataArr;
+                        that.selectOptions = nameArr;
+                        that.totalSource = narr;
+                        // console.log(that.totalSource[0].dataArr);
+                        that.detailSource = that.totalSource[0].dataArr;
                         // console.log(that.detailSource);
-                        // console.log(that.totalSource);
-                        // that.selectOptions=nameArr;
-                        that.detailSource=that.totalSource[0].dataArr;
-                        // // that.detailChart();
+                        // console.log(that.detailLength);
+                        if (that.totalSource[0].dataArr.length < that.detailLength) {
+                            let l = that.detailLength - that.totalSource[0].dataArr.length;
+                            // console.log(l);
+                            for (let i = 0; i < l; i++) {
+                                that.detailAdd.push(i);
+                            }
+                        }
+                        // console.log(that.detailAdd);
                         that.detailProportionChart();
-                    }).then(()=>{
+                    }).then(() => {
                     that.selectedItem();
                 })
             },
             getFlsj() {
-                this.jqfl=JSON.parse(sessionStorage.getItem('jqfl'));
+                this.jqfl = JSON.parse(sessionStorage.getItem('jqfl'));
                 let that = this;
                 this.$http({
                     method: 'post',
                     url: this.apiRoot + 'recJQFLTJB/findJQFLNum',
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded', 'crossDomain': true},
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'crossDomain': true
+                    },
                     transformRequest: [function (data) {
                         let ret = '';
                         for (let it in data) {
@@ -638,40 +704,52 @@
                     }
                 })
                     .then(function (res) {
-                        console.log(res);
+                        // console.log(res);
                         let arr = [];
                         let brr = [];
                         let crr = [];
-                        let total=0;
-                        res.data.forEach((item,index) => {
-                            total+=item.jjsl;
-                            if(!item['fldmmc']){
-                                item['fldmmc']='其它';
+                        let total = 0;
+                        res.data.forEach((item, index) => {
+                            total += item.jjsl;
+                            if (!item['fldmmc']) {
+                                item['fldmmc'] = '其它警情';
                             }
+                            // console.log(item);
                             arr.push(item['fldmmc'])
                             brr.push(item['jjsl'])
-                            crr.push({ value : item['jjsl'], symbolPosition: 'end'  })
+                            crr.push({
+                                value: item['jjsl'],
+                                symbolPosition: 'end'
+                            })
                         });
-                        console.log(total);
-                        that.barChart(arr,brr,crr);
-                        let rencentArr=[];
+                        // console.log(total);
+                        // console.log(arr,brr);
+                        that.barChart(arr, brr);
+
+                        let rencentArr = [];
                         res.data.forEach(value => {
                             // console.log(value.value);
-                            if (value.fldmmc){
-                                rencentArr.push({name:value.fldmmc,value:((value.jjsl/total)*100).toFixed(2)})
+                            if (value.fldmmc) {
+                                rencentArr.push({
+                                    name: value.fldmmc,
+                                    value: ((value.jjsl / total) * 100).toFixed(2)
+                                })
                             }
                         });
-                        that.proportionSource=rencentArr;
+                        that.proportionSource = rencentArr;
                         that.percent();
                     })
             },
             Hj() {
-                this.jqfl=JSON.parse(sessionStorage.getItem('jqfl'));
+                this.jqfl = JSON.parse(sessionStorage.getItem('jqfl'));
                 let that = this;
                 this.$http({
                     method: 'post',
                     url: this.apiRoot + 'recJQFLTJB/findJQFLNumHJ',
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded', 'crossDomain': true},
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'crossDomain': true
+                    },
                     transformRequest: [function (data) {
                         let ret = '';
                         for (let it in data) {
@@ -719,6 +797,8 @@
             },
         },
         mounted() {
+            clearInterval(counter);
+            counter = null;
             this.pdFilter_btn();
             this.getScale();
             this.setName();
@@ -739,19 +819,23 @@
 </script>
 
 <style scoped lang="scss">
-    h3{
+    h3 {
         height: 10%;
         text-align: center;
     }
-    .chart-wrap{
+
+    .chart-wrap {
         width: 100%;
         height: 100%;
     }
-    .chartBox{
+
+    .chartBox {
         height: 90%;
     }
 
-    .l > div, .m > div, .r > div {
+    .l > div,
+    .m > div,
+    .r > div {
         width: 100%;
         align-content: space-between;
     }
@@ -760,6 +844,7 @@
         width: 100%;
         height: 100%;
     }
+
     .r {
         width: 72.6%;
         height: 100%;
@@ -782,20 +867,29 @@
             .r-t-l {
                 width: 38%;
                 height: 100%;
-                background-image: url('../assets/images/index/l-t-bg1.png') ;
+                background-image: url('../assets/images/index/l-t-bg1.png');
                 background-repeat: no-repeat;
                 background-size: 105% 105%;
                 background-position: center;
 
+                .chart-wrap > h3 {
+                    padding-left: 1.8rem;
+                    box-sizing: border-box;
+                }
             }
 
             .r-t-r {
                 width: 60.52%;
                 height: 100%;
-                background-image: url('../assets/images/index/l-t-bg1.png') ;
+                background-image: url('../assets/images/index/l-t-bg1.png');
                 background-repeat: no-repeat;
                 background-size: 105% 105%;
                 background-position: center;
+
+                .chart-wrap > h3 {
+                    padding-left: 2.4rem;
+                    box-sizing: border-box;
+                }
             }
         }
 
@@ -806,50 +900,62 @@
             flex-direction: column;
             justify-content: space-between;
 
-            background-image: url('../assets/images/index/l-t-bg1.png') ;
+            background-image: url('../assets/images/index/l-t-bg1.png');
             background-repeat: no-repeat;
             background-size: 105% 105%;
             background-position: center;
 
-            h3{
+            h3 {
                 height: 8%;
+                margin-top: 1rem;
+                padding-left: 2rem;
+                box-sizing: border-box;
             }
 
             .selectListBox {
-                width: 16%;
+                width: 14%;
                 height: 85%;
                 float: left;
-                margin-left: 1.2rem;
-                margin-top: 0.5rem;
+                margin-left: 1.8rem;
+                margin-top: -0.8rem;
                 position: relative;
+                background-image: url('../assets/images/type/bg.png');
+                background-repeat: no-repeat;
+                background-size: 100% 100%;
                 overflow: auto;
-               &::-webkit-scrollbar {display:none}
+
+                &::-webkit-scrollbar {
+                    display: none
+                }
+
                 /* & { -ms-overflow-style: none; }
                 & { overflow: -moz-scrollbars-none; }*/
 
                 ul {
                     width: 100%;
-                    height: auto;
-                    background-image: url('../assets/images/type/bg.png') ;
-                    background-repeat: no-repeat;
-                    background-size: 100% 100%;
-                    box-shadow:0 0 5px #011425;
-                    li{
+                    height: 100%;
+                    box-shadow: 0 0 5px #011425;
+
+                    li {
                         width: 100%;
                         height: 3rem;
-                        div{
+
+                        div {
                             width: 100%;
                             height: 100%;
                             text-align: center;
                             line-height: 2;
                             cursor: pointer;
-                            background-image: url('../assets/images/type/itemBg.png') ;
+                            background-image: url('../assets/images/type/itemBg.png');
                             display: flex;
                             align-items: center;
                             justify-content: center;
-                            font-size: 1.17em;
+                            /*font-size: 1rem;*/
+                            color: #06fffb;
                             letter-spacing: 1px;
-                            &.active{
+
+                            &.active {
+                                color: #ffffff;
                                 background: #4c7fff;
                             }
                         }
@@ -857,57 +963,93 @@
                 }
             }
 
-            .detail{
-                width: 28rem;
-                height: 85%;
-                box-shadow: 0px 4px 24px 0px
-                rgba(0, 130, 255, 0.75);
+            .detail {
+                width: 37%;
+                height: 74%;
+                box-shadow: 0px 4px 24px 0px rgba(0, 130, 255, 0.75);
                 border-radius: 2px;
-                border: solid 1px #00baff;
+                border: solid 1px rgba(0, 186, 255, 0.35);
                 opacity: 0.75;
+                /*background: url("../assets/images/province/list.png");
+                background-size: 100% 100%;
+                background-repeat: no-repeat;*/
                 float: left;
-                margin-top: 0.5rem;
                 position: relative;
                 overflow: auto;
-                &::-webkit-scrollbar {display:none}
-               /* & { -ms-overflow-style: none; }
+                margin-top: 1.2%;
+                margin-left: 2.5%;
+
+                &::-webkit-scrollbar {
+                    display: none
+                }
+
+                /* & { -ms-overflow-style: none; }
                 & { overflow: -moz-scrollbars-none; }*/
-                ul{
+                ul {
                     width: 100%;
-                    height: auto;
-                    li{
-                        width: 33.3%;
-                        height: 4rem;
-                        float: left;
-                        border-right: solid 1px #00ffff;
-                        border-bottom: solid 1px #00ffff;
-                        &:nth-child(3n){
-                            border-right: none;
-                            width: 33.4%;
-                        }
-                        p{
-                            width: 100%;
-                            height: 50%;
-                            text-align: center;
+                    height: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    align-content: start;
+                    flex-wrap: wrap;
+                    /*justify-content: space-between;*/
+
+                    li {
+                        width: 50%;
+                        height: 9.09%;
+
+                        div {
+                            height: 100%;
+                            float: left;
+                            border-right: solid 1px rgba(0, 255, 255, 0.1);
+                            border-bottom: solid 1px rgba(0, 255, 255, 0.1);
                             display: flex;
                             justify-content: center;
                             align-items: center;
-                            &:first-child{
-                                color: #5abcff;
+
+                            p {
+                                width: 100%;
+                                height: 50%;
+                                text-align: center;
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+                                font-weight: bold;
+                                line-height: 1rem;
+                                font-size: 0.8rem;
                             }
-                            &:nth-child(2){
-                                color: #ffe754;
+
+                            &:nth-child(1) {
+                                width: 60%;
+
+                                p {
+                                    color: #61ecff;
+                                }
+                            }
+
+                            &:nth-child(2) {
+                                width: 40%;
+
+                                p {
+                                    color: #ffee2d;
+                                }
                             }
                         }
+
+                        /*&:nth-child(3n) {
+                            border-right: none;
+                            width: 33.4%;
+                        }*/
+
                     }
                 }
             }
 
             .chart {
                 width: 36.97%;
-                height: 90%;
+                height: 85%;
                 float: right;
-                margin-right: 1rem;
+                margin-right: 4rem;
             }
         }
     }

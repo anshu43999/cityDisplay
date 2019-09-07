@@ -1,5 +1,5 @@
 <template>
-    <div id="mapChart" class="chart"></div>
+    <div id="map" class="chart"></div>
 </template>
 
 <script>
@@ -12,14 +12,19 @@
                type:'',
                newStr : '',
                flag : false,   //判断省市
+			   scale:1
            }
         },
         methods:{
+			//获取缩放比例
+			getScale() {
+			    this.scale = localStorage.getItem('scale');
+			},
             //地图
             mapChart() {
                 let cityObj = {};
                 let that = this;
-                let myChart = that.$echarts.init(document.getElementById('mapChart'));//初始化
+                let myChart = that.$echarts.init(document.getElementById('map'));//初始化
                 this.chartsObj.mapChart = myChart;
                 let mapdata = [];
                 //初显示
@@ -224,7 +229,7 @@
                             type: 'map',
                             mapType: map,
                             roam: false,
-                            zoom: 1.0,   //这里是关键，一定要放在 series中
+                            zoom: 1.1,   //这里是关键，一定要放在 series中
                             data: data,
                             nameMap: {
                                 '山西省': '山西省'
@@ -232,6 +237,7 @@
                             label: {
                                 normal: {
                                     show: true,
+									fontSize:20*that.scale,
                                 },
                                 emphasis: {
                                     show: true
@@ -244,13 +250,13 @@
                                     borderWidth: 1,
                                     label: {
                                         show: true,
-                                        color: '#1af7f1',
+                                        color: '#ffe754',
                                     },
                                 },
                                 emphasis: {
                                     label: {
                                         show: true,
-                                        color: '#1af7f1'
+                                        color: '#ffe754'
                                     },
                                     areaColor: '#2049ff',
                                 }
@@ -280,6 +286,9 @@
             }
         },
         mounted() {
+            clearInterval(counter);
+            counter = null;
+			this.getScale();
             this.pdFilter_btn();
             let that=this;
             let Index = {
@@ -287,8 +296,7 @@
                     this.loadData();
                     Public.chartsResize(that.chartsObj);
                     Public.chartsReDraw(that.chartsObj, null, [
-                        'mapChart'
-                    ], [])
+                    ], [],this.loadData)
                 },
                 loadData() {
                     that.mapChart();

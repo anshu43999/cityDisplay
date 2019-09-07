@@ -38,7 +38,13 @@
                 </div>
                 <div class="r-b-r">
                     <div class="chartBox">
-                        <div class="chart"  id="subClassChart12"> </div>
+                        <!-- <div class="chart"  id="subClassChart12"> </div> -->
+                        <table>
+                            <tr v-for="(item,index) in roseSource" :key="index">
+                                <td>{{item['name']}}</td>
+                                <td>{{item['value']}}%</td>
+                            </tr>
+                        </table>
 
                     </div>
 
@@ -118,6 +124,7 @@
                 activeBtn :0,   // tab  栏 active 样式
                 cityTypeNUm :[],
                 roseSource :[], // 南丁格尔玫瑰图 data
+                cityAnalyze:[9,18,27,36,45,54,63,72,81,90,99]  // 数组  用来处理 ui搞的漏斗图  ！！！
 
 
              };
@@ -136,9 +143,12 @@
             sevensjfx(xAxisData,chartContainer, sourceArr, colorList) {
                 let seriesArr = [];
                 let dateArr = xAxisData;
+                // console.log(dateArr);
+                console.log(sourceArr);
 
                 let myChart = this.$echarts.init(document.getElementById(chartContainer));
                 this.chartsObj[chartContainer] = myChart;
+
                 for (let i = 0; i < sourceArr.length; i++) {
                     seriesArr.push({
                         name: sourceArr[i].name,
@@ -154,8 +164,12 @@
                             normal: {
                                 color: new this.$echarts.graphic.LinearGradient(0, 1, 0, 0, [{
                                     offset: 0,
-                                    color: 'rgba(162,162,162,0.77)'
+                                    color: 'transparent'
                                 },
+                                    {
+                                        offset: 0.3,
+                                        color: 'transparent'
+                                    },
                                     {
                                         offset: 1,
                                         color: colorList[i]
@@ -171,17 +185,24 @@
 
                 }
                 let option = {
+                   
                     legend: {
                         textStyle: {
-                            fontSize: 12 * this.scale,
-                            color: function (params) {
-                                return colorList[params.dataIndex]
-                            }
+                            fontSize: 16 * this.scale,
+                            color: '#fff',
+                            width: 40,
                         },
-                        itemWidth: 12 * this.scale,
+                        icon: 'rect',
+                        itemWidth: 14 * this.scale,
                         itemHeight: 12 * this.scale,
-                        top:28,
+                        width: '85%',
+                        itemGap: 15 * this.scale,
+                        top : '5%',
                     },
+
+
+
+
                     xAxis: {
                         type: 'category',
                         splitLine: {
@@ -235,7 +256,7 @@
                     },
                     grid: {
                         top: 90 * this.scale,
-                        bottom: 90 * this.scale,
+                        bottom: 70 * this.scale,
                         left: 120 * this.scale
                     }
                 };
@@ -266,12 +287,30 @@
                         axisTick: {
                             show: false
                         },
-                        axisLabel: {
-                            show: true,
-                            interval : 0,
-                          
-                            fontSize: 16 * this.scale
+                         axisLabel: {
+                            showL: true,
+                            textStyle: {
+                                color: function(value, index) {
+                                    return colorList[index];
+                                },
+                            },
+                            interval: 0,
+                            formatter: function(value, index) {
+                                let type = index % 2 === 0 ? 'up' : 'down';
+                                return '{' + type + '|' + value + '}'
+                            },
+                            rich: {
+                                up: {
+                                    height: 20 * this.scale,
+                                    fontSize: 14 * this.scale
+                                },
+                                down: {
+                                    height: 60 * this.scale,
+                                    fontSize: 14 * this.scale
+                                }
+                            }
                         },
+
                         data: xData,
                     },
                     yAxis: {
@@ -328,9 +367,10 @@
                         }
                     },
                     grid: {
-                        top: 90 * this.scale,
-                        bottom: 90 * this.scale,
-                        left: 140 * this.scale
+                        left: '14%',
+                        right: '7%',
+                        bottom: '28%',
+                        top: '10%',
                     }
                 };
                 myChart.setOption(option);
@@ -338,121 +378,156 @@
             // 类型地市分析
             typeCity(){
                 let myChart = this.$echarts.init(document.getElementById('subClassChart11'));
-
+                var xData = [],
+                    yData = [];
+                var min = 0; 
+                this.cityTypeNUm.map(function(a, b) {
+                    xData.push(a.city);
+                    if (a.value === 0) {
+                        yData.push(a.value + min);
+                    } else {
+                        yData.push(a.value);
+                    }
+                });
                 let option = {
-                    xAxis: {
+                    // backgroundColor:"#111c4e",
+                    color: ['#3398DB'],
+                    tooltip: {
+                        trigger: 'axis',
+                        axisPointer: {
+                            type: 'line',
+                            lineStyle: {
+                                opacity: 0
+                            }
+                        },
+                        formatter: function(prams) {
+                            if (prams[0].data === min) {
+                                return  prams[1].name+"：0%"
+                            } else {
+                                // console.log(prams);
+                                return prams[1].name +"：" + prams[0].data 
+                            }
+                        }
+                    },
+                    legend: {
+                        data: ['直接访问', '背景'],
+                        show: false
+                    },
+                    grid: {
+                        left: '5%',
+                        right: '0%',
+                        bottom: '5%',
+                        top: '7%',
+                        height: '85%',
+                        containLabel: true,
+                        z: 22
+                    },
+                    xAxis: [{
                         type: 'category',
-                        axisLine: {
-                            lineStyle: {
-                                color: '#0199AD',
-                                width: '3'
-                            }
-                        },
+                        gridIndex: 0,
+                        data: xData,
                         axisTick: {
-                            show: false
-                        },
-                        axisLabel: {
-                            interval : 0,
-                            show: true,
-                            color: '#0199AD',
-                            fontSize: '16'
-                        },
-                        data: this.citySource1,
-                        axisTick:{
-                            show :false
-                        }
-                    },
-                    yAxis: {
-                        show: true,
-                        name:'',
-                        nameTextStyle:{
-                            color:'#fff',
-                            fontSize:24,
-                        },
-                        splitLine: {
-                            show: false
-                        },
-                        axisLabel: {
-                            show: true,
-                            color: '#0199AD',
-                            fontSize: '16'
+                            alignWithLabel: true
                         },
                         axisLine: {
                             lineStyle: {
-                                color: '#0199AD',
-                                width: '1'
+                                color: '#0c3b71'
                             }
                         },
-                        axisTick :{
-                            show :false
+                        axisLabel: {
+                            show: true,
+                            color: 'rgb(170,170,170)',
+                            fontSize:16 *this.scale
                         }
-                    },
-                    series: [
-                        {
-                            name: 'leftA',
-                            type: 'bar',
-                            barWidth: 17,
-                            itemStyle: {
-                                normal: {
-                                    color: '#00FCFF',
-                                    barBorderRadius: [0, 0, 0, 0],
-                                    opacity: '1'
-                                }
+                    }],
+                    yAxis: [{
+                            type: 'value',
+                            name:"",
+                            nameTextStyle:{
+                            //   color:"rgb(170,170,170)"  
                             },
-                            data: this.cityTypeNUm
-                        },
-                        {
-                            name: 'rightA',
-                            tooltip: {
+                            gridIndex: 0,
+                            splitLine: {
                                 show: false
                             },
-                            type: 'bar',
-                            barWidth: 17,
-                            itemStyle: {
-                                normal: {
-                                    color: '#017A7A',
-                                    barBorderRadius: [0, 0, 0, 0],
-                                    opacity: '1',
-                                    borderWidth: 1,
-                                    borderColor: '#00183F',
-                                }
-                            },
-                            data: this.cityTypeNUm,
-                            barGap: 0
-                        },
-                        {
-                            name: 'topA',
-                            tooltip: {
+                            axisTick: {
                                 show: false
                             },
-                            type: 'pictorialBar',
-                            itemStyle: {
-                                normal: {
-                                    color: '#00FCFF',
-                                    // borderWidth: 1,
-                                    borderColor: '#00183F',
-                                    opacity: '1',
-                                    shadowColor: 'rgb(0,0,0,0.1)',
-                                    shadowOffsetX: '0.5',
-                                    shadowOffsetY: '0.5'
+                            // min: min,
+                            // max: 100,
+                            axisLine: {
+                                lineStyle: {
+                                    // color: '#0c3b71'
                                 }
                             },
-                            label: {
-                                show: true,
-                                color: '#04F9FD',
-                                offset: [0, 0],
-                                position: 'top',
-                                fontSize: '16',
-                                fontWeight: 'normal'
-                            },
-                            symbol: 'rect',
-                            symbolRotate: 45,
-                            symbolSize: ['24', '24'],
-                            symbolOffset: ['0', '-12'],
-                            symbolPosition: 'end',
-                            data: this.cityTypeNUm,
-                            z: 3
+                            axisLabel: {
+                                color: 'rgb(170,170,170)',
+                                formatter: '{value}'
+                            }
                         },
+                        {
+                            type: 'value',
+                            gridIndex: 0,
+                            min: min,
+                            max: 100,
+                            splitNumber: 12,
+                            splitLine: {
+                                show: false
+                            },
+                            axisLine: {
+                                show: false
+                            },
+                            axisTick: {
+                                show: false
+                            },
+                            axisLabel: {
+                                show: false
+                            },
+                            splitArea: {
+                                show: false,
+                                areaStyle: {
+                                    color: ['rgba(250,250,250,0.0)', 'rgba(250,250,250,0.05)']
+                                }
+                            }
+                        }
+                    ],
+                    series: [{
+                            name: '合格率',
+                            type: 'bar',
+                            barWidth: '30%',
+                            xAxisIndex: 0,
+                            yAxisIndex: 0,
+                            itemStyle: {
+                                normal: {
+                                    barBorderRadius: 30,
+                                }
+                            },
+                            data: yData,
+                            zlevel: 11,
+                            
+                            label :{
+                                show :true,
+                                position:'top'
+                            }
+                        },
+                        
+                        {
+                            name: '背景',
+                            type: 'bar',
+                            barWidth: '50%',
+                            xAxisIndex: 0,
+                            yAxisIndex: 1,
+                            barGap: '-135%',
+                            data: [100, 100, 100, 100, 100, 100, 100,100, 100, 100, 100, 100, 100, 100,100],
+                            itemStyle: {
+                                normal: {
+                                    color: 'rgba(0,130,255,0.1)'
+                                }
+                            },
+                            zlevel: 9
+                        },
+                        
+                    
                     ]
                 };
                 myChart.setOption(option);
@@ -762,29 +837,8 @@
                         that.sevensjfx(that.xAxisData,'trendChart', that.trendChartSource, that.trendChartColor);  //近七日接警类型数据分析  
                         that.percent();  // 警情数据占比分析
                         that.typeCity();    //城市 类型分布
-                        that.roseMap();   // 玫瑰图
-
-
+                        // that.roseMap();   // 玫瑰图
                         // 这里  数据冲突  待调试
-
-                        if(that.show){
-                            // that.subclassBar('subClassChart1', that.subClassSource1, that.subClassColorList1);   //110报警
-                            // that.subclassBar('subClassChart2', that.subClassSource2, that.subClassColorList2);   //122报警
-                            // that.subclassBar('subClassChart3', that.subClassSource3, that.subClassColorList3);    //119报警
-                            // that.subclassBar('subClassChart4', that.subClassSource4, that.subClassColorList4);   //综合报警
-
-
-                        }else{
-                            // setTimeout(function () {
-                            //     that.subclassBar('subClassChart5', that.subClassSource1, that.subClassColorList1);
-                            //     that.subclassBar('subClassChart6', that.subClassSource2, that.subClassColorList2);
-                            //     that.subclassBar('subClassChart7', that.subClassSource3, that.subClassColorList3);
-                            //     that.subclassBar('subClassChart8', that.subClassSource4, that.subClassColorList4);
-                            //     that.subclassBar('subClassChart9', that.subClassSource5, that.subClassColorList5);
-                            //     that.subclassBar('subClassChart10', that.subClassSource6, that.subClassColorList6);
-                            // }, 100)
-
-                        }
                      
                         
                     },
@@ -832,18 +886,21 @@
 
                                 this.citySource.forEach((item,index)=>{
                                     console.log(item);
-                                    this.cityTypeNUm.push( this.tableData[firstChild][item])  ;
+                                    this.cityTypeNUm.push( {city :this.citySource1[index],value:parseInt(this.tableData[firstChild][item]),type : item });
                                     this.roseSource.push({name : item, value : this.tableData['rose'][firstChild][item]  })
+                                })
+                                this.roseSource.sort( function (a,b) {
+                                    return b.value - a.value;
                                 })
                                 // console.log(this.roseSource);
                                
                                 // 警情数据占比分析  proportionSource
                                 this.proportionSource = [
-                                    {name: '110报警', value: 12},
-                                    {name: '122报警', value: 5},
-                                    {name: '119报警', value: 21},
-                                    {name: '综合报警', value: 22},
-                                    {name: '其他接警类型', value: 10},
+                                    {name: '110报警', value: 0},
+                                    {name: '122报警', value: 0},
+                                    {name: '119报警', value: 0},
+                                    {name: '综合报警', value: 0},
+                                    {name: '其它接警类型', value: 10},
                                 ];
 
                                 let obj5 = this.tableData['proportion'];
@@ -855,7 +912,7 @@
                                 this.proportionSource[1]['value'] =  obj5['122报警'];
                                 this.proportionSource[2]['value'] =  obj5['119报警'];
                                 this.proportionSource[3]['value'] =  obj5['综合报警'];
-                                this.proportionSource[4]['value'] =  obj5['其他接警类型'];
+                                this.proportionSource[4]['value'] =  obj5['其它接警类型'];
 
                                 // 接警类型数据分析
 
@@ -881,7 +938,7 @@
                                     {name: '122报警', value: []},
                                     {name: '119报警', value: []},
                                     {name: '综合报警', value: []},
-                                    {name: '其他接警类型', value: []},
+                                    {name: '其它接警类型', value: []},
                                 ];
                                 let obj7 = this.tableData['sevenDays']
                                 for(let key in obj7){
@@ -914,9 +971,6 @@
                                     }
                                 }
 
-
-
-
                                 this.renderChart();
                             }
                         }.bind(this))
@@ -944,17 +998,20 @@
 
                                 this.citySource.forEach((item,index)=>{
                                     console.log(item);
-                                    this.cityTypeNUm.push( this.tableData[firstChild][item])  ;
+                                    this.cityTypeNUm.push( {city :this.citySource1[index],value:parseInt(this.tableData[firstChild][item]),type : item });
                                     this.roseSource.push({name : item, value : this.tableData['rose'][firstChild][item]  })
+                                })
+                                this.roseSource.sort( function (a,b) {
+                                    return b.value - a.value;
                                 })
 
                                 // 报警方式数据占比分析  proportionSource
                                 this.proportionSource = [
-                                    {name: '电话报警', value: 12},
-                                    {name: '来人来电报警', value: 5},
-                                    {name: '技防报警', value: 21},
-                                    {name: '短信报警', value: 22},
-                                    {name: '其他报警方式', value: 10},
+                                    {name: '电话报警', value: 0},
+                                    {name: '来人来电报警', value: 0},
+                                    {name: '技防报警', value: 0},
+                                    {name: '短信报警', value: 0},
+                                    {name: '其它报警方式', value: 0},
                                 ];
 
                                 let obj5 = this.tableData['proportion'];
@@ -963,10 +1020,10 @@
 
                                 // console.log(obj5['其他接警类型'])
                                 this.proportionSource[0]['value'] =  obj5['电话报警'];
-                                this.proportionSource[1]['value'] =  obj5['来人来电报警'];
+                                this.proportionSource[1]['value'] =  obj5['来人(来电)报警'];
                                 this.proportionSource[2]['value'] =  obj5['技防报警'];
                                 this.proportionSource[3]['value'] =  obj5['短信报警'];
-                                this.proportionSource[4]['value'] =  obj5['其他报警方式'];
+                                this.proportionSource[4]['value'] =  obj5['其它报警方式'];
 
                                 // 近七日接警类型数据分析
 
@@ -992,7 +1049,7 @@
                                     {name: '来人来电报警', value: []},
                                     {name: '技防报警', value: []},
                                     {name: '短信报警', value: []},
-                                    {name: '其他报警方式', value: []},
+                                    {name: '其它报警方式', value: []},
 
 
                                 ];
@@ -1004,7 +1061,7 @@
                                                 this.trendChartSource[0]['value'].push(item['jjsl']) ;
                                             })
                                             break;
-                                        case '来人来电报警':
+                                        case '来人(来电)报警':
                                             obj7[key].forEach((item,index)=>{
                                                 this.trendChartSource[1]['value'].push(item['jjsl']) ;
                                             })
@@ -1019,7 +1076,7 @@
                                                 this.trendChartSource[3]['value'].push(item['jjsl']) ;
                                             })
                                             break;
-                                        case '其他报警方式':
+                                        case '其它报警方式':
                                             obj7[key].forEach((item,index)=>{
                                                 this.trendChartSource[4]['value'].push(item['jjsl']) ;
                                             })
@@ -1060,8 +1117,11 @@
 
                                 this.citySource.forEach((item,index)=>{
                                     console.log(item);
-                                    this.cityTypeNUm.push( this.tableData[firstChild][item])  ;
+                                   this.cityTypeNUm.push( {city :this.citySource1[index],value:parseInt(this.tableData[firstChild][item]),type : item });
                                     this.roseSource.push({name : item, value : this.tableData['rose'][firstChild][item]  })
+                                })
+                                this.roseSource.sort( function (a,b) {
+                                    return b.value - a.value;
                                 })
 
 
@@ -1074,7 +1134,7 @@
                                     {name: '重复报警', value: 0},
                                     {name: '骚扰电话', value: 0},
                                     {name: '系统测试', value: 0},
-                                    {name: '其他来话类型', value: 0},
+                                    {name: '其它处理类型', value: 0},
                                 ];
 
                                 let obj5 = this.tableData['proportion'];
@@ -1088,7 +1148,7 @@
                                 this.proportionSource[3]['value'] =  obj5['重复报警'];
                                 this.proportionSource[4]['value'] =  obj5['骚扰电话'];
                                 this.proportionSource[5]['value'] =  obj5['系统测试'];
-                                this.proportionSource[6]['value'] =  obj5['其他来话类型'];
+                                this.proportionSource[6]['value'] =  obj5['其它处理类型'];
 
 
                                 // // 近七日接警类型数据分析
@@ -1117,7 +1177,7 @@
                                     {name: '重复报警', value: []},
                                     {name: '骚扰电话', value: []},
                                     {name: '系统测试', value: []},
-                                    {name: '其他来话类型', value: []}
+                                    {name: '其它处理类型', value: []}
                                 ];
                                 let obj7 = this.tableData['sevenDays']
                                 for(let key in obj7){
@@ -1152,7 +1212,7 @@
                                                 this.trendChartSource[5]['value'].push(item['jjsl']) ;
                                             })
                                             break;
-                                        case '其他来话类型':
+                                        case '其它处理类型':
                                             obj7[key].forEach((item,index)=>{
                                                 this.trendChartSource[6]['value'].push(item['jjsl']) ;
                                             })
@@ -1189,34 +1249,24 @@
                             this.roseSource = [];   
                             let num ;
                             if(this.tableData){
+                                console.log(this.tableData);
                                 this.citySource.forEach( (val,i)=>{
-                                    console.log(this.tableData[item])
-                                    this.cityTypeNUm.push( parseInt(this.tableData[item][val]) );
-                                    console.log(val);   //太原市大同市朔州市忻州市吕梁市晋中市
-                                    console.log(this.tableData['rose'][item]);
-
+                                    // console.log(this.tableData[item])
+                                    this.cityTypeNUm.push( {city :this.citySource1[i],value:parseInt(this.tableData[item][val]),type : item });
+                                    // console.log(val);   //太原市大同市朔州市忻州市吕梁市晋中市
+                                    // console.log(this.tableData['rose'][item]);
                                     this.roseSource.push({name : val, value : this.tableData['rose'][item][val]  })
-                                } )  
+                                } )
+                                this.roseSource.sort( function (a,b) {
+                                    return b.value - a.value;
+                                })
+                                // console.log(this.roseSource);  
+
                             }
                         }
                     })
                     this.typeCity();
-                    this.roseMap();
-                    
-
-                    //接警类型数据分析
-                    // this.leftList = this.tableData['type'];
-                    // let firstChild = this.leftList[0];   //找到初始
-                    // console.log(this.tableData[firstChild]);
-                    // // this.tableData[firstChild];
-                    // this.cityTypeNUm = [];  // y  数据清空\
-                    // this.roseSource = [];   
-
-                    // this.citySource.forEach((item,index)=>{
-                    //     console.log(item);
-                    //     this.cityTypeNUm.push( this.tableData[firstChild][item])  ;
-                    //     this.roseSource.push({name : item, value : this.tableData['rose'][firstChild][item]  })
-                    // })
+                    // this.roseMap();
 
                 }
             },
@@ -1231,6 +1281,8 @@
         },
 //生命周期 - 挂载完成（可以访问DOM元素）
         mounted() {
+            clearInterval(counter);
+            counter = null;
            
             this.pdFilter_btn();   // 判断筛选框是否显示
             this.getScale();    //获取缩放值
@@ -1282,33 +1334,24 @@
     }
 
     .r {
-        // width: 72.6%;
         width: 100%;
         height: 100%;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-
         .chart-wrap {
             width: 100%;
             height: 100%;
 
             .chartBox {
                 width: 100%;
-                // height: 14.87rem;
                 height: 90%;
-
-
-                
-
                 .chart {
                     width: 100%;
                     height: 100%;
-
                 }
             }
         }
-
         .r-t {
             width: 100%;
             height: 38.58%;
@@ -1317,7 +1360,7 @@
             justify-content: space-between;
 
             .r-t-l {
-                width: 44%;
+                width: 50%;
                 height: 100%;
                 background-image: url('../assets/images/index/l-t-bg1.png');
                 background-repeat: no-repeat;
@@ -1325,7 +1368,7 @@
             }
 
             .r-t-r {
-                width:56%;
+                width:50%;
                 height: 100%;
                 background-image: url('../assets/images/index/l-t-bg1.png');
                 background-repeat: no-repeat;
@@ -1336,10 +1379,9 @@
 
         .r-b {
             width: 100%;
-            height: 57.78%;
+            height: 57%;
             display: flex;
             flex-direction: column;
-            // justify-content: space-between;
             justify-content: flex-start;
             background-image: url('../assets/images/index/l-t-bg2.png');
             background-repeat: no-repeat;
@@ -1357,7 +1399,7 @@
                 .r-b-l{
                     width: 18%;
                     height: 100%;
-                    background: url('../assets/images/index/r-b-m-l.png');
+                    background: url('../assets/images/index/r-b-m-l.png'); // tab 背景
                     background-repeat: no-repeat;
                     background-size: 100% 100%; 
                     ul{
@@ -1377,7 +1419,7 @@
                     }
                 }
                 .r-b-m{
-                    width: 54%;
+                    width: 70%;
                     height: 100%;
                     .chartBox{
                         height: 100%;
@@ -1388,49 +1430,32 @@
                     }
                 }
                 .r-b-r{
-                    flex: 1;
+                    width: 30%;
                     height: 100%;
                     .chartBox{
                         .chart{
                             width: 100%;
                             height: 100%;
                         }
+                        table{
+                            width: 85%;
+                            height: 100%;
+                            margin-left:7.5%; 
+                            margin-right:7.5%; 
+                            tr{
+                                td:nth-child(1){
+                                    color: #5abcff;
+                                    text-align: center;
+                                }
+                                td:nth-child(2){
+                                    color: #ffe754 ;
+                                    text-align: center;
+                                }
+                            }
+                        }
                     }
                 }
 
-            }
-
-
-
-            .r-b-t, .r-b-b {
-                width: 100%;
-                height: 47.2%;
-                display: flex;
-                flex-direction: row;
-                justify-content: space-between;
-
-
-                .chartBox {
-                    width: 100%;
-                    height: 90%;
-                }
-
-                .r-b-t-l-1, .r-b-t-r-1, .r-b-b-l-1, .r-b-b-r-1 {
-                    width: 48.91%;
-                    height: 100%;
-                    background-image: url('../assets/images/index/l-t-bg.png');
-                    background-repeat: no-repeat;
-                    background-size: 100% 100%;
-                }
-
-                .r-b-t-l-2, .r-b-t-m-2, .r-b-t-r-2, .r-b-b-l-2, .r-b-b-r-2, .r-b-b-m-2 {
-                    width: 32%;
-                    height: 100%;
-                    // background: white;
-                    background-image: url('../assets/images/index/l-t-bg.png');
-                    background-repeat: no-repeat;
-                    background-size: 100% 100%;
-                }
             }
         }
     }

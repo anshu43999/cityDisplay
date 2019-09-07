@@ -30,15 +30,16 @@
     --c_highlightBlue: #1cb8f6;
     --c_mainWhite: #fff;
     --c_mainGray: #666;
-    // --c_bg: url(../images/bg.png);
-    //--c_bg: #a6a64b;
+    --c_bg: #030b1b;
+    // --c_bg: #a6a64b;
     --c_bg_chart: rgba(0, 138, 255, 0.1);
   }
 
   html, body {
     height: 100%;
     color: var(--c_mainWhite);
-    background-image: var(--c_bg);
+    // background-image: var(--c_bg);
+    // background-color: var(--c_bg);
     background-repeat: no-repeat;
     background-size: 100% 100%;
     overflow: hidden;

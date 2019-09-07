@@ -1,6 +1,6 @@
 /******************默认配置*************************/
 let settings = {
-    chartRefreshPeriod: 10,
+    chartRefreshPeriod: 1,
     designW: 1920,
     designH: 1080,
     zoomMode:'stretch',
@@ -8,7 +8,7 @@ let settings = {
 };
 /*******************保存配置************************/
 // localStorage.setItem('settings', JSON.stringify(settings));
-
+let counter;
 //字体缩放比例
 let scale = 1;
 let [pageH, pageW] = [$(window).height(), $(window).width()];
@@ -104,18 +104,23 @@ const Public = {
      * @param noRefresh 无需刷新的图表
      * @param someRefresh 指定要刷新的图表，有重复指定的图表时优先权高于noRefresh
      */
-    chartsReDraw(charts, t = settings.chartRefreshPeriod, noRefresh, someRefresh) {
-        // let counter = setInterval(() => {
-        //     Object.keys(charts).forEach(item => {
-        //         if (noRefresh && noRefresh.includes(item) && !(someRefresh && someRefresh.includes(item))) return;
-        //         let chart = charts[item];
-        //         let opt = chart.getOption();
-        //         chart.clear();
-        //         chart.setOption(opt);
-        //     })
-        // }, (t || settings.chartRefreshPeriod) * 1000)
+    chartsReDraw(charts, t = settings.chartRefreshPeriod, noRefresh, someRefresh,callBack) {
+        
+        counter = setInterval(() => {
+            Object.keys(charts).forEach(item => {
+                if (noRefresh && noRefresh.includes(item) && !(someRefresh && someRefresh.includes(item))) return;
+                let chart = charts[item];
+                let opt = chart.getOption();
+                chart.clear();
+                chart.setOption(opt);
+            })
+            if(callBack){
+                callBack();
+            }
+        }, (t || settings.chartRefreshPeriod) * 60000)
 
     },
+
     // 自定义方法
     initTools() {
         $.fn.extend({

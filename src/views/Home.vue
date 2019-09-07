@@ -37,7 +37,7 @@
                                     <span class="span2">报警总数</span>
                                     <span class="span3">有效警情</span>
                                 </li>
-                                <li v-for="(item,index) in  ranking"   :key="index" >
+                                <li v-for="(item,index) in  ranking" :key="index">
                                     <span class="span1 sp1">{{item['xzqhdm']}}</span>
                                     <span class="span2 sp2">{{item['jjsl']}}</span>
                                     <span class="span3 sp3">{{item['yxjq']}}</span>
@@ -67,8 +67,8 @@
 
                 <div class="r-t">
                     <div class="options">
-                        <div class="timer_btn"  @click="selectItem">
-                            <img class="iconBox"  data-id="jqfl" src='../assets/images/index/filter_time.png'>
+                        <div class="timer_btn" @click="selectItem">
+                            <img class="iconBox" data-id="jqfl" src='../assets/images/index/filter_time.png'>
                         </div>
                         <div data-id="jqfl" class="option">
                             <div class="filterTitle">
@@ -83,8 +83,8 @@
 
                     </div>
 
-                    <div class="chart-wrap" >
-                        <div @click="jump"  class="title_wrap" >警情分类数据分析</div>
+                    <div class="chart-wrap">
+                        <div @click="jump" class="title_wrap">警情分类数据分析</div>
                         <div class="chartBox">
                             <div class="chart" id="jqflsjfxChart"></div>
                         </div>
@@ -111,41 +111,53 @@
                             </div>
                         </div>
 
+                        <div>
+                            <div>
+                                <img class="iconBox" data-id="jjlx" src="../assets/images/index/childrenPage.png">
+                            </div>
+                            <div data-id="jjlx" class="option">
+                                <div class="filterTitle">
+                                    <div>页面跳转</div>
+                                </div>
+                                <ul class="filterItem" @click="selectItem">
+                                    <li v-for="item in periodArr2" :key="item">
+                                        <div data-id="jjlx">{{item}}</div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
 
 
                     </div>
 
+
                     <div :class="[showIndex === 1 ? 'showIndex' : 'disappear'    ,'chart-wrap']">
-                        <div @click="jump"  class="title_wrap">接警类型数据分析</div>
+                        <div @click="jump" class="title_wrap">接警类型数据详情</div>
                         <div class="chartBox">
                             <div class="chart" id="sevenjjlxsjfxChart"></div>
                         </div>
                     </div>
 
-                    <div :class="[showIndex === 2 ? 'showIndex' : 'disappear'    ,'chart-wrap']" >
-                        <div @click="jump"  class="title_wrap">报警方式数据分析</div>
+                    <div :class="[showIndex === 2 ? 'showIndex' : 'disappear'    ,'chart-wrap']">
+                        <div @click="jump" class="title_wrap">报警方式数据详情</div>
                         <div class="chartBox">
                             <div class="chart" id="sevenbjfssjfxChart"></div>
                         </div>
                     </div>
 
-                    <div  :class="[showIndex === 3 ? 'showIndex' : 'disappear'    ,'chart-wrap']">
-                        <div @click="jump"  class="title_wrap">来话类型数据分析</div>
+                    <div :class="[showIndex === 3 ? 'showIndex' : 'disappear'    ,'chart-wrap']">
+                        <div @click="jump" class="title_wrap">来话类型数据详情</div>
                         <div class="chartBox">
                             <div class="chart" id="sevenlhlxsjfxChart"></div>
                         </div>
                     </div>
 
 
-
-
-
                 </div>
 
             </div>
         </main>
-<!--         <my-setting></my-setting>-->
-
+<!--                 <my-setting :map-source="mapSource" :grading="grading"></my-setting>-->
 
 
     </div>
@@ -158,12 +170,12 @@
 
     export default {
         name: "Test",
-        components: {MyHeader,MySetting},
+        components: {MyHeader, MySetting},
         data() {
             return {
                 //今天的日期
                 todayIndex: '',
-                threeDaysAgo:'',
+                threeDaysAgo: '',
                 sevenDaysAgo: '',
                 // select: true,
                 // 接口
@@ -190,10 +202,10 @@
                 //筛选选项
                 periodArr: ['近7日', '上周', '上上周'],
                 periodArr1: ['今天', '昨天', '前天'],
-                periodArr2: ['警情数据分析详情', '报警方式数据详情', '来话类型数据分析'],
+                periodArr2: ['接警类型数据详情', '报警方式数据详情', '来话类型数据详情'],
 
                 //默认获取本周数据
-                jqfl: {date:'', per: ''},
+                jqfl: {date: '', per: ''},
                 jjlx: {start: '', end: '', per: ''},
                 lhlx: {start: '', end: '', per: ''},
                 bjfs: {start: '', end: '', per: ''},
@@ -211,8 +223,8 @@
                 ],
 
                 // 排名
-                ranking : [
-                    {},{},{},{},{},{},{},{},{},{},{}
+                ranking: [
+                    {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}
 
                 ],
 
@@ -222,7 +234,7 @@
                 // jqjqtjXdata: ['10-1', '10-2', '10-3', '10-4', '10-5', '10-6', '10-7'],
 
                 //    警情分类数据分析
-                jqflsjfxSource: [ ],
+                jqflsjfxSource: [],
                 grading: [0.2, 0.4, 0.6, 0.8, 1],
                 mapSource: [
                     {name: "太原市", value: 0, value1: 5000},
@@ -232,7 +244,7 @@
                     {name: "大同市", value: 0, value1: 4000},
                     {name: "晋城市", value: 0, value1: 3000},
                     {name: "晋中市", value: 0, value1: 3600},
-                    {name: "临汾市", value: 0, value1: 4000},
+                    {name: "临汾市", value: 0, value1: 100000},
                     {name: "忻州市", value: 0, value1: 4000},
                     {name: "阳泉市", value: 0, value1: 2000},
                     {name: "吕梁市", value: 0, value1: 1600},
@@ -242,20 +254,20 @@
                 jrjjlxsjfxSourceSource: [],
                 jrjjlxsjfxSourceColor: ['#05dbb0', '#00a3c0', '#4160fd', '#bd0fdc', '#803ff7'],
                 //    今日报警方式数据分析
-                jrbjfssjfxSource: [ ],
+                jrbjfssjfxSource: [],
                 jrbjfssjfxColor: ['#ffd75d', '#00a3c0', '#0d28a6', '#e344ff', '#6400cb'],
                 //    今日来话类型数据分析
-                jrrlhlxsjfxSource: [  ],
+                jrrlhlxsjfxSource: [],
                 jrrlhlxsjfxColor: ['#6c96ff', '#4160fb', '#2626e7', '#e344ff', '#00b3e9', '#803ff7', '#6905c6', '#17fff3'],
                 //    近七日接警类型数据分析
-                sevenjjlxsjfxSource: [ ],
+                sevenjjlxsjfxSource: [],
                 // sevenjjlxsjfxSource: {},
                 //    近七日报警方式数据分析
-                sevenbjfssjfxSource: [ ],
+                sevenbjfssjfxSource: [],
 
-                sevenlhlxsjfxSource: [  ],
-                showIndex :1,
-                rankShow : false,
+                sevenlhlxsjfxSource: [],
+                showIndex: 1,
+                rankShow: false,
                 // sevenlhlxsjfxSource:{}
             }
         },
@@ -276,9 +288,9 @@
                     [1, '#1af7f1']
                 ];
                 let option = {
-                    series: (function() {
+                    series: (function () {
                         let result = [];
-                        sourceArr.forEach(function(item, index) {
+                        sourceArr.forEach(function (item, index) {
                             result.push(
                                 // 外围仪表盘刻度与数字
                                 {
@@ -438,6 +450,7 @@
                                         length: '150%',
                                         width: '150%',
                                     },
+                                    tooltip: {},
                                     itemStyle: {
                                         normal: {
                                             color: 'transparent'
@@ -464,7 +477,7 @@
                         return result;
                     })(),
                     tooltip: {
-                        formatter: function(params) {
+                        formatter: function (params) {
                             return params.seriesName + '：' + params.data.value + '%';
                         }
                     },
@@ -535,15 +548,9 @@
                 myChart.setOption(option);
             },
             //    警情分类数据分析
-            jqflsjfxChart(Arr,brr,crr) {
+            jqflsjfxChart(Arr, brr, crr) {
                 let myChart = this.$echarts.init(document.getElementById('jqflsjfxChart'));
                 this.chartsObj.jqflsjfxChart = myChart;
-                let xData = [];
-                // let sourceArr = this.jqflsjfxSource;
-                // sourceArr.forEach(value => {
-                //     xData.push(value.name);
-                // });
-                // console.log(Arr);
                 let option = {
                     tooltip: {},
                     xAxis: {
@@ -559,36 +566,23 @@
                             show: true,
                             textStyle: {
                                 color: '#00d7d4',
-                                lineHeight: 24*this.scale,
-                                fontSize:14*this.scale,
+                                fontSize: 14 * this.scale,
                             },
-                            rotate : 30,
-                            interval:0,
-                            margin:24*this.scale,
-                            formatter: function (params) {
-                                let newParamsName = "";
-                                let paramsNameNumber = params.length;
-                                let provideNumber = 6;  //一行显示几个字
-                                let rowNumber = Math.ceil(paramsNameNumber / provideNumber);
-                                if (paramsNameNumber > provideNumber) {
-                                    for (let p = 0; p < rowNumber; p++) {
-                                        let tempStr = "";
-                                        let start = p * provideNumber;
-                                        let end = start + provideNumber;
-                                        if (p == rowNumber - 1) {
-                                            tempStr = params.substring(start, paramsNameNumber);
-                                        } else {
-                                            tempStr = params.substring(start, end) + "\n";
-                                        }
-                                        newParamsName += tempStr;
-                                    }
-
-                                } else {
-                                    newParamsName = params;
+                            interval: 0,
+                            formatter: function(value, index) {
+                                let type = index % 2 === 0 ? 'up' : 'down';
+                                // console.log(type);
+                                return '{' + type + '|' + value + '}'
+                            },
+                            rich: {
+                                up: {
+                                    height: 20 * this.scale,
+                                },
+                                down: {
+                                    height: 60 * this.scale,
                                 }
-                                return newParamsName
                             }
-                        }
+                        },
                     },
                     yAxis: {
                         splitLine: {
@@ -610,14 +604,16 @@
                         symbolSize: [20, 10],
                         symbolOffset: [0, -5],
                         z: 12,
+                        silent: true,
                         itemStyle: {
                             normal: {
                                 color: '#14b1eb'
                             }
                         },
-                        label:{
-                            show :true,
-                            position :'top',
+                        label: {
+                            show: true,
+                            position: 'top',
+                            fontSize: 16 * this.scale
                         },
                         data: crr
                     }, {
@@ -626,6 +622,7 @@
                         symbolSize: [20, 10],
                         symbolOffset: [0, 5],
                         z: 12,
+                        silent: true,
                         itemStyle: {
                             normal: {
                                 color: '#14b1eb'
@@ -640,11 +637,17 @@
                                 opacity: .7
                             }
                         },
-                        silent: true,
+                        // silent: true,
                         barWidth: 20,
                         barGap: '-100%', // Make series be overlap
-                        data:brr
-                    }]
+                        data: brr
+                    }],
+                    grid: {
+                        top: 40 * this.scale,
+                        bottom: 60 * this.scale,
+                        left: 40 * this.scale,
+                        right: 40 * this.scale
+                    }
                 };
                 myChart.setOption(option);
             },
@@ -663,7 +666,7 @@
                 });
                 that.data1 = data2;
                 //初显示   http://192.168.1.252:8082/dataDisplay/dictBJFSDMB/140000_full.json
-                this.$http.get(this.apiRoot +'dictBJFSDMB/getAll',{ params : {json : '140000_full'} }).then(res => {
+                this.$http.get(this.apiRoot + 'dictBJFSDMB/getAll', {params: {json: '140000_full'}}).then(res => {
                     if (res.status === 200) {
                         for (let i = 0; i < res.data.features.length; i++) {
                             cityObj[res.data.features[i].properties.name] = res.data.features[i].properties.adcode;
@@ -706,25 +709,25 @@
                             shading: 'realistic',//光照
                             light: {
                                 main: {//主光源设置
-                                    intensity: 2,//主光源强度
+                                    intensity: 0.7,//主光源强度
                                     shadow: false,//主光源是否投射阴影
                                     shadowQuality: 'low',//阴影的质量
                                     alpha: 120, //主光源绕 x 轴偏离的角度
-                                    beta: 190 //主光源绕 y 轴偏离的角度
+                                    beta: 190//主光源绕 y 轴偏离的角度
                                 },
                                 ambient: { //全局的环境光设置。
                                     intensity: 0//环境光的强度
                                 }
                             },
-                            boxWidth:100,
+                            boxWidth: 100,
                             viewControl: {//用于鼠标的旋转，缩放等视角控制
                                 distance: 250,//默认视角距离主体的距离
                                 panMouseButton: 'left',//平移操作使用的鼠标按键
                                 rotateMouseButton: 'left',//旋转操作使用的鼠标按键
                                 alpha: 60, // 让canvas在x轴有一定的倾斜角度
                                 // autoRotate : true,
-                                animation :true,
-                                panSensitivity :0,
+                                animation: true,
+                                panSensitivity: 0,
                             },
                             postEffect: {//后处理特效的相关配置，后处理特效可以为画面添加高光，景深，环境光遮蔽（SSAO），调色等效果。可以让整个画面更富有质感。
                                 enable: true,
@@ -748,8 +751,8 @@
                             },
                             itemStyle: {//三维图形的视觉属性
                                 color: '#2355ac',//地图颜色
-                                borderWidth: 1,
-                                borderColor: '#000'
+                                borderWidth: 1.2,
+                                borderColor: '#050324'
                             },
                             regionHeight: 10,
                             label: {
@@ -760,21 +763,33 @@
                                     },
                                     position: 'inside',
                                     textStyle: {
-                                        color: '#fff',
+                                        color: '#00b7c2',
                                         opacity: 1,                     // 字体透明度
                                         backgroundColor: 'transparent',
-                                        fontSize:20*that.scale
+                                        fontSize: 20 * that.scale,
+                                        borderColor:'#004c51',
+                                        fontWeight:'bold'
                                     }
                                 },
-                                emphasis: {
-                                    show: true
-                                }
                             },
+                            emphasis: {
+                                itemStyle: {//三维图形的视觉属性
+                                    color: '#50a0ea',
+                                    borderWidth: 1.2,
+                                    borderColor: '#050324'
+                                },
+                                label: {
+                                    textStyle: {
+                                        color: '#00b7c2',
+                                        borderColor:'#7f91ff',
+                                    }
+                                }
+                            }
                         },
                     ];
-                    option.tooltip={
-                        formatter:function (params) {
-                            return params.marker+params.data.name+'：'+params.data.value1
+                    option.tooltip = {
+                        formatter: function (params) {
+                            return params.marker + params.data.name + '：' + params.data.value1
                         }
                     };
                     // let color=['rgba(255,0,0,0.2)','rgba(255,0,0,0.4)','rgba(255,0,0,0.6)','rgba(255,0,0,0.8)','rgba(255,0,0,1)'];
@@ -783,33 +798,33 @@
                         pieces: [{
                             max: that.grading[0],
                             label: '一级',
-                            color: '#5ea2f5'
+                            color: '#ffeb74'
                         }, {
                             min: that.grading[0],
                             max: that.grading[1],
                             label: '二级',
-                            color: '#3d8bea',
+                            color: '#ffb94b',
                         }, {
                             min: that.grading[1],
                             max: that.grading[2],
                             label: '三级',
-                            color: '#2a5cc0',
+                            color: '#f5964a',
                         },
                             {
                                 min: that.grading[2],
                                 max: that.grading[3],
                                 label: '四级',
-                                color: '#0f07b0'
+                                color: '#f97126'
                             },
                             {
                                 min: that.grading[3],
                                 // max: that.grading[4],
                                 label: '五级',
-                                color: '#060086'
+                                color: '#ff5534'
                             }
                         ],
-                        left: 'right',
-                        top: 'bottom',
+                        right: 20 * that.scale,
+                        bottom: 20 * that.scale,
                         calculable: true,
                         seriesIndex: [1],
                         textStyle: {
@@ -833,99 +848,6 @@
              * @param sourceArr Arrary 数据数组
              * @param colorList Arrary 颜色数组
              * */
-            jrPieChart(chartContainer, sourceArr, colorList) {
-                let myChart = this.$echarts.init(document.getElementById(chartContainer));
-                this.chartsObj[chartContainer] = myChart;
-                let total = 0;
-                sourceArr.forEach(value => {
-                    total += value.value
-                });
-                let option = {
-                    tooltip: {},
-                    series: [{
-                        type: 'pie',
-                        radius: ['20%', '70%'],
-                        center: ['50%', '55%'],
-                        roseType: 'radius',
-                        label: {
-                            normal: {
-                                formatter: function (params) {
-                                    return params.name + '\n\n' + Math.round((params.value / total) * 100) + '%'
-                                },
-                                fontSize: 20 * this.scale
-                            },
-                            emphasis: {
-                                show: true
-                            }
-                        },
-                        itemStyle: {
-                            normal: {
-                                color: function (params) {
-                                    return colorList[params.dataIndex]
-                                },
-                                lineStyle: {
-                                    color: function (params) {
-                                        return colorList[params.dataIndex]
-                                    }
-                                },
-                            }
-                        },
-                        labelLine: {
-                            normal: {
-                                show: true,
-                                length: 5 * this.scale,
-                                length2: 10,
-                                align: 'bottom'
-                            },
-                            color: "#000",
-                            emphasis: {
-                                show: true
-                            }
-                        },
-                        data: sourceArr.sort(function (a, b) {
-                            return a.value - b.value;
-                        }),
-                    }, {
-                        name: '内圈',
-                        type: 'pie',
-                        radius: ['10%', '12%'],
-                        center: ['50%', '55%'],
-                        roseType: 'radius',
-                        label: {
-                            normal: {
-                                show: false
-                            },
-                            emphasis: {
-                                show: false
-                            }
-                        },
-                        lableLine: {
-                            normal: {
-                                show: false,
-                            },
-                            emphasis: {
-                                show: false
-                            }
-                        },
-                        itemStyle: {
-                            normal: {
-                                color: '#fff',
-                            },
-                            emphasis: {
-                                animation: false
-                            }
-                        },
-                        hoverAnimation: false,
-                        data: [
-                            {value: 10},
-                        ],
-                        tooltip: {
-                            show: false
-                        }
-                    }]
-                };
-                myChart.setOption(option);
-            },
             // 近七日接警类型数据分析、近七日报警方式数据分析、近七日来话类型数据分析
             sevensjfx1(chartContainer, sourceArr, colorList, dateArr) {
                 let seriesArr = [];
@@ -946,8 +868,12 @@
                             normal: {
                                 color: new this.$echarts.graphic.LinearGradient(0, 1, 0, 0, [{
                                     offset: 0,
-                                    color: 'rgba(162,162,162,0.77)'
+                                    color: 'transparent'
                                 },
+                                    {
+                                        offset: 0.3,
+                                        color: 'transparent'
+                                    },
                                     {
                                         offset: 1,
                                         color: colorList[i]
@@ -956,22 +882,23 @@
                             }
                         },
                         lineStyle: {
-                            width: 2
+                            width: 0.9
                         },
                         data: sourceArr[i].value
                     });
-
                 }
                 let option = {
                     legend: {
                         textStyle: {
-                            fontSize: 18 * this.scale,
-                            color: function (params) {
-                                return colorList[params.dataIndex]
-                            }
+                            fontSize: 14 * this.scale,
+                            color: '#fff',
+                            width: 40,
                         },
-                        itemWidth: 16 * this.scale,
-                        itemHeight: 16 * this.scale,
+                        icon: 'rect',
+                        itemWidth: 18 * this.scale,
+                        itemHeight: 14 * this.scale,
+                        width: '85%',
+                        itemGap: 25 * this.scale,
                     },
                     xAxis: {
                         type: 'category',
@@ -1027,7 +954,7 @@
                     grid: {
                         top: 90 * this.scale,
                         bottom: 30 * this.scale,
-                        left : 80 * this.scale,
+                        left: 80 * this.scale,
                     }
                 };
                 myChart.setOption(option);
@@ -1035,15 +962,15 @@
             // 跳转
             jump(e) {
                 let h3 = e.currentTarget;
-                console.log(h3.innerText)
+                // console.log(h3.innerText)
                 switch (h3.innerText) {
-                    case '接警类型数据分析':
+                    case '接警类型数据详情':
                         this.$router.push({name: '省接警类型数据分析', query: {title: '全省接警类型数据分析'}});
                         break;
-                    case '报警方式数据分析':
+                    case '报警方式数据详情':
                         this.$router.push({name: '省接警类型数据分析', query: {title: '全省报警方式数据分析'}});
                         break;
-                    case '来话类型数据分析':
+                    case '来话类型数据详情':
                         this.$router.push({name: '省接警类型数据分析', query: {title: '全省来话类型数据分析'}});
                         break;
                     case '警情分类数据分析':
@@ -1073,7 +1000,7 @@
             },
             //渲染图表
             renderChart() {
-                console.log(1);
+                // console.log(1);
                 let myCharts = document.querySelectorAll('.chart');
                 myCharts.forEach(value => {
                     this.refreshCharts.push(value.getAttribute('id'))
@@ -1085,7 +1012,7 @@
                         Public.chartsResize(that.chartsObj);
                         Public.chartsReDraw(that.chartsObj, null, [
                             ''
-                        ], that.refreshCharts)
+                        ], that.refreshCharts, this.loadData)
                     },
                     loadData() {
                         that.getJqtj(); //警情统计监测  左上角
@@ -1106,19 +1033,10 @@
             selectedItem() {
                 // console.log(this.period);
                 let item = document.querySelectorAll('.option>.filterItem');
-                // console.log(item);
+                console.log(item);
                 switch (this.jqfl.per) {
-                    case "week":
-                        item[0].firstChild.firstChild.classList.add('active');
-                        break;
-                    case "lastWeek":
-                        item[0].childNodes[1].childNodes[0].classList.add('active');
-                        break;
-                    case "halfYear":
-                        item[0].childNodes[2].childNodes[0].classList.add('active');
-                        break;
                     case "today":
-                        item[0].firstChild.firstChild.classList.add('active');
+                        item[0].childNodes[0].firstChild.classList.add('active');
                         break;
                     case "yesterday":
                         item[0].childNodes[1].firstChild.classList.add('active');
@@ -1131,7 +1049,7 @@
                 }
                 switch (this.jjlx.per) {
                     case "week":
-                        item[1].firstChild.firstChild.classList.add('active');
+                        item[1].childNodes[0].firstChild.classList.add('active');
                         break;
                     case "lastWeek":
                         item[1].childNodes[1].childNodes[0].classList.add('active');
@@ -1144,26 +1062,26 @@
                 }
                 switch (this.bjfs.per) {
                     case "week":
-                        item[2].firstChild.firstChild.classList.add('active');
+                        item[1].childNodes[0].firstChild.classList.add('active');
                         break;
                     case "lastWeek":
-                        item[2].childNodes[1].childNodes[0].classList.add('active');
+                        item[1].childNodes[1].childNodes[0].classList.add('active');
                         break;
                     case "halfYear":
-                        item[2].childNodes[2].childNodes[0].classList.add('active');
+                        item[1].childNodes[2].childNodes[0].classList.add('active');
                         break;
                     default:
                         console.log('false');
                 }
                 switch (this.lhlx.per) {
                     case "week":
-                        item[3].firstChild.firstChild.classList.add('active');
+                        item[1].childNodes[0].firstChild.classList.add('active');
                         break;
                     case "lastWeek":
-                        item[3].childNodes[1].childNodes[0].classList.add('active');
+                        item[1].childNodes[1].childNodes[0].classList.add('active');
                         break;
                     case "halfYear":
-                        item[3].childNodes[2].childNodes[0].classList.add('active');
+                        item[1].childNodes[2].childNodes[0].classList.add('active');
                         break;
                     default:
                         console.log('false');
@@ -1236,8 +1154,6 @@
                                 this['lhlx'].per = 'lastWeek';
 
 
-
-
                                 for (let i = 0; i < children.length; i++) {
                                     children[i].childNodes[0].classList.remove('active');
                                 }
@@ -1270,7 +1186,6 @@
                                 this['lhlx'].end = beforeSunday;
                                 this['lhlx'].start = beforeMonday;
                                 this['lhlx'].per = 'halfYear';
-
 
 
                                 for (let i = 0; i < children.length; i++) {
@@ -1319,19 +1234,18 @@
                                 e.target.classList.add('active');
                                 break;
 
-                            case '警情数据分析详情':
-                                console.log('警情数据分析详情');
 
+                            // periodArr2: ['接警类型数据详情', '报警方式数据详情', '来话类型数据详情'],
 
+                            case '接警类型数据详情':
+                                this.$router.push({name: '省接警类型数据分析', query: {title: '全省接警类型数据分析'}});
                                 break;
                             case '报警方式数据详情':
-                                console.log('报警方式数据详情')
+                                this.$router.push({name: '省接警类型数据分析', query: {title: '全省报警方式数据分析'}});
                                 break;
-                            case '来话类型数据分析':
-                                console.log('来话类型数据分析')
+                            case '来话类型数据详情':
+                                this.$router.push({name: '省接警类型数据分析', query: {title: '全省来话类型数据分析'}});
                                 break;
-
-
                             default:
                                 console.log('false');
                                 break;
@@ -1437,7 +1351,7 @@
                 })
                     .then(function (res) {
                         // console.log(res);
-                        console.log(res['data'][0]['jjsl']);
+                        // console.log(res['data'][0]['jjsl']);
                         // cjsl: 14020      //处警事件总数 // fksl: 7419   //反馈事件总数 // hb: 0      //环比
                         // jjsl: 18669    //报警事件总数 // yxjq: 4887  //有效警情总数
                         this.jqtjjcData[0]['value'] = res['data'][0]['jjsl'];
@@ -1454,7 +1368,7 @@
                         // 反馈事件占比
                         let sum3 = res['data'][0]['fksl'] / res['data'][0]['cjsl'];
 
-                        console.log(sum1,sum2,sum3);
+                        // console.log(sum1, sum2, sum3);
                         if (sum1 > 1) {
                             this.jqtjjcSource[0]['value'] = 100
                         } else {
@@ -1491,7 +1405,7 @@
                     // withCredentials: true,// 允许携带token ,这个是解决跨域产生的相关问题
                     crossDomain: true,
                     data: {
-                        startTime:  this.sevenDaysAgo,  //开始
+                        startTime: this.sevenDaysAgo,  //开始
                         endTime: this.todayIndex   //结束
                         // startTime: 20160909,  //开始
                         // endTime: 20160915     //结束
@@ -1527,7 +1441,7 @@
             },
             // 警情分类数据分析
             getFlsj() {
-                console.log(this.todayIndex);
+                // console.log(this.todayIndex);
                 let that = this;
                 this.$http({
                     method: 'post',
@@ -1548,7 +1462,7 @@
                     }
                 })
                     .then(function (res) {
-                        console.log(res);
+                        // console.log(res);
                         let arr = [];
                         let brr = [];
                         let crr = [];
@@ -1562,20 +1476,20 @@
                         //     value: 20,
                         //     symbolPosition: 'end'
                         // }]
-                        res.data.forEach((item,index) => {
+                        res.data.forEach((item, index) => {
                             // console.clear();
                             // console.log(item['name']);
-                            if(!item['fldmmc']){
-                                item['fldmmc']='其它';
+                            if (!item['fldmmc']) {
+                                item['fldmmc'] = '其它警情';
                             }
                             arr.push(item['fldmmc'])
                             brr.push(item['jjsl'])
-                            crr.push({ value : item['jjsl'], symbolPosition: 'end'  })
+                            crr.push({value: item['jjsl'], symbolPosition: 'end'})
                             // console.log(arr);
 
                         });
                         // console.log(crr);
-                        that.jqflsjfxChart(arr,brr,crr);
+                        that.jqflsjfxChart(arr, brr, crr);
                     })
             },
             // 地图
@@ -1601,14 +1515,14 @@
                     }
                 })
                     .then(function (res) {
-                        console.log(res);
-                        res['data'].forEach( (item,index)=>{
+                        // console.log(res);
+                        res['data'].forEach((item, index) => {
                             // console.log(item);
-                            that.ranking[index]['xzqhdm']  = item['xzqhdm'];
-                            that.ranking[index]['jjsl']  = item['jjsl'];
-                            that.ranking[index]['yxjq']  = item['yxjq'];
+                            that.ranking[index]['xzqhdm'] = item['xzqhdm'];
+                            that.ranking[index]['jjsl'] = item['jjsl'];
+                            that.ranking[index]['yxjq'] = item['yxjq'];
                             that.rankShow = true;
-                        } )
+                        })
                         res.data.map(item => {
                             item.name = item.xzqhdm + '市';
                             item.value = item.jjsl;
@@ -1694,28 +1608,28 @@
                     .then(function (res) {
                         // console.log(res.data);
                         // console.log(res.data.sevenDays);
-                        let s=JSON.parse(sessionStorage.getItem('jjlx'));
-                        let d=new Date(s.start.slice(0,4)+'-'+s.start.slice(4,6)+'-'+s.start.slice(6,8)).getTime();
-                        let dateArr1=[];
-                        for (let i=0;i<7;i++){
-                            let t=d+i* 24 * 60 * 60 * 1000;
-                            let d1=new Date(t);
+                        let s = JSON.parse(sessionStorage.getItem('jjlx'));
+                        let d = new Date(s.start.slice(0, 4) + '-' + s.start.slice(4, 6) + '-' + s.start.slice(6, 8)).getTime();
+                        let dateArr1 = [];
+                        for (let i = 0; i < 7; i++) {
+                            let t = d + i * 24 * 60 * 60 * 1000;
+                            let d1 = new Date(t);
                             dateArr1.push(
-                                d1.getFullYear().toString()+
-                                (d1.getMonth()+1).toString().padStart(2, '0')+
+                                d1.getFullYear().toString() +
+                                (d1.getMonth() + 1).toString().padStart(2, '0') +
                                 d1.getDate().toString().padStart(2, '0')
                             );
                         }
                         // console.log(dateArr1);
                         // console.log(res.data.sevenDays);
-                        let data1=[];
-                        let data2=[];
-                        for (let i in res.data.sevenDays){
+                        let data1 = [];
+                        let data2 = [];
+                        for (let i in res.data.sevenDays) {
                             // console.log(i);
                             data1.push(...res.data.sevenDays[i]);
-                            if(res.data.sevenDays[i].length<7){
-                                for (let j=0;j<7;j++){
-                                    data2.push({tjrq:dateArr1[j],jjlxdm:i});
+                            if (res.data.sevenDays[i].length < 7) {
+                                for (let j = 0; j < 7; j++) {
+                                    data2.push({tjrq: dateArr1[j], jjlxdm: i});
                                 }
                                 // console.log(i);
                                 // delete res.data.sevenDays[i]
@@ -1724,7 +1638,13 @@
                             // console.log(i);
                         }
                         data1.push(...data2);
-                        res.data=data1;
+                        // for (let i=0;i<data1.length;i++){
+                        //     let reg=".*其它.*";
+                        //     if (data1[i].bjfsdm.matches(reg)){
+                        //         console.log(data1[i]);
+                        //     }
+                        // }
+                        res.data = data1;
                         let r = [];
                         let narr = [];
                         for (let i = 0; i < res.data.length; i++) {
@@ -1872,32 +1792,37 @@
                     }
                 })
                     .then(function (res) {
-                        let s=JSON.parse(sessionStorage.getItem('bjfs'));
-                        let d=new Date(s.start.slice(0,4)+'-'+s.start.slice(4,6)+'-'+s.start.slice(6,8)).getTime();
-                        let dateArr1=[];
-                        for (let i=0;i<7;i++){
-                            let t=d+i* 24 * 60 * 60 * 1000;
-                            let d1=new Date(t);
+                        let s = JSON.parse(sessionStorage.getItem('bjfs'));
+                        let d = new Date(s.start.slice(0, 4) + '-' + s.start.slice(4, 6) + '-' + s.start.slice(6, 8)).getTime();
+                        let dateArr1 = [];
+                        for (let i = 0; i < 7; i++) {
+                            let t = d + i * 24 * 60 * 60 * 1000;
+                            let d1 = new Date(t);
                             dateArr1.push(
-                                d1.getFullYear().toString()+
-                                (d1.getMonth()+1).toString().padStart(2, '0')+
+                                d1.getFullYear().toString() +
+                                (d1.getMonth() + 1).toString().padStart(2, '0') +
                                 d1.getDate().toString().padStart(2, '0')
                             );
                         }
-                        let data1=[];
-                        let data2=[];
-                        for (let i in res.data.sevenDays){
+                        let data1 = [];
+                        let data2 = [];
+                        for (let i in res.data.sevenDays) {
                             data1.push(...res.data.sevenDays[i]);
-                            if(res.data.sevenDays[i].length<7){
-                                for (let j=0;j<7;j++){
-                                    data2.push({tjrq:dateArr1[j],bjfsdm:i});
+                            if (res.data.sevenDays[i].length < 7) {
+                                for (let j = 0; j < 7; j++) {
+                                    data2.push({tjrq: dateArr1[j], bjfsdm: i});
                                 }
-                                // console.log(i);
-                                // delete res.data.sevenDays[i]
                             }
                         }
-                        data1.push(...data2);
-                        res.data=data1;
+                        // data1.forEach((value, index) => {
+                        //     if (value.bjfsdm.slice(0, 2) === '其它' || value.bjfsdm.slice(0, 2) === '其他') {
+                        //         console.log(value.bjfsdm);
+                        //         let v = value;
+                        //         // delete value;
+                        //     }
+                        // });
+                        // data1.push(...data2);
+                        res.data = data1;
                         let r = [];
                         let narr = [];
                         for (let i = 0; i < res.data.length; i++) {
@@ -1942,7 +1867,6 @@
                         }
                         that.sevensjfx1('sevenbjfssjfxChart', narr1, that.jrbjfssjfxColor, dateArr);
                     })
-
             },
 
             // 今日来话类型数据分析
@@ -2005,31 +1929,31 @@
                 })
                     .then(function (res) {
                         // console.log(res);
-                        let s=JSON.parse(sessionStorage.getItem('jjlx'));
-                        let d=new Date(s.start.slice(0,4)+'-'+s.start.slice(4,6)+'-'+s.start.slice(6,8)).getTime();
-                        let dateArr1=[];
-                        for (let i=0;i<7;i++){
-                            let t=d+i* 24 * 60 * 60 * 1000;
-                            let d1=new Date(t);
+                        let s = JSON.parse(sessionStorage.getItem('jjlx'));
+                        let d = new Date(s.start.slice(0, 4) + '-' + s.start.slice(4, 6) + '-' + s.start.slice(6, 8)).getTime();
+                        let dateArr1 = [];
+                        for (let i = 0; i < 7; i++) {
+                            let t = d + i * 24 * 60 * 60 * 1000;
+                            let d1 = new Date(t);
                             dateArr1.push(
-                                d1.getFullYear().toString()+
-                                (d1.getMonth()+1).toString().padStart(2, '0')+
+                                d1.getFullYear().toString() +
+                                (d1.getMonth() + 1).toString().padStart(2, '0') +
                                 d1.getDate().toString().padStart(2, '0')
                             );
                         }
                         // console.log(res.data.sevenDays);
-                        let data1=[];
-                        let data2=[];
-                        for (let i in res.data.sevenDays){
+                        let data1 = [];
+                        let data2 = [];
+                        for (let i in res.data.sevenDays) {
                             data1.push(...res.data.sevenDays[i]);
-                            if(res.data.sevenDays[i].length<7){
-                                for (let j=0;j<7;j++){
-                                    data2.push({tjrq:dateArr1[j],lhlxdm:i});
+                            if (res.data.sevenDays[i].length < 7) {
+                                for (let j = 0; j < 7; j++) {
+                                    data2.push({tjrq: dateArr1[j], lhlxdm: i});
                                 }
                             }
                         }
                         data1.push(...data2);
-                        res.data=data1;
+                        res.data = data1;
                         let r = [];
                         let narr = [];
                         for (let i = 0; i < res.data.length; i++) {
@@ -2081,31 +2005,31 @@
                 let date = new Date();
                 this.todayIndex = date.getFullYear().toString() + (date.getMonth() + 1).toString().padStart(2, '0') + date.getDate().toString().padStart(2, '0');
                 let timestamp = date.getTime();
-                let day1=timestamp-2 * 24 * 60 * 60 * 1000;
+                let day1 = timestamp - 2 * 24 * 60 * 60 * 1000;
                 let day = timestamp - 6 * 24 * 60 * 60 * 1000;
-                let date1=new Date(day1);
-                this.threeDaysAgo=date1.getFullYear().toString() + (date1.getMonth() + 1).toString().padStart(2, '0') + date1.getDate().toString().padStart(2, '0');
+                let date1 = new Date(day1);
+                this.threeDaysAgo = date1.getFullYear().toString() + (date1.getMonth() + 1).toString().padStart(2, '0') + date1.getDate().toString().padStart(2, '0');
                 let date2 = new Date(day);
                 this.sevenDaysAgo = date2.getFullYear().toString() + (date2.getMonth() + 1).toString().padStart(2, '0') + date2.getDate().toString().padStart(2, '0');
             },
 
 
             // 开始轮播
-            goSwiper(){
-                let that  = this
-                let timer = setInterval(function(){
-                    that.showIndex ++;
-                    if(that.showIndex === 4) {
+            goSwiper() {
+                let that = this
+                let timer = setInterval(function () {
+                    that.showIndex++;
+                    if (that.showIndex === 4) {
                         that.showIndex = 1;
                     }
-                },10000)
+                }, 10000)
             }
         },
         mounted() {
             this.getDate();
             this.setperiod();
             this.getScale();
-            // this.selectedItem();
+            this.selectedItem();
             this.renderChart();
             this.goSwiper();
         }
@@ -2124,8 +2048,8 @@
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        margin-top:1rem;
-        margin-bottom:.6rem;
+        margin-top: 1rem;
+        margin-bottom: .6rem;
 
 
         h3 {
@@ -2172,7 +2096,7 @@
             width: 30%;
             display: flex;
             flex-direction: column;
-            justify-content:space-around;
+            justify-content: space-around;
 
             .l-t {
                 height: 45%;
@@ -2181,6 +2105,10 @@
                 background-repeat: no-repeat;
                 background-size: 100% 100%;
                 // margin-bottom:3.3%;
+                .title_wrap {
+                    padding-left: 1.2rem;
+                    box-sizing: border-box;
+                }
             }
 
             .l-m {
@@ -2198,28 +2126,40 @@
                 background-size: 100% 100%;
                 // margin-bottom:3.3%;
                 position: relative;
-                .chartBox{
+
+                .title_wrap {
+                    padding-left: 1.2rem;
+                    box-sizing: border-box;
+                    margin-top: -0.5rem;
+                }
+
+                .chartBox {
                     padding: 2% 12% 0;
-                    ul{
-                        li{
-                            margin: .3rem 0 ;
+
+                    ul {
+                        li {
+                            margin: .3rem 0;
                             display: flex;
                             justify-content: space-between;
-                            span{
+
+                            span {
                                 width: 20%;
                                 text-align: center;
                                 font-size: 1.2rem;
                             }
-                            .sp1{
-                                color : #5abcff;
+
+                            .sp1 {
+                                color: #5abcff;
 
                             }
-                            .sp2{
+
+                            .sp2 {
                                 color: #ffe754;
 
                             }
-                            .sp3{
-                                color:  #5ae6ff;
+
+                            .sp3 {
+                                color: #5ae6ff;
 
                             }
 
@@ -2242,11 +2182,13 @@
                     margin: 3% 10% 0;
                     display: flex;
                     justify-content: space-around;
+
                     li {
                         p {
                             text-align: center;
                             color: #ffe754;
                             letter-spacing: 2px;
+
                             &:first-child {
                                 margin-bottom: 1rem;
                                 color: #ffffff;
@@ -2284,7 +2226,7 @@
 
 
             //标题
-            .title_wrap{
+            .title_wrap {
                 height: 12%;
                 display: flex;
                 align-items: center;
@@ -2297,6 +2239,7 @@
                 -webkit-text-fill-color: transparent;
 
             }
+
             // > h3 {
             //     height: 15%;
             //     text-align: center;
@@ -2312,12 +2255,13 @@
             width: 32%;
             background-image: url('../assets/images/index/m1.png');
             background-repeat: no-repeat;
-            background-size: 100% 100%; 
+            background-size: 100% 100%;
 
-            .chart-wrap{
+            .chart-wrap {
                 width: 100%;
                 height: 100%;
-                .chartBox{
+
+                .chartBox {
                     padding: 5%;
                 }
             }
@@ -2343,6 +2287,7 @@
                         transform-origin: left;
                         color: #ffffff;
                         font-size: 2rem;
+                        letter-spacing: 0.3rem;
                     }
                 }
             }
@@ -2356,7 +2301,6 @@
             justify-content: space-around;
 
 
-
             .r-t {
                 width: 100%;
                 height: 48%;
@@ -2364,26 +2308,33 @@
                 background-repeat: no-repeat;
                 background-size: 100% 100%;
                 position: relative;
-                .options{
+
+                .title_wrap {
+                    padding-left: 2.2rem;
+                    box-sizing: border-box;
+                }
+
+                .options {
                     z-index: 999999;
                     display: flex;
                     flex-direction: row-reverse;
                     position: absolute;
-                    width : 6rem;
-                    height : 2.6rem;
+                    width: 6rem;
+                    height: 2.6rem;
                     // background: #ffffff;
-                    right:8%;
-                    top:-6%;
+                    right: 8%;
+                    top: -6%;
                     // >div{
                     //     cursor: pointer;
                     //     width : 3rem;
                     //     height :2.6rem;
                     // }
-                    .timer_btn{
+                    .timer_btn {
                         width: 2rem;
                         height: 2rem;
                         cursor: pointer;
-                        img{
+
+                        img {
                             width: 100%;
                             height: 100%;
                         }
@@ -2408,7 +2359,7 @@
                             left: 0;
                             right: 0;
                             margin: auto;
-                            height: 16%;
+                            height: 18%;
 
                             div {
                                 width: 167%;
@@ -2470,11 +2421,13 @@
                         }
                     }
                 }
-                .chart-wrap{
-                    .title_wrap{
+
+                .chart-wrap {
+                    .title_wrap {
                         cursor: pointer;
                     }
-                    .chartBox{
+
+                    .chartBox {
                         height: 88%;
                         padding-bottom: 2.5rem;
                         padding-left: .2rem;
@@ -2492,20 +2445,29 @@
                 background-image: url('../assets/images/index/r-b.png');
                 background-repeat: no-repeat;
                 background-size: 100% 100%;
-                .options{
+
+                .title_wrap {
+                    padding-left: 2.2rem;
+                    box-sizing: border-box;
+                    margin-top: -0.3rem;
+                }
+
+                .options {
                     z-index: 999999;
                     display: flex;
                     position: absolute;
-                    width : 3rem;
-                    height : 2.6rem;
+                    width: 3rem;
+                    height: 2.6rem;
                     // background: #ffffff;
-                    right:8%;
-                    top:-6%;
-                    div{
+                    right: 8%;
+                    top: -6%;
+
+                    div {
                         width: 2rem;
                         height: 2rem;
                     }
-                    .iconBox{
+
+                    .iconBox {
                         cursor: pointer;
                         width: 100%;
                         height: 100%;
@@ -2529,7 +2491,8 @@
                             left: 0;
                             right: 0;
                             margin: auto;
-                            height: 16%;
+                            height: 17%;
+                            width: 100%;
 
                             div {
                                 width: 167%;
@@ -2591,26 +2554,31 @@
                         }
                     }
                 }
-                .chart-wrap{
+
+                .chart-wrap {
                     width: 100%;
                     height: 100%;
                     position: absolute;
                     left: 0;
                     top: 0;
-                    .title_wrap{
+
+                    .title_wrap {
                         cursor: pointer;
                     }
-                    .chartBox{
+
+                    .chartBox {
                         padding: 3% 5% 15%;
                     }
                 }
+
                 .showIndex {
                     z-index: 99999;
-                    opacity :1
+                    opacity: 1
                 }
-                .disappear{
+
+                .disappear {
                     z-index: -1;
-                    opacity : 0
+                    opacity: 0
                 }
 
             }

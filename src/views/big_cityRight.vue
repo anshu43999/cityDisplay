@@ -2,15 +2,15 @@
 <template>
     <div class='r'>
         <div class="r-t">
-            <div class="chart-wrap">
+            <div class="r-t-l">
                 <div class="title_wrap">{{this.chartTitle[0]}}</div>
                 <div class="chartBox">
-                    <div class="chart" id="jqflsjfxChart"></div>
+                    <div class="chart" id="jqflsjfxChart13"></div>
                 </div>
             </div>
 
 
-            <div class="chart-wrap">
+            <div class="r-t-r">
                 <div class="title_wrap">{{this.chartTitle[1]}}</div>
                 <div class="chartBox">
                     <div class="chart" id="proportionChart"></div>
@@ -209,140 +209,178 @@
             // 左一
 
             //    警情分类数据分析
-
+            // leftTopBy
             jqflsjfxChart() {
-                // this.leftTopAgin   = this.leftTop ;
-                // leftTop : [],
-                // leftTopy :[],
-                // leftTopBy : [],
-                let  Arr = [];
-                console.log(this.leftTop);
-                this.leftTop.forEach( (item,index)=>{
-                    console.log(item);
-                    if(item !== ' ' ){
-                        Arr.push(item);
+                let myChart = this.$echarts.init(document.getElementById('jqflsjfxChart13'));
+                var xData = [],
+                    yData = [];
+                var min = 0; 
+                this.leftTopBy.map(function(a, b) {
+                    xData.push(a.city);
+                    if (a.value === 0) {
+                        yData.push(a.value + min);
+                    } else {
+                        yData.push(a.value);
                     }
-                } )
-                console.log(Arr);
-
-
-
-                let brr = this.leftTopy;
-                let crr = this.leftTopBy;
-                // console.log(Arr);
-                // Arr.shift();
-                // console.log(Arr);
-                
-                let myChart = this.$echarts.init(document.getElementById('jqflsjfxChart'));
-                this.chartsObj.jqflsjfxChart = myChart;
-                let xData = [];
-                // let sourceArr = this.jqflsjfxSource;
-                // sourceArr.forEach(value => {
-                //     xData.push(value.name);
-                // });
-                // console.log(Arr);
+                });
                 let option = {
-                    tooltip: {},
-                    xAxis: {
-                        data: Arr,
-                        // "行政(治安)", "交通类",'消防救援','群众求助','应急联动事件（非警情事件）','群体事件','纠纷','灾害事故','举报','投诉监督','其它警情'       
+                    // backgroundColor:"#111c4e",
+                    color: ['#3398DB'],
+                    tooltip: {
+                        trigger: 'axis',
+                        axisPointer: {
+                            type: 'line',
+                            lineStyle: {
+                                opacity: 0
+                            }
+                        },
+                        formatter: function(prams) {
+                            if (prams[0].data === min) {
+                                return  prams[1].name+"：0%"
+                            } else {
+                                // console.log(prams);
+                                return prams[1].name +"：" + prams[0].data 
+                            }
+                        }
+                    },
+                    legend: {
+                        data: ['直接访问', '背景'],
+                        show: false
+                    },
+                    grid: {
+                        left: '7%',
+                        right: '7%',
+                        bottom: '20%',
+                        top: '7%',
+                        containLabel: true,
+                        z: 22
+                    },
+                    xAxis: [{
+                        type: 'category',
+                        gridIndex: 0,
+                        data: xData,
+                        
                         axisTick: {
-                            show: false
+                            show:false,
+                            alignWithLabel: true
                         },
                         axisLine: {
-                            show: false
+                            show : false,
+                            lineStyle: {
+                                color: '#0c3b71'
+                            }
                         },
+
                         axisLabel: {
                             show: true,
-                            textStyle: {
-                                color: '#00d7d4',
-                                lineHeight: 20,
+                            color: this.axisesColor,
+                            fontSize:14 *this.scale,
+                            interval: 0,
+                            formatter: function(value, index) {
+                                let type = index % 2 === 0 ? 'up' : 'down';
+                                return '{' + type + '|' + value + '}'
                             },
-                            rotate : 45,
-                            // margin:40
-                            formatter: function (params) {
-                                let newParamsName = "";
-                                let paramsNameNumber = params.length;
-                                let provideNumber = 5;  //一行显示几个字
-                                let rowNumber = Math.ceil(paramsNameNumber / provideNumber);
-                                if (paramsNameNumber > provideNumber) {
-                                    for (let p = 0; p < rowNumber; p++) {
-                                        let tempStr = "";
-                                        let start = p * provideNumber;
-                                        let end = start + provideNumber;
-                                        if (p == rowNumber - 1) {
-                                            tempStr = params.substring(start, paramsNameNumber);
-                                        } else {
-                                            tempStr = params.substring(start, end) + "\n";
-                                        }
-                                        newParamsName += tempStr;
-                                    }
-
-                                } else {
-                                    newParamsName = params;
+                            rich: {
+                                up: {
+                                    height: 20 * this.scale,
+                                    fontSize: 14 * this.scale
+                                },
+                                down: {
+                                    height: 60 * this.scale,
+                                    fontSize: 14 * this.scale
                                 }
-                                return newParamsName
-                            }
+                            }  
                         }
-                    },
-                    yAxis: {
-                        splitLine: {
-                            show: false
-                        },
-                        axisTick: {
-                            show: false
-                        },
-                        axisLine: {
-                            show: false
-                        },
-                        axisLabel: {
-                            show: false
-                        }
-                    },
-                    series: [{
-                        name: '',
-                        type: 'pictorialBar',
-                        symbolSize: [20, 10],
-                        symbolOffset: [0, -5],
-                        z: 12,
-                        itemStyle: {
-                            normal: {
-                                color: '#14b1eb'
-                            }
-                        },
-                        label:{
-                            show :true,
-                            position :'top',
-                        },
-                        data: crr
-                    }, {
-                        name: '',
-                        type: 'pictorialBar',
-                        symbolSize: [20, 10],
-                        symbolOffset: [0, 5],
-                        z: 12,
-                        itemStyle: {
-                            normal: {
-                                color: '#14b1eb'
-                            }
-                        },
-                        data: brr
-                    }, {
-                        type: 'bar',
-                        itemStyle: {
-                            normal: {
-                                color: '#14b1eb',
-                                opacity: .7
-                            }
-                        },
-                        silent: true,
-                        barWidth: 20,
-                        barGap: '-100%', // Make series be overlap
-                        data:brr
                     }],
-                    grid : {
-                        bottom: 40 + '%',
-                    }
+                    yAxis: [{
+                            type: 'value',
+                            name:"",
+                            nameTextStyle:{
+                            //   color:"rgb(170,170,170)"  
+                            },
+                            gridIndex: 0,
+                            splitLine: {
+                                show: false
+                            },
+                            axisTick: {
+                                show: false
+                            },
+                            // min: min,
+                            // max: 100,
+                            axisLine: {
+                                lineStyle: {
+                                    color: this.axisesColor
+                                }
+                            },
+                            axisLabel: {
+                                color: this.axisesColor,
+                                formatter: '{value}'
+                            }
+                        },
+                        {
+                            type: 'value',
+                            gridIndex: 0,
+                            min: min,
+                            max: 100,
+                            splitNumber: 12,
+                            splitLine: {
+                                show: false
+                            },
+                            axisLine: {
+                                show: false
+                            },
+                            axisTick: {
+                                show: false
+                            },
+                            axisLabel: {
+                                show: false
+                            },
+                            splitArea: {
+                                show: false,
+                                areaStyle: {
+                                    color: ['rgba(250,250,250,0.0)', 'rgba(250,250,250,0.05)']
+                                }
+                            }
+                        }
+                    ],
+                    series: [{
+                            name: '合格率',
+                            type: 'bar',
+                            barWidth: '30%',
+                            xAxisIndex: 0,
+                            yAxisIndex: 0,
+                            itemStyle: {
+                                normal: {
+                                    barBorderRadius: 30,
+                                }
+                            },
+                            data: yData,
+                            zlevel: 11,
+                            
+                            label :{
+                                show :true,
+                                position:'top'
+                            }
+                        },
+                        
+                        {
+                            name: '背景',
+                            type: 'bar',
+                            barWidth: '50%',
+                            xAxisIndex: 0,
+                            yAxisIndex: 1,
+                            barGap: '-135%',
+                            data: [100, 100, 100, 100, 100, 100, 100,100, 100, 100, 100, 100, 100, 100,100],
+                            itemStyle: {
+                                normal: {
+                                    color: 'rgba(0,130,255,0.1)'
+                                }
+                            },
+                            zlevel: 9
+                        },
+                        
+                    
+                    ]
                 };
                 myChart.setOption(option);
             },
@@ -355,7 +393,7 @@
             percent() {
                 let myChart = this.$echarts.init(document.getElementById('proportionChart'));
                 this.chartsObj['proportionChart'] = myChart;
-                let colorList = this.proportionColor;
+                let colorList = this.trendChartColor;
                 let xData = [];
                 let sourceArr = this.proportionSource;
                 sourceArr.forEach(value => {
@@ -377,10 +415,27 @@
                             show: false
                         },
                         axisLabel: {
-                            show: true,
-                            interval : 0,
-                          
-                            fontSize: 16 * this.scale
+                            showL: true,
+                            textStyle: {
+                                color: function(value, index) {
+                                    return colorList[index];
+                                },
+                            },
+                            interval: 0,
+                            formatter: function(value, index) {
+                                let type = index % 2 === 0 ? 'up' : 'down';
+                                return '{' + type + '|' + value + '}'
+                            },
+                            rich: {
+                                up: {
+                                    height: 20 * this.scale,
+                                    fontSize: 14 * this.scale
+                                },
+                                down: {
+                                    height: 60 * this.scale,
+                                    fontSize: 14 * this.scale
+                                }
+                            }
                         },
                         data: xData,
                     },
@@ -401,7 +456,7 @@
                         axisLabel: {
                             show: true,
                             formatter: '{value} %',
-                            fontSize: 20 * this.scale
+                            fontSize: 14 * this.scale
                         }
                     },
                     series: {
@@ -438,9 +493,16 @@
                         }
                     },
                     grid: {
-                        top: 90 * this.scale,
-                        bottom: 90 * this.scale,
-                        left: 140 * this.scale
+                        // top: 90 * this.scale,
+                        // bottom: 90 * this.scale,
+                        // left: 100 * this.scale,
+                        // right : 100 * this.scale
+
+
+                        left: '14%',
+                        right: '7%',
+                        bottom: '28%',
+                        top: '10%',
                     }
                 };
                 myChart.setOption(option);
@@ -456,6 +518,9 @@
                         this.show=true;
                         this.proportionColor = [['#05dbb0', '#ccfff5'], ['#00a3c0', '#9ff1ff'], ['#4160fd', '#a5b4ff'], ['#bd0fdc', '#f2aaff'], ['#803ff7', '#c3a2ff']];
                         this.chartTitle = ['接警类型数据分析','接警类型占比分析','七日接警类型数据分析'];
+                        this.trendChartColor = ['#05dbb0', '#00a3c0', '#4160fd', '#bd0fdc', '#803ff7','#20f5ed', '#c3fffd','#aebcff'];
+
+
                         // this.subClassSource1 = [1200, 1500, 900, 900, 1300, 1200, 1500, 1400, 800, 800, 700];
                         this.subClassColorList1 = ['#6ffeff', '#00a0a6','#05dbb0'];
                         // this.subClassSource2 = [1200, 1500, 900, 900, 1300, 1200, 1500, 1400, 800, 800, 700];
@@ -477,6 +542,9 @@
                         // ];
                         this.proportionColor = [['#ffd75d', '#ffe9a6'], ['#00a3c0', '#9ff1ff'], ['#4160fd', '#a5b4ff'], ['#6400cb', '#ce9eff'], ['#e344ff', '#f9d8ff']];
                         this.chartTitle = ['报警方式数据分析','报警方式占比分析','七日报警方式数据分析'];
+                        this.trendChartColor = ['#05dbb0', '#00a3c0', '#4160fd', '#bd0fdc', '#803ff7','#20f5ed', '#c3fffd','#aebcff'];
+
+
                         // this.subClassSource1 = [1200, 1500, 900, 900, 1300, 1200, 1500, 1400, 800, 800, 700];
                         this.subClassColorList1 = ['#ffebaf', '#ffd75e','#ffd75d'];
                         // this.subClassSource2 = [1200, 1500, 900, 900, 1300, 1200, 1500, 1400, 800, 800, 700];
@@ -492,6 +560,8 @@
  
                         this.proportionColor = [['#ed69ec', '#ffdeff'], ['#4a66ed', '#aebcff'], ['#1b22ac', '#7b8bff'], ['#8c4ff9', '#c7a8ff'], ['#6c08c8', '#b361ff'], ['#20f5ed', '#c3fffd'], ['#8b06a6', '#ed95ff']];
                         this.chartTitle = ['来话类型数据分析','来话类型占比分析','七日来话类型数据分析'];
+                        this.trendChartColor = ['#05dbb0', '#00a3c0', '#4160fd', '#bd0fdc', '#803ff7','#20f5ed', '#c3fffd','#aebcff'];
+
                         // this.subClassSource1 = [1200, 1500, 900, 900, 1300, 1200, 1500, 1400, 800, 800, 700];
                         this.subClassColorList1 = ['#ff6cfa', '#a0009b','#ff6cfa'];
                         // this.subClassSource2 = [1200, 1500, 900, 900, 1300, 1200, 1500, 1400, 800, 800, 700];
@@ -508,10 +578,10 @@
                         break;
                 }
                 this.proportionSource.forEach(value => {
-                    console.log(value);
+                    // console.log(value);
                     this.title.push(value.name);
                 });
-                    console.log(this.title);
+                    // console.log(this.title);
 
                 let myCharts = document.querySelectorAll('.chart');
                 myCharts.forEach(value => {
@@ -591,7 +661,7 @@
                                 that.leftTopy.push(sum);
                                 // leftTopy[index]  = sum;
 
-                                that.leftTopBy.push({ value : sum, symbolPosition: 'end'  });
+                                that.leftTopBy.push({ value : sum, city: that.leftTop[index] });
                             })
 
                             console.log(that.leftTop);
@@ -626,14 +696,14 @@
                                 ];
                                 // console.log(obj5)
                                 that.proportionSource.forEach( (item,indx)=>{
-                                    console.log(item['name']);
+                                    // console.log(item['name']);
                                     item['value'] =  obj5[item['name']]
-                                    console.log(obj5[item['name']])
+                                    // console.log(obj5[item['name']])
                                 } )
 
                                 
-                                console.log(that.tableData['num']);
-                                console.log(that.leftTop);   // ["110报警", "122报警", "119报警", "综合报警", "其它接警类型", __ob__: Observer]
+                                // console.log(that.tableData['num']);
+                                // console.log(that.leftTop);   // ["110报警", "122报警", "119报警", "综合报警", "其它接警类型", __ob__: Observer]
 
 
 
@@ -641,20 +711,20 @@
                                 let yDate = [];
                                 // 加入时间
                                 yDate = that.tableData['days'];   
-                                console.log(yDate);   //"08-30", "08-31", "09-01", "09-02", "09-03", "09-04", "09-05"
+                                // console.log(yDate);   //"08-30", "08-31", "09-01", "09-02", "09-03", "09-04", "09-05"
                                 that.bottomList.forEach( (item,index) =>{
                                     item.push(yDate[index])
                                 } )
-                                console.log(that.bottomList);
+                                // console.log(that.bottomList);
 
                                 // 加入数据
 
 
                                 that.leftTop.forEach((item,index)=>{
-                                    console.log(that.tableData['num'][item]);
+                                    // console.log(that.tableData['num'][item]);
                                     yDate.forEach( (val,i) => {
-                                        console.log(that.tableData['num'][item][val])
-                                        console.log(that.bottomList[i]);
+                                        // console.log(that.tableData['num'][item][val])
+                                        // console.log(that.bottomList[i]);
                                         if(!that.tableData['num'][item][val]){
                                             that.bottomList[i].push(0)  ;
                                         }else{
@@ -662,7 +732,7 @@
                                         }   
                                     } )
                                 }) 
-                                console.log(that.bottomList);
+                                // console.log(that.bottomList);
                                 let arr = that.leftTop;
                                 arr.unshift(' ');
                                 // console.log(arr);
@@ -686,7 +756,7 @@
                             that.tableData = res['data'];
                             if(that.tableData){
                                 that.leftTopAgin = res['data']['type'];
-                                console.log(res['data']['type']);
+                                // console.log(res['data']['type']);
                                 
                                 that.leftTop = res['data']['type'];
                                 let sum ;
@@ -703,7 +773,7 @@
                                     that.leftTopy.push(sum);
                                     // leftTopy[index]  = sum;
 
-                                    that.leftTopBy.push({ value : sum, symbolPosition: 'end'  });
+                                    that.leftTopBy.push({ value : sum, city: that.leftTop[index] });
                                 })
 
 
@@ -749,9 +819,9 @@
 
                                 // console.log(obj5)
                                 that.proportionSource.forEach( (item,indx)=>{
-                                    console.log(item['name']);
+                                    // console.log(item['name']);
                                     item['value'] =  obj5[item['name']]
-                                    console.log(obj5[item['name']])
+                                    // console.log(obj5[item['name']])
                                 } )
 
 
@@ -763,16 +833,16 @@
                                 that.bottomList.forEach( (item,index) =>{
                                     item.push(yDate[index])
                                 } )
-                                console.log(that.bottomList);
+                                // console.log(that.bottomList);
 
                                 // 加入数据
 
 
                                 that.leftTop.forEach((item,index)=>{
-                                    console.log(that.tableData['num'][item]);
+                                    // console.log(that.tableData['num'][item]);
                                     yDate.forEach( (val,i) => {
-                                        console.log(that.tableData['num'][item][val])
-                                        console.log(that.bottomList[i]);
+                                        // console.log(that.tableData['num'][item][val])
+                                        // console.log(that.bottomList[i]);
                                         if(!that.tableData['num'][item][val]){
                                             that.bottomList[i].push(0)  ;
                                         }else{
@@ -824,7 +894,7 @@
                                     that.leftTopy.push(sum);
                                     // leftTopy[index]  = sum;
 
-                                    that.leftTopBy.push({ value : sum, symbolPosition: 'end'  });
+                                    that.leftTopBy.push({ value : sum, city: that.leftTop[index] });
                                 })
 
                             
@@ -885,9 +955,9 @@
 
                                 // console.log(obj5)
                                 that.proportionSource.forEach( (item,indx)=>{
-                                    console.log(item['name']);
+                                    // console.log(item['name']);
                                     item['value'] =  obj5[item['name']]
-                                    console.log(obj5[item['name']])
+                                    // console.log(obj5[item['name']])
                                 } )
 
 
@@ -896,20 +966,20 @@
                                 let yDate = [];
                                 // 加入时间
                                 yDate = that.tableData['days'];   
-                                console.log(yDate);   //"08-30", "08-31", "09-01", "09-02", "09-03", "09-04", "09-05"
+                                // console.log(yDate);   //"08-30", "08-31", "09-01", "09-02", "09-03", "09-04", "09-05"
                                 that.bottomList.forEach( (item,index) =>{
                                     item.push(yDate[index])
                                 } )
-                                console.log(that.bottomList);
+                                // console.log(that.bottomList);
 
                                 // 加入数据
 
 
                                 that.leftTop.forEach((item,index)=>{
-                                    console.log(that.tableData['num'][item]);
+                                    // console.log(that.tableData['num'][item]);
                                     yDate.forEach( (val,i) => {
-                                        console.log(that.tableData['num'][item][val])
-                                        console.log(that.bottomList[i]);
+                                        // console.log(that.tableData['num'][item][val])
+                                        // console.log(that.bottomList[i]);
                                         if(!that.tableData['num'][item][val]){
                                             that.bottomList[i].push(0)  ;
                                         }else{
@@ -917,10 +987,10 @@
                                         }   
                                     } )
                                 }) 
-                                console.log(that.bottomList);
+                                // console.log(that.bottomList);
                                 let arr = that.leftTop;
                                 arr.unshift(' ');
-                                console.log(arr);
+                                // console.log(arr);
                                 that.bottomList.unshift(arr);
 
 
@@ -952,6 +1022,7 @@
 
                
             },
+            
 
         },
 //生命周期 - 创建完成（可以访问当前this实例）
@@ -960,10 +1031,15 @@
         },
 //生命周期 - 挂载完成（可以访问DOM元素）
         mounted() {
+            // clearInterval(counter);
+            // counter = null;
+
+
             this.pdFilter_btn();
             this.getScale();
             // this.renderChart();
             this.getInitData();
+            
             // console.log(1111);
             // console.log(this.tableData)
             // console.log(this.title);
@@ -1018,11 +1094,7 @@
             align-items: center;
             justify-content: center;
             font-size: 1.2rem;
-            // background: linear-gradient(-180deg, #ffffff 50%, #384a6b 70%);
-            // -webkit-background-clip: text;
-            // color: transparent;
-            // font-size: 2.3rem;
-            // -webkit-text-fill-color: transparent;
+
         }
 
         .chartBox {
@@ -1048,13 +1120,49 @@
             height: 38%;
             display: flex;
             
-            .chart-wrap{
+            .r-t-l{
                 width: 50%;
                 height: 100%;
                 background-image: url('../assets/images/index/l-t-bg1.png');
                 background-repeat: no-repeat;
                 background-size: 100% 100%;
-                // padding-bottom: 1%;
+                .title_wrap{
+                    height: 12%;
+                    text-align: center;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 1.2rem;
+                }
+                .chartBox{
+                    height: 88%;
+                    .chart{
+                        width: 100%;
+                        height: 100%;
+                    }
+                }
+            }
+            .r-t-r{
+                width: 50%;
+                height: 100%;
+                background-image: url('../assets/images/index/l-t-bg1.png');
+                background-repeat: no-repeat;
+                background-size: 100% 100%;
+                .title_wrap{
+                    height: 12%;
+                    text-align: center;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 1.2rem;
+                }
+                .chartBox{
+                    height: 88%;
+                    .chart{
+                        width: 100%;
+                        height: 100%;
+                    }
+                }
             }
         }
 
@@ -1064,12 +1172,15 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            background-image: url('../assets/images/index/l-t-bg2.png');
+            background-image: url('../assets/images/index/l-t-bg2.png');  //背景图
             background-repeat: no-repeat;
             background-size: 100% 100%;
             // padding: 4%;
             .chart-wrap{
                 padding: 0 4% 4% 4%;
+                .title_wrap{
+                    font-size: 1.2rem;
+                }
             }
 
             table{
@@ -1093,8 +1204,6 @@
                     }
                 }
             }
-
-         
 
            
         ;
