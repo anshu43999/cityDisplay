@@ -3,14 +3,14 @@
         <my-header :topTitle='topTitle'></my-header>
         <div class="headerBox">
             <h3 id="back" @click="goBack">返回</h3>
-            <!-- <div class="filter" v-show="filter_show">
+            <div class="filter" v-show="filter_show">
 
                 <ul class="filterItem" @click="selectItem">
                     <li v-for="item in periodArr" :key="item">
                         <div>{{item}}</div>
                     </li>
                 </ul>
-            </div> -->
+            </div>
         </div>
         <main>
             <!--样式里的l,m,r,t,b分别代表左，中，右，上，下-->
@@ -64,30 +64,30 @@
         },
         methods: {
             //获取筛选日期
-            // getStorage() {
-            //     switch(this.$route.query.title){
-            //         case '全省接警类型数据分析':
-            //             this.myPeriod = JSON.parse(sessionStorage.getItem('jjlx'));
-            //             this.pageName='jjlx';
-            //             this.startDate=this.myPeriod.start;
-            //             this.endDate=this.myPeriod.end;
-            //             break;
-            //         case '全省报警方式数据分析':
-            //             this.myPeriod = JSON.parse(sessionStorage.getItem('bjfs'));
-            //             this.pageName='bjfs';
-            //             this.startDate=this.myPeriod.start;
-            //             this.endDate=this.myPeriod.end;
-            //             break;
-            //         case '全省来话类型数据分析':
-            //             this.myPeriod = JSON.parse(sessionStorage.getItem('lhlx'));
-            //             this.pageName='lhlx';
-            //             this.startDate=this.myPeriod.start;
-            //             this.endDate=this.myPeriod.end;
-            //             break;
-            //         default:
-            //             console.log('false');
-            //     }
-            // },
+            getStorage() {
+                switch(this.$route.query.title){
+                    case '全省接警类型数据分析':
+                        this.myPeriod = JSON.parse(sessionStorage.getItem('jjlx'));
+                        this.pageName='jjlx';
+                        this.startDate=this.myPeriod.start;
+                        this.endDate=this.myPeriod.end;
+                        break;
+                    case '全省报警方式数据分析':
+                        this.myPeriod = JSON.parse(sessionStorage.getItem('bjfs'));
+                        this.pageName='bjfs';
+                        this.startDate=this.myPeriod.start;
+                        this.endDate=this.myPeriod.end;
+                        break;
+                    case '全省来话类型数据分析':
+                        this.myPeriod = JSON.parse(sessionStorage.getItem('lhlx'));
+                        this.pageName='lhlx';
+                        this.startDate=this.myPeriod.start;
+                        this.endDate=this.myPeriod.end;
+                        break;
+                    default:
+                        console.log('false');
+                }
+            },
             //返回
             goBack() {
                 this.$router.push('/index/home');
@@ -187,8 +187,8 @@
             }
         },
         mounted() {
-            // this.getStorage();
-            // this.selectedItem();
+            this.getStorage();
+            this.selectedItem();
             // this.getShen();
         },
         created() {

@@ -295,7 +295,9 @@
             percent() {
                 let myChart = this.$echarts.init(document.getElementById('proportionChart'));
                 this.chartsObj['proportionChart'] = myChart;
-                let colorList = ['#4ced7a', '#ff9f16', '#fff093', '#0096ff', '#8fd1ff', '#ffffff', '#ffdf18', '#00ffeb'];
+                let colorList = ['#4ced7a', '#ff9f16', '#fff093', '#0096ff',
+                    '#8fd1ff', '#ffffff', '#ffdf18', '#00ffeb',
+                    '#00ffc0','#84ff00','#b9ff9e','#ff6c45'];
                 let xData = [];
                 let sourceArr = this.proportionSource;
                 sourceArr.forEach(value => {
@@ -398,7 +400,7 @@
                     },
                     tooltip: {
                         formatter: function (params) {
-                            // return params.marker+params.data.name+'：'+params.data.value+'%';
+                            return params.marker+params.data.name+'：'+params.data.value+'%';
                         }
                     },
                     grid: {
@@ -754,7 +756,7 @@
                 })
                     .then(function (res) {
                         res.data.sort(function(a,b){return Number(a.fldm)-Number(b.fldm)});
-                        res.data=res.data.slice(0,8);
+                        // res.data=res.data.slice(0,8);
                         // console.log(res);
                         let arr = [];
                         let brr = [];
