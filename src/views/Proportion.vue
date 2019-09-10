@@ -1,0 +1,838 @@
+<template>
+    <div id="container">
+        <my-header></my-header>
+        <main>
+            <div class="chart-wrap">
+                <!--                    标题-->
+                <div class="title_wrap">
+                    <span>{{this.$route.query.type}}分类</span>
+                </div>
+
+                <!--                                            内容-->
+                <div class="chartBox">
+                    <div class="mahjong">
+                        <div class="chart" id="mahjong1"></div>
+                        <div class="chart" id="mahjong2"></div>
+                    </div>
+                    <div class="pie">
+                        <div id="pie" class="chart"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</template>
+
+<script>
+    import MyHeader from "../components/Header";
+
+    export default {
+        name: "Proportion",
+        components: {MyHeader},
+        data(){
+            return {
+                myData:['1', '2', '3', '4', '5', '6', '7','8','9', '10', '11', '12', '13', '14', '15','16','17','18','19','20'],
+                lineData:[100, 100, 100, 100, 100, 100, 100,100,100,100,100,100,100,100,100,100,100,100,100,100],
+                last:[3, 20, 0, 34, 55, 65, 33,90,20,10,50,40,21,15,25,13,16,25,15,45],
+                yesterday:[0, 38, 23, 39, 66, 66, 79,90,15,26,48,34,54,45,21,45,12,13,15,45],
+            }
+        },
+        methods:{
+            //麻将
+            randerCharts1(myData,lineData,last,yesterday){
+                let that = this;
+                let myChart = this.$echarts.init(document.getElementById('mahjong1'));
+                var timeLineData = [1];
+                var option = {
+                    baseOption: {
+                        // backgroundColor: background,
+                        timeline: {
+                            show: false,
+                            top: 0,
+                            data: []
+                        },
+                        legend : {
+                            top : '2%',
+                            right : '10%',
+                            itemWidth : 22,
+                            itemHeight : 14,
+                            itemGap: 343,
+                            icon : 'horizontal',
+                            textStyle : {
+                                color : '#ffffff',
+                                fontSize : 20,
+                                padding:[0,0,0,6]
+                            },
+                            data: ['昨天']
+                        },
+                        grid: [{
+                            show: false,
+                            left: '5%',
+                            top: '10%',
+                            bottom: '8%',
+                            containLabel: true,
+                            width: '37%'
+                        }, {
+                            show: false,
+                            left: '51%',
+                            top: '10%',
+                            bottom: '8%',
+                            width: '0%'
+                        }, {
+                            show: false,
+                            right: '2%',
+                            top: '10%',
+                            bottom: '8%',
+                            containLabel: true,
+                            width: '37%'
+                        }],
+                        xAxis: [{
+                            type: 'value',
+                            inverse: true,
+                            axisLine: {
+                                show: false
+                            },
+                            axisTick: {
+                                show: false
+                            },
+                            position: 'top',
+                            axisLabel: {
+                                show: false
+                            },
+                            splitLine: {
+                                show: false
+                            }
+                        }, {
+                            gridIndex: 1,
+                            show: false
+                        }, {
+                            gridIndex: 2,
+                            axisLine: {
+                                show: false
+                            },
+                            axisTick: {
+                                show: false
+                            },
+                            position: 'top',
+                            axisLabel: {
+                                show: false
+                            },
+                            splitLine: {
+                                show: false
+                            }
+                        }],
+                        yAxis: [{
+                            triggerEvent: true,
+                            type: 'category',
+                            inverse: true,
+                            position: 'right',
+                            axisLine: {
+                                show: false
+                            },
+                            axisTick: {
+                                show: false
+                            },
+                            axisLabel: {
+                                show: false
+                            },
+                            data: myData
+                        }, {
+                            triggerEvent: true,
+                            gridIndex: 1,
+                            type: 'category',
+                            inverse: true,
+                            position: 'left',
+                            axisLine: {
+                                show: false
+                            },
+                            axisTick: {
+                                show: false
+                            },
+                            axisLabel: {
+                                show: true,
+                                textStyle: {
+                                    color: '#ffffff',
+                                    fontSize: 20
+                                }
+
+                            },
+                            data: myData.map(function(value) {
+                                return {
+                                    value: value,
+                                    textStyle: {
+                                        align: 'center'
+                                    }
+                                }
+                            })
+                        }, {
+                            triggerEvent: true,
+                            gridIndex: 2,
+                            type: 'category',
+                            inverse: true,
+                            position: 'left',
+                            axisLine: {
+                                show: false
+                            },
+                            axisTick: {
+                                show: false
+                            },
+                            axisLabel: {
+                                show: false
+
+                            },
+                            data: myData
+                        }],
+                        series: []
+
+                    },
+                    options: []
+                };
+                option.baseOption.timeline.data.push(timeLineData[0]);
+                option.options.push({
+                    series: [
+                        {
+                            type: 'pictorialBar',
+                            xAxisIndex: 0,
+                            yAxisIndex: 0,
+                            symbol: 'rect',
+                            itemStyle: {
+                                normal: {
+                                    color: 'rgba(3,147,114,0.27)'
+                                }
+                            },
+                            barWidth: 10,
+                            symbolRepeat: true,
+                            symbolSize: 14,
+                            data: lineData,
+                            barGap: '-100%',
+                            barCategoryGap: 0,
+                            label: {
+                                normal: {
+                                    show: true,
+                                    formatter: (series) => {
+                                        return last[timeLineData[0]][series.dataIndex]
+                                    },
+                                    position: 'insideTopLeft',
+                                    textStyle:{
+                                        color: '#ffffff',
+                                        fontSize: 20 * that.scale,
+                                    },
+                                    offset: [0, -25],
+                                }
+                            },
+                            z: -100,
+                            animationEasing: 'elasticOut',
+                            animationDelay: function (dataIndex, params) {
+                                return params.index * 30;
+                            }
+                        }, {
+                            name: '昨天',
+                            type: 'pictorialBar',
+                            xAxisIndex: 0,
+                            yAxisIndex: 0,
+                            symbol: 'rect',
+                            barWidth: 10,
+                            itemStyle: {
+                                normal: {
+                                    barBorderRadius: 5,
+                                    color: new this.$echarts.graphic.LinearGradient(
+                                        //右，下，左，上
+                                        0, 0, 1,0, [{
+                                            //0%位置的颜色
+                                            offset: 0,
+                                            color: '#ffba00'
+                                        },
+                                            {
+                                                //100%位置的颜色
+                                                offset: 1,
+                                                color: '#f3ff6a'
+                                            }
+                                        ]
+                                    )
+                                }
+                            },
+                            symbolRepeat: true,
+                            symbolSize: 14,
+                            data: last[timeLineData[0]],
+                            animationEasing: 'elasticOut',
+                            animationDelay: function (dataIndex, params) {
+                                return params.index * 30 * 1.1;
+                            }
+                        },
+                        {
+                            type: 'pictorialBar',
+                            xAxisIndex: 2,
+                            yAxisIndex: 2,
+                            symbol: 'rect',
+                            itemStyle: {
+                                normal: {
+                                    color: 'rgba(54,215,182,0.27)'
+                                }
+                            },
+                            barWidth: 10,
+                            symbolRepeat: true,
+                            symbolSize: 14,
+                            data: lineData,
+                            barGap: '-100%',
+                            barCategoryGap: 0,
+                            label: {
+                                normal: {
+                                    show: true,
+                                    formatter: (series) => {
+                                        return yesterday[timeLineData[0]][series.dataIndex]
+                                    },
+                                    position: 'insideTopRight',
+                                    textStyle:{
+                                        color: '#ffffff',
+                                        fontSize: 20* that.scale,
+                                    },
+                                    offset: [0, -25],
+                                }
+                            },
+                            z: -100,
+                            animationEasing: 'elasticOut',
+                            animationDelay: function (dataIndex, params) {
+                                return params.index * 30;
+                            }
+                        }, {
+                            name: '前天',
+                            type: 'pictorialBar',
+                            xAxisIndex: 2,
+                            yAxisIndex: 2,
+                            symbol: 'rect',
+                            barWidth: 10,
+                            itemStyle: {
+                                normal: {
+                                    barBorderRadius: 5,
+                                    color: new this.$echarts.graphic.LinearGradient(
+                                        //右，下，左，上
+                                        0, 0, 1,0, [{
+                                            //0%位置的颜色
+                                            offset: 0,
+                                            color: '#006cff'
+                                        },
+                                            {
+                                                //100%位置的颜色
+                                                offset: 1,
+                                                color: '#00fcff'
+                                            }
+                                        ]
+                                    )
+                                }
+                            },
+                            symbolRepeat: true,
+                            symbolSize: 14,
+                            data: yesterday[timeLineData[0]],
+                            animationEasing: 'elasticOut',
+                            animationDelay: function (dataIndex, params) {
+                                return params.index * 30 * 1.1;
+                            }
+                        }
+                    ]
+                });
+                myChart.setOption(option);
+                myChart.on('click',params=>{
+                    this.$router.push({
+                        name: '分类列表',
+                        query: {
+                            type: params.name||params.value
+                        }
+                    });
+                })
+            },
+            randerCharts2(myData,lineData,last,yesterday){
+                let that = this;
+                let myChart = this.$echarts.init(document.getElementById('mahjong2'));
+                var timeLineData = [1];
+                var option = {
+                    baseOption: {
+                        // backgroundColor: background,
+                        timeline: {
+                            show: false,
+                            top: 0,
+                            data: []
+                        },
+                        legend : {
+                            top : '2%',
+                            left : '10%',
+                            itemWidth : 22,
+                            itemHeight : 14,
+                            itemGap: 343,
+                            icon : 'horizontal',
+                            textStyle : {
+                                color : '#ffffff',
+                                fontSize : 20,
+                                padding:[0,0,0,6]
+                            },
+                            data: ['前天']
+                        },
+                        grid: [{
+                            show: false,
+                            left: '5%',
+                            top: '10%',
+                            bottom: '8%',
+                            containLabel: true,
+                            width: '37%'
+                        }, {
+                            show: false,
+                            left: '51%',
+                            top: '10%',
+                            bottom: '8%',
+                            width: '0%'
+                        }, {
+                            show: false,
+                            right: '2%',
+                            top: '10%',
+                            bottom: '8%',
+                            containLabel: true,
+                            width: '37%'
+                        }],
+                        xAxis: [{
+                            type: 'value',
+                            inverse: true,
+                            axisLine: {
+                                show: false
+                            },
+                            axisTick: {
+                                show: false
+                            },
+                            position: 'top',
+                            axisLabel: {
+                                show: false
+                            },
+                            splitLine: {
+                                show: false
+                            }
+                        }, {
+                            gridIndex: 1,
+                            show: false
+                        }, {
+                            gridIndex: 2,
+                            axisLine: {
+                                show: false
+                            },
+                            axisTick: {
+                                show: false
+                            },
+                            position: 'top',
+                            axisLabel: {
+                                show: false
+                            },
+                            splitLine: {
+                                show: false
+                            }
+                        }],
+                        yAxis: [{
+                            triggerEvent: true,
+                            type: 'category',
+                            inverse: true,
+                            position: 'right',
+                            axisLine: {
+                                show: false
+                            },
+                            axisTick: {
+                                show: false
+                            },
+                            axisLabel: {
+                                show: false
+                            },
+                            data: myData
+                        }, {
+                            triggerEvent: true,
+                            gridIndex: 1,
+                            type: 'category',
+                            inverse: true,
+                            position: 'left',
+                            axisLine: {
+                                show: false
+                            },
+                            axisTick: {
+                                show: false
+                            },
+                            axisLabel: {
+                                show: true,
+                                textStyle: {
+                                    color: '#ffffff',
+                                    fontSize: 20
+                                }
+
+                            },
+                            data: myData.map(function(value) {
+                                return {
+                                    value: value,
+                                    textStyle: {
+                                        align: 'center'
+                                    }
+                                }
+                            })
+                        }, {
+                            triggerEvent: true,
+                            gridIndex: 2,
+                            type: 'category',
+                            inverse: true,
+                            position: 'left',
+                            axisLine: {
+                                show: false
+                            },
+                            axisTick: {
+                                show: false
+                            },
+                            axisLabel: {
+                                show: false
+
+                            },
+                            data: myData
+                        }],
+                        series: []
+
+                    },
+                    options: []
+                };
+                option.baseOption.timeline.data.push(timeLineData[0]);
+                option.options.push({
+                    series: [
+                        {
+                            type: 'pictorialBar',
+                            xAxisIndex: 0,
+                            yAxisIndex: 0,
+                            symbol: 'rect',
+                            itemStyle: {
+                                normal: {
+                                    color: 'rgba(3,147,114,0.27)'
+                                }
+                            },
+                            barWidth: 10,
+                            symbolRepeat: true,
+                            symbolSize: 14,
+                            data: lineData,
+                            barGap: '-100%',
+                            barCategoryGap: 0,
+                            label: {
+                                normal: {
+                                    show: true,
+                                    formatter: (series) => {
+                                        return last[timeLineData[0]][series.dataIndex]
+                                    },
+                                    position: 'insideTopLeft',
+                                    textStyle:{
+                                        color: '#ffffff',
+                                        fontSize: 20 * that.scale,
+                                    },
+                                    offset: [0, -25],
+                                }
+                            },
+                            z: -100,
+                            animationEasing: 'elasticOut',
+                            animationDelay: function (dataIndex, params) {
+                                return params.index * 30;
+                            }
+                        }, {
+                            name: '昨天',
+                            type: 'pictorialBar',
+                            xAxisIndex: 0,
+                            yAxisIndex: 0,
+                            symbol: 'rect',
+                            barWidth: 10,
+                            itemStyle: {
+                                normal: {
+                                    barBorderRadius: 5,
+                                    color: new this.$echarts.graphic.LinearGradient(
+                                        //右，下，左，上
+                                        0, 0, 1,0, [{
+                                            //0%位置的颜色
+                                            offset: 0,
+                                            color: '#ffba00'
+                                        },
+                                            {
+                                                //100%位置的颜色
+                                                offset: 1,
+                                                color: '#f3ff6a'
+                                            }
+                                        ]
+                                    )
+                                }
+                            },
+                            symbolRepeat: true,
+                            symbolSize: 14,
+                            data: last[timeLineData[0]],
+                            animationEasing: 'elasticOut',
+                            animationDelay: function (dataIndex, params) {
+                                return params.index * 30 * 1.1;
+                            }
+                        },
+                        {
+                            type: 'pictorialBar',
+                            xAxisIndex: 2,
+                            yAxisIndex: 2,
+                            symbol: 'rect',
+                            itemStyle: {
+                                normal: {
+                                    color: 'rgba(54,215,182,0.27)'
+                                }
+                            },
+                            barWidth: 10,
+                            symbolRepeat: true,
+                            symbolSize: 14,
+                            data: lineData,
+                            barGap: '-100%',
+                            barCategoryGap: 0,
+                            label: {
+                                normal: {
+                                    show: true,
+                                    formatter: (series) => {
+                                        return yesterday[timeLineData[0]][series.dataIndex]
+                                    },
+                                    position: 'insideTopRight',
+                                    textStyle:{
+                                        color: '#ffffff',
+                                        fontSize: 20* that.scale,
+                                    },
+                                    offset: [0, -25],
+                                }
+                            },
+                            z: -100,
+                            animationEasing: 'elasticOut',
+                            animationDelay: function (dataIndex, params) {
+                                return params.index * 30;
+                            }
+                        }, {
+                            name: '前天',
+                            type: 'pictorialBar',
+                            xAxisIndex: 2,
+                            yAxisIndex: 2,
+                            symbol: 'rect',
+                            barWidth: 10,
+                            itemStyle: {
+                                normal: {
+                                    barBorderRadius: 5,
+                                    color: new this.$echarts.graphic.LinearGradient(
+                                        //右，下，左，上
+                                        0, 0, 1,0, [{
+                                            //0%位置的颜色
+                                            offset: 0,
+                                            color: '#006cff'
+                                        },
+                                            {
+                                                //100%位置的颜色
+                                                offset: 1,
+                                                color: '#00fcff'
+                                            }
+                                        ]
+                                    )
+                                }
+                            },
+                            symbolRepeat: true,
+                            symbolSize: 14,
+                            data: yesterday[timeLineData[0]],
+                            animationEasing: 'elasticOut',
+                            animationDelay: function (dataIndex, params) {
+                                return params.index * 30 * 1.1;
+                            }
+                        }
+                    ]
+                });
+                myChart.setOption(option);
+                myChart.on('click',params=>{
+                    this.$router.push({
+                        name: '分类列表',
+                        query: {
+                            type: params.name||params.value
+                        }
+                    });
+                })
+            },
+            //饼
+            detailProportionChart(myData,last,yesterday) {
+                // console.log(last);
+                let myChart = this.$echarts.init(document.getElementById('pie'));
+                let colorList = ['#fff093', '#00ffeb', '#0096ff', '#ffffff',
+                    '#8fd1ff', '#ffdf18', '#ff9f16', '#b9ff9e',
+                    '#00ffc0', '#84ff00', '#1ada86', '#49bcf3',
+                    '#ff64bf', '#ff8155', '#3ecf6a', '#fff497',
+                    '#c64f47', '#81799e', '#2f9a94', '#9e57b7',
+                    '#d58a85'
+                ];
+                let yesTotal = 0;
+                yesTotal=eval(yesterday.join("+"));
+                let lastTotal=0;
+                lastTotal=eval(last.join("+"));
+                let yesSourceArr=[];
+                let lastSourceArr=[];
+                myData.forEach((value,index)=>{
+                    yesSourceArr.push({
+                        name:value,
+                        value:yesterday[index]
+                    });
+                    lastSourceArr.push({
+                        name:value,
+                        value:last[index]
+                    })
+                });
+                yesSourceArr.forEach((value, index) => {
+                    if (value.value==0){
+                        yesSourceArr.splice(index,1);
+                    }
+                });
+                lastSourceArr.forEach((value, index) => {
+                    if (value.value==0){
+                        lastSourceArr.splice(index,1);
+                    }
+                });
+                // console.log(yesSourceArr);
+                let option = {
+                    title:[{
+                        show:true,
+                        text:'昨日'+this.$route.query.type+'占比',
+                        top:'40%',
+                        right:0,
+                        textStyle:{
+                            color:'#fff',
+                            fontSize:14
+                        }
+                    },{
+                        show:true,
+                        text:'前日'+this.$route.query.type+'占比',
+                        top:'90%',
+                        right:0,
+                        textStyle:{
+                            color:'#fff',
+                            fontSize:14
+                        }
+                    }],
+                    tooltip: {
+                        formatter: function (params) {
+                            // console.log(params);
+                            if(params.seriesName==='昨日'){
+                                return params.seriesName+'<br>'+params.marker + params.name + '：' + parseFloat(((params.data.value / yesTotal) * 100).toFixed(2)) + '%'
+                            }else {
+                                return params.seriesName+'<br>'+params.marker + params.name + '：' + parseFloat(((params.data.value / lastTotal) * 100).toFixed(2)) + '%'
+                            }
+                        }
+                    },
+                    series: [{
+                        name: '昨日',
+                        type: 'pie',
+                        radius: ['30%', '40%'],
+                        center: ['50%','25%'],
+                        data:yesSourceArr,
+                        label: {
+                            textStyle:{
+                                fontSize:16*this.scale,
+                                fontWeight:'bold'
+                            },
+                        },
+                        itemStyle: {
+                            borderColor: '#021f3b',
+                            color:function (params) {
+                                return colorList[params.dataIndex]
+                            }
+                        },
+                    },{
+                        name: '前日',
+                        type: 'pie',
+                        radius: ['30%', '40%'],
+                        center: ['50%','75%'],
+                        data:lastSourceArr,
+                        label: {
+                            textStyle:{
+                                fontSize:16*this.scale,
+                                fontWeight:'bold'
+                            },
+                        },
+                        itemStyle: {
+                            borderColor: '#021f3b',
+                            color:function (params) {
+                                return colorList[params.dataIndex]
+                            }
+                        },
+                    }]
+                };
+                myChart.setOption(option);
+            },
+        },
+        mounted() {
+            let myData1=[];
+            let myData2=[];
+            let lineData1=[];
+            let lineData2=[];
+            let last1=[];
+            let last2=[];
+            let yesterday1=[];
+            let yesterday2=[];
+            if (this.myData.length>11){
+                myData1=this.myData.slice(0,11);
+                myData2=this.myData.slice(11,this.myData.length);
+                lineData1=this.lineData.slice(0,11);
+                lineData2=this.lineData.slice(11,this.lineData.length);
+                last1={1:this.last.slice(0,11)};
+                last2={1:this.last.slice(11,this.last.length)};
+                yesterday1={1:this.yesterday.slice(0,11)};
+                yesterday2={1:this.yesterday.slice(11,this.yesterday.length)};
+            }
+            this.randerCharts1(myData1,lineData1,last1,yesterday1);
+            this.randerCharts2(myData2,lineData2,last2,yesterday2);
+            this.detailProportionChart(this.myData,this.last,this.yesterday)
+        }
+    }
+</script>
+
+<style scoped lang="scss">
+main{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 1.2rem;
+    .chart{
+        width: 100%;
+        height: 100%;
+    }
+    .chart-wrap{
+        width: 96%;
+        height: 100%;
+        .title_wrap {
+            width: 100%;
+            height: 3.6rem;
+            cursor: pointer;
+            box-sizing: border-box;
+            position: relative;
+            background-repeat: no-repeat;
+            background-size: auto 100%;
+            background-image: url("../assets/images/index/title_left.png");
+            background-position: left;
+            span {
+                height: 100%;
+                display: flex;
+                align-items: center;
+                box-sizing: border-box;
+                font-size: 1.5rem;
+                letter-spacing: 2px;
+                margin-left: 3%;
+                float: left;
+            }
+        }
+        .chartBox{
+            width: 100%;
+            height: calc(100% - 3.6rem);
+            background-image: url("../assets/images/index/proportionBg.png");
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            padding: 1% 1% 1.3%;
+            box-sizing: border-box;
+            .mahjong{
+                width: 66%;
+                height: 100%;
+                float: left;
+                .chart{
+                    float: left;
+                    width: 50%;
+                }
+            }
+            .pie{
+                width: 34%;
+                height: 100%;
+                float: right;
+            }
+        }
+    }
+}
+</style>
