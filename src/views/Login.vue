@@ -10,35 +10,47 @@
 
          <div class="homepage-hero-module">
             <div class="video-container">
-            <div class="filter">
-                <div class="login_wrap">
-                    <!-- <h4>用户登录</h4> -->
-                    <div class="login_main">
-                        <h4>用户登录</h4>
+                <div class="login_title">
+                    <div class="login_title_main">
+                        <div class="main_title">
+                            <b class="guohui" src="../assets/images/index/guohui.png"></b>
+                            <!-- <image src="../assets/images/index/guohui.png" alt=""></image> -->
+                            <!-- <b class="guohui"></b> -->
+                            <span>太原市公安局情报指挥中心警情分析统计系统</span>
 
-                        <div class="inputs_wrap">
-                            <div>账号</div>
-                            <input v-focus='true' type="text" v-model="name">
-                            <i class="iconfont iconusername icons"></i>
                         </div>
-                        <div class="inputs_wrap">
-                            <div>密码</div>
-                            <input type="password" v-model="password"  @keyup.enter="submit()">
-                            <i class="iconfont iconmima   icons"></i>
-                        </div>
-                        <div class="inputs_btn" :class="[ active? 'btnActive':'btnFocurs','btn','input']" @click="submit" >
-                            <span>登录</span>
-                            </div>
+
                     </div>
-
                 </div>
 
 
-            </div>
-            <video autoplay loop muted playsinline src="../assets/video/dongtu1.mp4" class="fillWidth"></video>
-            <div class="poster hidden">
-                <img src="PATH_TO_JPEG" alt="">
-            </div>
+
+                <div class="filter">
+                    <div class="login_wrap">
+                        <!-- <h4>用户登录</h4> -->
+                        <div class="login_main">
+                            <h4>用户登录</h4>
+
+                            <div class="inputs_wrap">
+                                <div>账号</div>
+                                <input v-focus='true' type="text" v-model="name">
+                                <i class="iconfont iconusername icons"></i>
+                            </div>
+                            <div class="inputs_wrap">
+                                <div>密码</div>
+                                <input type="password" v-model="password"  @keyup.enter="submit()">
+                                <i class="iconfont iconmima   icons"></i>
+                            </div>
+                            <div class="inputs_btn" :class="[ active? 'btnActive':'btnFocurs','btn','input']" @click="submit" >
+                                <span>登录</span>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+                <video autoplay loop muted playsinline src="../assets/video/dongtu1.mp4" class="fillWidth" style="width= 100%; height=100%; object-fit: fill"></video>
+                <!-- <div class="poster hidden">
+                    <img src="PATH_TO_JPEG" alt="">
+                </div> -->
             </div>
         </div>
 
@@ -197,6 +209,7 @@ input:focus{outline:none;}
 #login{
     position: relative;
     background : url('../assets/images/index/login_bg.png');
+    background-size: 100% 100%;
     width: 100%;
         height: 100%;
 
@@ -233,6 +246,48 @@ input:focus{outline:none;}
     //     bottom: 0;
     //     position: absolute;
     // }
+    .video-container .login_title{
+        position: absolute;
+        top: 10%;
+        width: 100%;
+        height: 10%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .login_title_main{
+            width: 70%;
+            height: 100%;
+            background: url('../assets/images/index/login_top.png');
+            z-index: 100;
+            background-position:bottom center;
+            background-repeat: no-repeat; 
+            .main_title{
+                width: 100%;
+                height: 70%;
+                display: flex;
+                position: relative;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 2.6rem;
+                .guohui{
+                    // position: absolute;
+                    display: inline-block;
+                    width: 4rem;
+                    height:4rem;
+                    background: url('../assets/images/index/guohui.png');
+                    background-repeat: no-repeat;
+                    background-position: center;
+                    background-size:100% 100%; 
+                    z-index: 1000;
+                    margin-right:1rem; 
+                }
+
+            }
+        }
+
+    }
+
 
     .video-container .filter {
         z-index: 100;
@@ -241,17 +296,17 @@ input:focus{outline:none;}
         // width: 5rem;
         top: 35%;
         height:45%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         .login_wrap{
-            position: absolute;
-            right: 17%;
-            top: 0;
+           
             height: 100%;
             background: url('../assets/images/index/login_wrap.png') ;
             background-repeat: no-repeat;
             background-size: 100% 100%;
             padding: 4rem  6rem ;
-
-            width: 23%;
+            width: 26%;
             // h4{
             //     text-align: center;
             // }
@@ -262,7 +317,7 @@ input:focus{outline:none;}
                 text-align: center;
                 // padding: 10px;
                 h4{
-                    color: #00baff;
+                    color: #ffffff;
                     font-size: 1.5rem;
                     font-weight: 550;
 
@@ -271,7 +326,8 @@ input:focus{outline:none;}
                     width: 100%;
                     height: 15%;
                     margin-top:10%; 
-                    background: url('../assets/images/index/login_inputs.png');
+                    // background: url('../assets/images/index/login_inputs.png');
+                    border: 1px solid #01c3ee;
                     background-repeat: no-repeat;
                     background-size: 100% 100%;
                     display: flex;
@@ -281,10 +337,10 @@ input:focus{outline:none;}
                         height: 70%;
                     }
                     div{
-                        color: #00c6ff;
+                        color: #ffffff;
                     }
                     .icons{
-                        color: #00c6ff;
+                        color: #ffffff;
                     }
                 }
                 .inputs_btn{
@@ -300,6 +356,9 @@ input:focus{outline:none;}
                     background: linear-gradient(to right,#037fe2,#00309b);
                     color: #ffffff;
                     cursor: pointer;
+                    background: url('../assets/images/index/btn.png');
+                    background-repeat:no-repeat;
+                    background-size: 100% 100%;  
                 }
             }
         }
@@ -313,9 +372,9 @@ input:focus{outline:none;}
         bottom: 0;
     }
 
-    .video-container video.fillWidth {
-        width: 100%;
-    }
+    // .video-container video.fillWidth {
+    //     width: 100%;
+    // }
 
     .btnActive{
             transform: scale(0.9);
