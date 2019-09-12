@@ -34,6 +34,27 @@
       "unicode_decimal": 58988
     },
     {
+      "icon_id": "4460484",
+      "name": "向右",
+      "font_class": "xiangyou",
+      "unicode": "e624",
+      "unicode_decimal": 58916
+    },
+    {
+      "icon_id": "4460485",
+      "name": "向左",
+      "font_class": "xiangzuo",
+      "unicode": "e625",
+      "unicode_decimal": 58917
+    },
+    {
+      "icon_id": "5036570",
+      "name": "向右",
+      "font_class": "xiangyou1",
+      "unicode": "e636",
+      "unicode_decimal": 58934
+    },
+    {
       "icon_id": "5879021",
       "name": "时间",
       "font_class": "shijian",
@@ -41,11 +62,25 @@
       "unicode_decimal": 58912
     },
     {
+      "icon_id": "6873832",
+      "name": "向左双箭头",
+      "font_class": "xiangzuoshuangjiantou",
+      "unicode": "e70c",
+      "unicode_decimal": 59148
+    },
+    {
       "icon_id": "7254261",
       "name": "姓名 用户名 昵称",
       "font_class": "username",
       "unicode": "e600",
       "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "8582825",
+      "name": "跳转",
+      "font_class": "tiaozhuan",
+      "unicode": "e662",
+      "unicode_decimal": 58978
     },
     {
       "icon_id": "9896885",

@@ -107,6 +107,7 @@ const Public = {
     chartsReDraw(charts, t = settings.chartRefreshPeriod, noRefresh, someRefresh,callBack) {
         
         counter = setInterval(() => {
+            // console.log(charts);
             Object.keys(charts).forEach(item => {
                 if (noRefresh && noRefresh.includes(item) && !(someRefresh && someRefresh.includes(item))) return;
                 let chart = charts[item];

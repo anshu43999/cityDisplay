@@ -36,6 +36,11 @@ const routes = [
                 component: () => import("../views/Home"),
             },
             {
+                path : "handling",
+                name : "执法办案",
+                component : () => import("../views/Handling"),
+            },
+            {
                 path: "pjqsjfx",
                 name: '全省接警类型数据分析',
                 component: () => import("../views/PJQSJFX"),

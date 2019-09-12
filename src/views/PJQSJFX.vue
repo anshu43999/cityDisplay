@@ -1,6 +1,6 @@
 <template>
     <div id="pjqsjfx">
-        <my-header></my-header>
+        <my-header :topTitle='topTitle'></my-header>
         <div class="headerBox">
             <h3 id="back" @click="goBack">返回</h3>
             <div class="filter" v-show="filter_show">
@@ -44,6 +44,8 @@
         components: {MyHeader, MyMap},
         data() {
             return {
+                // 标题
+                topTitle : '山西省公安厅情报指挥中心警情分析统计系统',
                 show: true,
                 filterShow: true,
                 //缩放值

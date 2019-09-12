@@ -65,12 +65,12 @@
         },
         methods : {
             submit(){
-                console.log('进入判断');
+                // console.log('进入判断');
                 let that = this;
                  this.active = true;
                 //  this.$router.push({name:'首页'})
                 if(this.name === 'admin' && this.password === 'asdf0987'){
-                    console.log('ok');
+                    // console.log('ok');
                     //   this.active = false;
                     sessionStorage.setItem("user",1);
                     this.$router.push({name:'首页'})
@@ -82,15 +82,30 @@
                 setTimeout(function () { 
                     that.active = false;
                 },300)
-                
-
-
 
 
             },
+            jurisdiction(){
+                let str = this.$route.query;
+                // console.log(str);
+                if(str.key === '7a57a5a743894a0e' && str.value === 'db3f623a67d57e82'){
+                    console.log('ok');
+                    //   this.active = false;
+                    sessionStorage.setItem("user",1);
+                    
+                    this.$router.push({name:'首页'})
+                    // setTimeout(function () { 
+                    //     that.active = false;
+                    //  },300)
+
+                }
+
+            }
 
         },
         mounted(){
+            this.jurisdiction();
+
              $( document ).ready(function() {
                 scaleVideoContainer();
 
@@ -151,7 +166,7 @@
         directives:{
             focus:{
                 inserted : function (el,{value}) {
-                    console.log(el,{value})
+                    // console.log(el,{value})
                     if(value){
                         el.focus();
                     }

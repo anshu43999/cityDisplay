@@ -1,14 +1,14 @@
 <template>
     <div>
-<!--        <div id="setting" style="right: -34.71rem;">-->
-        <div id="setting" style="right: 0;">
+        <div id="setting" style="right: -34.71rem;">
+<!--        <div id="setting" style="right: 0;">-->
             <!--        顶部-->
             <div class="t">
                 <div class="avatar">
                     <img src="../assets/images/setting/avatar.png" alt="">
                 </div>
                 <p class="admin">{{admin}}</p>
-                <div class="exit">
+                <div class="exit" @click="exit">
                     <i class="iconfont iconexit"></i>
                 </div>
             </div>
@@ -23,14 +23,14 @@
                 <div class="b-r" v-if="settingsOption==='distribute'">
                     <div class="settingBox" v-if="model==='display'">
                         <ul>
-                            <li v-for="item in distribute" :key="item.id">
+                            <li v-for="item in grading" :key="item.gradedm">
                                 <div class="b-r-l">
                                     <!--                                <p>-->
                                     警情{{item.categories}}
                                     <!--                                </p>-->
                                 </div>
                                 <div class="b-r-r">
-                                    {{item.value}}%
+                                    {{item.proportion}}%
                                     <!--                                <div class="value">{{item.value}}%</div>-->
                                 </div>
                             </li>
@@ -42,7 +42,7 @@
                     </div>
                     <div class="settingBox" v-if="model==='edit'">
                         <ul>
-                            <li v-for="item in distribute" :key="item.id">
+                            <li v-for="item in grading" :key="item.gradedm">
                                 <div class="b-r-l">
                                     <!--                                <p>-->
                                     警情{{item.categories}}
@@ -50,14 +50,14 @@
                                 </div>
                                 <div class="b-r-r">
                                     <div class="inputBox" @click="changeValue">
-                                        <input class="input" placeholder="%" v-model="item.value" :data-id='item.id'>
-                                        <div class="dec" :data-id='item.id'>-</div>
-                                        <div class="add" :data-id='item.id'>+</div>
+                                        <input class="input grade" type="number" placeholder="%" v-model="item.proportion" :data-id='item.gradedm'>
+                                        <div class="dec" :data-id='item.gradedm'>-</div>
+                                        <div class="add" :data-id='item.gradedm'>+</div>
                                     </div>
                                 </div>
                             </li>
                         </ul>
-                        <div class="OK btn" @click="OK">
+                        <div class="saveGrade btn" @click="saveGrade">
                             确定
                         </div>
                         <div class="cancel btn" @click="cancel">
@@ -68,12 +68,12 @@
                 <div class="b-r" v-if="settingsOption==='peak'">
                     <div class="settingBox1" v-if="model==='display'">
                         <ul>
-                            <li v-for="item in peak" :key="item.id">
+                            <li v-for="item in peak" :key="item.xzqhdm">
                                 <div class="b-r-l">
-                                    {{item.city}}
+                                    {{item.xzqhmc}}
                                 </div>
                                 <div class="b-r-r">
-                                    {{item.value}}
+                                    {{item.jjslsx}}
                                 </div>
                             </li>
                         </ul>
@@ -84,18 +84,18 @@
                     </div>
                     <div class="settingBox1" v-if="model==='edit'">
                         <ul>
-                            <li v-for="item in peak" :key="item.id">
+                            <li v-for="item in peak" :key="item.xzqhdm">
                                 <div class="b-r-l">
-                                    {{item.city}}
+                                    {{item.xzqhmc}}
                                 </div>
                                 <div class="b-r-r">
                                     <div class="inputBox">
-                                        <input class="input" v-model="item.value" :data-id='item.id'>
+                                        <input class="input city" type="number" v-model="item.jjslsx" :data-id='item.xzqhdm'>
                                     </div>
                                 </div>
                             </li>
                         </ul>
-                        <div class="OK btn" @click="OK">
+                        <div class="saveGrade btn" @click="savePeak">
                             确定
                         </div>
                         <div class="cancel btn" @click="cancel">
@@ -116,118 +116,52 @@
             return {
                 admin: 'admin',
                 settings: ['警情分布占比设置', '各市警情峰值设置'],
-                distribute: [{
-                    id: 1,
-                    categories: '良好',
-                    value: 25
-                },
-                    {
-                        id: 2,
-                        categories: '一般',
-                        value: 50
-                    },
-                    {
-                        id: 3,
-                        categories: '较重',
-                        value: 75
-                    },
-                    {
-                        id: 4,
-                        categories: '严重',
-                        value: 100
-                    }
-                ],
-                peak: [{
-                    id: '140100',
-                    city: '太原',
-                    value: 5000
-                },
-                    {
-                        id: '140200',
-                        city: '大同',
-                        value: 4000,
-                    },
-                    {
-                        id: '140600',
-                        city: '朔州',
-                        value: 3000,
-                    },
-                    {
-                        id: '140900',
-                        city: '忻州',
-                        value: 4000,
-                    },
-                    {
-                        id: '141100',
-                        city: '吕梁',
-                        value: 1600,
-                    },
-                    {
-                        id: '140300',
-                        city: '阳泉',
-                        value: 2000,
-                    },
-                    {
-                        id: '140700',
-                        city: '晋中',
-                        value: 3600,
-                    },
-                    {
-                        id: '140400',
-                        city: '长治',
-                        value: 4000,
-                    },
-                    {
-                        id: '141000',
-                        city: '临汾',
-                        value: 4000,
-                    },
-                    {
-                        id: '140500',
-                        city: '晋城',
-                        value: 3000,
-                    },
-                    {
-                        id: '140800',
-                        city: '运城',
-                        value: 2000,
-                    },
-                ],
                 model: 'display',
                 settingsOption: 'distribute'
             }
         },
+        props:['mapSource','grading','peak'],
+
         methods: {
             edit() {
                 this.model = 'edit'
             },
-            OK() {
-                this.update();
-                this.model = 'display';
+            saveGrade() {
+                // localStorage.setItem('grading',JSON.stringify(this.grading));
+                this.grading.map(item=>{
+                    delete item.categories;
+                    return item;
+                });
+                let data =this.grading;
+                this.$http.post(`${this.apiRoot}/redGrade/alterGrade`,data)
+                    .then(res=>{
+                        console.log('res=>',res);
+						this.$parent.getGrading();
+						this.model = 'display';
+                    });
             },
             cancel() {
-                this.getData();
                 this.model = 'display';
             },
-            update() {
-                console.log('update');
-            },
-            getData() {
-                console.log('getData');
-            },
             changeValue(e) {
-                let id = e.target.getAttribute('data-id');
+                console.log(e.target);
+                let gradedm = e.target.getAttribute('data-id');
                 if (e.target.getAttribute('class') === 'dec') {
-                    e.target.parentNode.childNodes[0].value>0?e.target.parentNode.childNodes[0].value--:e.target.parentNode.childNodes[0].value=0;
-                    this.distribute.forEach(value => {
-                        if (value.id == id) {
-                            value.value = e.target.parentNode.childNodes[0].value;
+                    // this.distribute.forEach(value => {
+                    this.grading.forEach(value => {
+                        if (value.gradedm == gradedm) {
+                            e.target.parentNode.childNodes[0].value>0?e.target.parentNode.childNodes[0].value--:e.target.parentNode.childNodes[0].value=0;
+                            value.proportion = e.target.parentNode.childNodes[0].value;
+                            console.log(value.value);
                         }
                     })
                 }else if (e.target.getAttribute('class')==='add'){
-                    this.distribute.forEach(value => {
-                        if (value.id == id) {
-                            value.value = e.target.parentNode.childNodes[0].value++;
+                    // this.distribute.forEach(value => {
+                    this.grading.forEach(value => {
+                        if (value.gradedm == gradedm) {
+                            e.target.parentNode.childNodes[0].value++;
+                            value.proportion = e.target.parentNode.childNodes[0].value;
+                            // console.log(value.value);
                         }
                     })
                 }
@@ -249,34 +183,52 @@
                     this.settingsOption = 'peak';
                 }
             },
+            savePeak(){
+                let data =this.peak;
+                this.$http.post(`${this.apiRoot}/dictXZQHB/updateXZQH`,data)
+                    .then(res=>{
+                        console.log('res=>',res);
+						this.$parent.getPeak();
+						this.model = 'display';
+                    });
+            },
+            exit(){
+                sessionStorage.removeItem('user');
+                this.$router.push('/');
+            }
         },
         mounted() {
+            // console.log(this.peak);
             this.addActive();
+            // this.getGrade();
             let bar=document.querySelector('#bar');
             let setting=document.querySelector('#setting');
             let right=parseInt(setting.style.right);
-            /*bar.onmouseenter=function () {
-                bar.style.display='none';
-                let slideOut=setInterval(function(){
+            let slide='';
+            bar.onmouseenter=function () {
+				clearInterval(slide);
+                slide=setInterval(function(){
                     if(right<=0){
+						// console.log('start');
                         right++;
                         setting.style.right=right+'rem';
                     }else {
-                        clearInterval(slideOut);
+                        clearInterval(slide);
                     }
-                },500);
-            };*/
-            /*setting.onmouseleave=function () {
-                bar.style.display='block';
-                let slideIn=setInterval(function(){
+                },10);
+            };
+            setting.onmouseleave=function () {
+                clearInterval(slide);
+                slide=setInterval(function(){
                     if(right>-34.71){
+						// console.log('end');
                         right--;
                         setting.style.right=right+'rem';
                     }else {
-                        clearInterval(slideIn);
+                        clearInterval(slide);
                     }
-                },500);
-            };*/
+                },10);
+            };
         }
     }
 </script>
@@ -288,6 +240,14 @@
     $btn4: #0f07b0;
     $btn5: #060086;
 
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none !important;
+        margin: 0;
+    }
+    input[type="number"] {
+        -moz-appearance: textfield;
+    }
     #bar{
         width: 0.5rem;
         height: 5rem;
@@ -295,15 +255,14 @@
         position: fixed;
         right: 0;
         top: 0;
-        z-index: 99;
+        z-index: 999;
         border-radius: 0.5rem;
     }
     #setting {
         width: 34.71rem;
         position: fixed;
         top: 0;
-        z-index: 999;
-        background: #ffffff;
+        z-index: 999999999;
         overflow: hidden;
 
         /*顶部*/
@@ -311,14 +270,8 @@
             width: 100%;
             height: 5rem;
             background-image: linear-gradient(-90deg,
-                    #0761af 0%,
-                    rgba(28, 97, 157, 0.75) 30%,
-                    rgba(49, 97, 138, 0.51) 59%,
-                    rgba(48, 96, 137, 0.5) 60%,
-                    rgba(32, 80, 122, 0.5) 80%,
-                    rgba(15, 62, 106, 0.5) 100%,
-                    rgba(15, 62, 106, 0.4) 100%,
-                    rgba(15, 62, 106, 0.3) 100%);
+                    #0761af,
+                    #004a8f);
             border-style: solid;
             border-width: 1px;
             border-image-source: linear-gradient(-83deg,
@@ -357,6 +310,7 @@
             }
 
             .exit {
+                cursor: pointer;
                 float: right;
                 width: 7.7%;
                 height: 100%;
@@ -377,8 +331,8 @@
             width: 100%;
             height: 26.92rem;
             background-image: linear-gradient(180deg,
-                    rgba(7, 97, 175, 0.7) 15%,
-                    rgba(0, 74, 143, 0.3) 100%);
+                    #0761af,
+                    #004a8f);
             display: flex;
             flex-direction: row;
             justify-content: space-between;
@@ -387,8 +341,9 @@
                 width: 33.6%;
                 height: 100%;
                 background-image: linear-gradient(180deg,
-                        rgba(7, 97, 175, 0.7) 15%,
-                        rgba(0, 74, 143, 0.3) 100%);
+                        #0761af 15%,
+                        #004a8f 100%);
+                box-shadow: 0 0 1.2rem rgba(27,123,155,0.5);
                 float: left;
 
                 li {
@@ -450,11 +405,9 @@
                         li {
                             width: 100%;
                             height: 19.51%;
-                            background-image: linear-gradient(0deg,
-                                    rgba(7, 97, 175, 0.7) 15%,
-                                    rgba(0, 74, 143, 0.3) 100%);
-                            border-radius: 0.25rem;
-                            opacity: 0.7;
+                            background-image: url("../assets/images/setting/item.png");
+                            background-repeat: no-repeat;
+                            background-size: 100% 100%;
                             padding: 0.58rem 1.17rem;
                             box-sizing: border-box;
 
@@ -519,7 +472,7 @@
                                         background: transparent;
                                         outline: none;
                                         display: block;
-                                        padding: 0 1rem;
+                                        padding: 0 1.5rem;
                                         text-align: center;
                                         color: #1af7f1;
 
@@ -545,7 +498,7 @@
                                     }
 
                                     .dec {
-                                        width: 1rem;
+                                        width: 1.5rem;
                                         height: 100%;
                                         position: absolute;
                                         top: 0;
@@ -559,7 +512,7 @@
                                     }
 
                                     .add {
-                                        width: 1rem;
+                                        width: 1.5rem;
                                         height: 100%;
                                         position: absolute;
                                         top: 0;
@@ -591,7 +544,7 @@
                     line-height: 1.8rem;
                 }
 
-                .OK {
+                .saveGrade {
                     float: left;
                 }
 

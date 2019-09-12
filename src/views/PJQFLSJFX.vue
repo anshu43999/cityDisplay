@@ -1,6 +1,6 @@
 <template>
     <div id="pjqflsjfx">
-        <my-header></my-header>
+        <my-header :topTitle='topTitle'></my-header>
         <div class="headerBox">
             <h3 id="back" @click="goBack">返回</h3>
             <div class="filter" v-show="filter_show">
@@ -39,6 +39,8 @@
         },
         data() {
             return {
+                // 标题
+                topTitle : '山西省公安厅情报指挥中心警情分析统计系统',
                 show: true,
                 filterShow: true,
                 //缩放值
@@ -262,7 +264,7 @@
         .l {
             width: 25.73%;
             height: 100%;
-            background-image: url('../assets/images/index/m1.png');
+            background-image: url('../assets/images/index/m.png');
             background-repeat: no-repeat;
             background-size: 100% 100%;
 

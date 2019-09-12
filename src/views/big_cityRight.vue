@@ -173,7 +173,7 @@
                                     show:true,
                                     normal: {
                                         formatter: function (params) {
-                                            console.log(params.value)
+
                                             return params.value + '%';
                                         },
                                         position: 'center',
@@ -238,7 +238,7 @@
                             if (prams[0].data === min) {
                                 return  prams[1].name+"：0%"
                             } else {
-                                // console.log(prams);
+
                                 return prams[1].name +"：" + prams[0].data 
                             }
                         }
@@ -510,8 +510,6 @@
 
 
 
-
-           
             renderChart() {
                 switch (this.$route.query.title) {
                     case '市接警类型数据分析':
@@ -519,7 +517,6 @@
                         this.proportionColor = [['#05dbb0', '#ccfff5'], ['#00a3c0', '#9ff1ff'], ['#4160fd', '#a5b4ff'], ['#bd0fdc', '#f2aaff'], ['#803ff7', '#c3a2ff']];
                         this.chartTitle = ['接警类型数据分析','接警类型占比分析','七日接警类型数据分析'];
                         this.trendChartColor = ['#05dbb0', '#00a3c0', '#4160fd', '#bd0fdc', '#803ff7','#20f5ed', '#c3fffd','#aebcff'];
-
 
                         // this.subClassSource1 = [1200, 1500, 900, 900, 1300, 1200, 1500, 1400, 800, 800, 700];
                         this.subClassColorList1 = ['#6ffeff', '#00a0a6','#05dbb0'];
@@ -533,13 +530,7 @@
                         break;
                     case '市报警方式数据分析':
                         this.show=true;
-                        // this.proportionSource = [
-                        //     {name: '电话报警', value: 25},
-                        //     {name: '来人（来电报警）', value: 25},
-                        //     {name: '技防报警', value: 25},
-                        //     {name: '短信报警', value: 25},
-                        //     {name: '其他报警方式', value: 25},
-                        // ];
+
                         this.proportionColor = [['#ffd75d', '#ffe9a6'], ['#00a3c0', '#9ff1ff'], ['#4160fd', '#a5b4ff'], ['#6400cb', '#ce9eff'], ['#e344ff', '#f9d8ff']];
                         this.chartTitle = ['报警方式数据分析','报警方式占比分析','七日报警方式数据分析'];
                         this.trendChartColor = ['#05dbb0', '#00a3c0', '#4160fd', '#bd0fdc', '#803ff7','#20f5ed', '#c3fffd','#aebcff'];
@@ -578,10 +569,9 @@
                         break;
                 }
                 this.proportionSource.forEach(value => {
-                    // console.log(value);
+
                     this.title.push(value.name);
                 });
-                    // console.log(this.title);
 
                 let myCharts = document.querySelectorAll('.chart');
                 myCharts.forEach(value => {
@@ -598,13 +588,6 @@
                         
                         that.percent();
                         that.jqflsjfxChart();
-                        // leftTop : [],
-                            // leftTopy :[],
-                            // leftTopBy : [],
-                        
-
-                        
-                        
 
                        
                         
@@ -618,7 +601,6 @@
                 let str = this.$route.query.title;
 
                 str = str.substring(0,1);
-                console.log(str);
 
                 if(str == '全'){
                     this.$emit('filter_btn',true)
@@ -643,7 +625,7 @@
                             }
                         })
                         .then(function (res) { 
-                            console.log(res['data']);
+
                             that.tableData = res['data'];
                             that.leftTop = res['data']['type'];
 
@@ -652,10 +634,10 @@
                             that.leftTopBy = [];
                             that.leftTop.forEach((item,index)=>{
                                 sum = 0;
-                                // console.log(that.tableData[item]);
+
                                 
                                 that.tableData[item].forEach((val,i)=>{
-                                    // console.log(val);
+
                                     sum += parseInt(val['jjsl']) 
                                 })
                                 that.leftTopy.push(sum);
@@ -664,17 +646,13 @@
                                 that.leftTopBy.push({ value : sum, city: that.leftTop[index] });
                             })
 
-                            console.log(that.leftTop);
-                            console.log(that.leftTopy);
-                            console.log(that.leftTopBy);
-
 
                             if(that.tableData){
                                 let obj1 = that.tableData['110报警'];
                                 let str1 ;
                                 let qian ;
                                 let hou ; 
-                                // console.log(obj6 );
+
                                 that.dateArr = [];
                                 obj1.forEach((item,index)=>{
                                     str1 = item['tjrq'] ;
@@ -694,37 +672,32 @@
                                     {name: '综合报警', value: 0},
                                     {name: '其它接警类型', value: 0},
                                 ];
-                                // console.log(obj5)
+
                                 that.proportionSource.forEach( (item,indx)=>{
                                     // console.log(item['name']);
                                     item['value'] =  obj5[item['name']]
-                                    // console.log(obj5[item['name']])
+
                                 } )
 
                                 
-                                // console.log(that.tableData['num']);
-                                // console.log(that.leftTop);   // ["110报警", "122报警", "119报警", "综合报警", "其它接警类型", __ob__: Observer]
-
-
 
                                 // bottomList
                                 let yDate = [];
                                 // 加入时间
                                 yDate = that.tableData['days'];   
-                                // console.log(yDate);   //"08-30", "08-31", "09-01", "09-02", "09-03", "09-04", "09-05"
+
                                 that.bottomList.forEach( (item,index) =>{
                                     item.push(yDate[index])
                                 } )
-                                // console.log(that.bottomList);
+
 
                                 // 加入数据
 
 
                                 that.leftTop.forEach((item,index)=>{
-                                    // console.log(that.tableData['num'][item]);
+
                                     yDate.forEach( (val,i) => {
-                                        // console.log(that.tableData['num'][item][val])
-                                        // console.log(that.bottomList[i]);
+
                                         if(!that.tableData['num'][item][val]){
                                             that.bottomList[i].push(0)  ;
                                         }else{
@@ -732,10 +705,10 @@
                                         }   
                                     } )
                                 }) 
-                                // console.log(that.bottomList);
+
                                 let arr = that.leftTop;
                                 arr.unshift(' ');
-                                // console.log(arr);
+
                                 that.bottomList.unshift(arr);
 
                                 that.renderChart();
@@ -751,12 +724,11 @@
                             }
                         })
                         .then(function (res) { 
-                            // console.log(res);
-                            console.log(res['data']);
+
                             that.tableData = res['data'];
                             if(that.tableData){
                                 that.leftTopAgin = res['data']['type'];
-                                // console.log(res['data']['type']);
+
                                 
                                 that.leftTop = res['data']['type'];
                                 let sum ;
@@ -764,10 +736,10 @@
                                 that.leftTopBy = [];
                                 that.leftTop.forEach((item,index)=>{
                                     sum = 0;
-                                    // console.log(that.tableData[item]);
+
                                     
                                     that.tableData[item].forEach((val,i)=>{
-                                        // console.log(val);
+
                                         sum += parseInt(val['jjsl']) 
                                     })
                                     that.leftTopy.push(sum);
@@ -781,7 +753,7 @@
                                 let str1 ;
                                 let qian ;
                                 let hou ; 
-                                // console.log(obj6 );
+
                                 that.dateArr = [];
                                 obj1.forEach((item,index)=>{
                                     str1 = item['tjrq'] ;
@@ -817,11 +789,11 @@
                                     {name: '其它报警方式', value: 0},
                                 ];
 
-                                // console.log(obj5)
+
                                 that.proportionSource.forEach( (item,indx)=>{
-                                    // console.log(item['name']);
+
                                     item['value'] =  obj5[item['name']]
-                                    // console.log(obj5[item['name']])
+
                                 } )
 
 
@@ -829,20 +801,19 @@
                                 let yDate = [];
                                 // 加入时间
                                 yDate = that.tableData['days'];   
-                                console.log(yDate);   //"08-30", "08-31", "09-01", "09-02", "09-03", "09-04", "09-05"
+
                                 that.bottomList.forEach( (item,index) =>{
                                     item.push(yDate[index])
                                 } )
-                                // console.log(that.bottomList);
+
 
                                 // 加入数据
 
 
                                 that.leftTop.forEach((item,index)=>{
-                                    // console.log(that.tableData['num'][item]);
+
                                     yDate.forEach( (val,i) => {
-                                        // console.log(that.tableData['num'][item][val])
-                                        // console.log(that.bottomList[i]);
+
                                         if(!that.tableData['num'][item][val]){
                                             that.bottomList[i].push(0)  ;
                                         }else{
@@ -850,10 +821,10 @@
                                         }   
                                     } )
                                 }) 
-                                console.log(that.bottomList);
+
                                 let arr = that.leftTop;
                                 arr.unshift(' ');
-                                console.log(arr);
+
                                 that.bottomList.unshift(arr);
 
 
@@ -873,9 +844,7 @@
                             }
                         })
                         .then(function (res) { 
-                            
-                            // console.log(res);
-                            console.log(res['data']);
+
                             that.tableData = res['data'];
                             if(that.tableData){
                             
@@ -885,10 +854,10 @@
                                 that.leftTopBy = [];
                                 that.leftTop.forEach((item,index)=>{
                                     sum = 0;
-                                    // console.log(that.tableData[item]);
+
                                     
                                     that.tableData[item].forEach((val,i)=>{
-                                        // console.log(val);
+
                                         sum += parseInt(val['jjsl']) 
                                     })
                                     that.leftTopy.push(sum);
@@ -903,7 +872,7 @@
                                 let str1 ;
                                 let qian ;
                                 let hou ; 
-                                // console.log(obj6 );
+
                                 that.dateArr = [];
                                 obj1.forEach((item,index)=>{
                                     str1 = item['tjrq'] ;
@@ -941,7 +910,6 @@
                                 let obj5 = that.tableData['proportion'];
                                
 
-                               
 
                                 that.proportionSource = [
                                     {name: '报警求助、举报投诉', value: 0},
@@ -953,33 +921,29 @@
                                     {name: '其它处理类型', value: 0},
                                 ];
 
-                                // console.log(obj5)
+
                                 that.proportionSource.forEach( (item,indx)=>{
-                                    // console.log(item['name']);
+
                                     item['value'] =  obj5[item['name']]
-                                    // console.log(obj5[item['name']])
+
                                 } )
-
-
 
                                 // bottomList
                                 let yDate = [];
                                 // 加入时间
                                 yDate = that.tableData['days'];   
-                                // console.log(yDate);   //"08-30", "08-31", "09-01", "09-02", "09-03", "09-04", "09-05"
+
                                 that.bottomList.forEach( (item,index) =>{
                                     item.push(yDate[index])
                                 } )
-                                // console.log(that.bottomList);
 
                                 // 加入数据
 
 
                                 that.leftTop.forEach((item,index)=>{
-                                    // console.log(that.tableData['num'][item]);
+
                                     yDate.forEach( (val,i) => {
-                                        // console.log(that.tableData['num'][item][val])
-                                        // console.log(that.bottomList[i]);
+
                                         if(!that.tableData['num'][item][val]){
                                             that.bottomList[i].push(0)  ;
                                         }else{
@@ -987,43 +951,21 @@
                                         }   
                                     } )
                                 }) 
-                                // console.log(that.bottomList);
+
                                 let arr = that.leftTop;
                                 arr.unshift(' ');
-                                // console.log(arr);
+
                                 that.bottomList.unshift(arr);
-
-
-
-
 
                                 that.renderChart();
                             }
                          })
 
-
                         break;
-                    
-                
                     // default:
                     //     break;
                 }
-                console.log(that.dateArr);
-
-
-
-
-                
-
-
-
-
-                
-
-               
             },
-            
-
         },
 //生命周期 - 创建完成（可以访问当前this实例）
         created() {
@@ -1031,34 +973,15 @@
         },
 //生命周期 - 挂载完成（可以访问DOM元素）
         mounted() {
-            // clearInterval(counter);
-            // counter = null;
-
+            clearInterval(counter);
+            counter = null;
 
             this.pdFilter_btn();
             this.getScale();
-            // this.renderChart();
             this.getInitData();
-            
-            // console.log(1111);
-            // console.log(this.tableData)
-            // console.log(this.title);
-
-            // let arr = ["110报警", "122报警", "119报警", "综合报警", "其它接警类型"]
-            // let brr = [7001, 1470, 204, 0, 0]
-            // let crr = [
-            //     {value: 7001,symbolPosition: "end"},
-            //     {value: 1470,symbolPosition: "end"},
-            //     {value: 204,symbolPosition: "end"},
-            //     {value: 0,symbolPosition: "end"},
-            //     {value: 0,symbolPosition: "end"},
-
-                
-            // ]
 
 
 
-            // this.jqflsjfxChart(arr,brr,crr);
 
 
 

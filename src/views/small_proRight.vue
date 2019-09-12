@@ -21,31 +21,33 @@
         <div class="r-b">
             <div class="chart-wrap">
                 <h3>{{this.chartTitle[2]}}</h3>
-                <div class="selectListBox" ref="selectListBox">
-                    <ul @click="selectItem">
-                        <li v-for="item in selectOptions" :key="item">
-                            <div>{{item}}</div>
-                        </li>
-                    </ul>
+                <div class="detailBox">
+                    <div class="selectListBox" ref="selectListBox">
+                        <ul @click="selectItem">
+                            <li v-for="item in selectOptions" :key="item">
+                                <div>{{item}}</div>
+                            </li>
+                        </ul>
+                    </div>
+                    <!--                <div class="chart" id="detailChart"></div>-->
+                    <div class="detail" ref="detail">
+                        <ul>
+                            <li v-for="item in detailSource" :key="item.name">
+                                <div>
+                                    <p>{{item.name}}</p>
+                                </div>
+                                <div>
+                                    <p>{{item.value}}</p>
+                                </div>
+                            </li>
+                            <li v-for="item in detailAdd">
+                                <div></div>
+                                <div></div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="chart" id="detailProportionChart"></div>
                 </div>
-                <!--                <div class="chart" id="detailChart"></div>-->
-                <div class="detail" ref="detail">
-                    <ul>
-                        <li v-for="item in detailSource" :key="item.name">
-                            <div>
-                                <p>{{item.name}}</p>
-                            </div>
-                            <div>
-                                <p>{{item.value}}</p>
-                            </div>
-                        </li>
-                        <li v-for="item in detailAdd">
-                            <div></div>
-                            <div></div>
-                        </li>
-                    </ul>
-                </div>
-                <div class="chart" id="detailProportionChart"></div>
             </div>
         </div>
     </div>
@@ -154,72 +156,72 @@
                         axisLine: {
                             show: false
                         },
-						axisLabel: {
-							show: true,
-							textStyle: {
-								color: '#00d7d4',
-								fontSize: 14 * this.scale,
-							},
-							interval: 0,
-							formatter: function(value, index) {
-								let type = index % 2 === 0 ? 'up' : 'down';
-								// console.log(type);
-								return '{' + type + '|' + value + '}'
-							},
-							rich: {
-								up: {
-									height: 20 * this.scale,
-								},
-								down: {
-									height: 60 * this.scale,
-								}
-							}
-						},
+                        axisLabel: {
+                            show: true,
+                            textStyle: {
+                                color: '#00d7d4',
+                                fontSize: 14 * this.scale,
+                            },
+                            interval: 0,
+                            formatter: function (value, index) {
+                                let type = index % 2 === 0 ? 'up' : 'down';
+                                // console.log(type);
+                                return '{' + type + '|' + value + '}'
+                            },
+                            rich: {
+                                up: {
+                                    height: 20 * this.scale,
+                                },
+                                down: {
+                                    height: 60 * this.scale,
+                                }
+                            }
+                        },
                     },
-                    yAxis:  [{
-						type: 'value',
-						gridIndex: 0,
-						splitLine: {
-							show: false
-						},
-						axisTick: {
-							show: false
-						},
-						// min: min,
-						// max: 100,
-						axisLine: {
-							lineStyle: {
-								color: '#0c3b71'
-							}
-						},
-						axisLabel: {
-							color: 'rgb(170,170,170)',
-							formatter: '{value}'
-						}
-					},
-						{
-							type: 'value',
-							gridIndex: 0,
-							min: 0,
-							max: 100,
-							splitNumber: 12,
-							splitLine: {
-								show: false
-							},
-							axisLine: {
-								show: false
-							},
-							axisTick: {
-								show: false
-							},
-							axisLabel: {
-								show: false
-							},
-							splitArea: {
-								show: false,
-							}
-						}
-					],
+                    yAxis: [{
+                        type: 'value',
+                        gridIndex: 0,
+                        splitLine: {
+                            show: false
+                        },
+                        axisTick: {
+                            show: false
+                        },
+                        // min: min,
+                        // max: 100,
+                        axisLine: {
+                            lineStyle: {
+                                color: this.axisesColor
+                            }
+                        },
+                        axisLabel: {
+                            color: this.axisesColor,
+                            formatter: '{value}'
+                        }
+                    },
+                        {
+                            type: 'value',
+                            gridIndex: 0,
+                            min: 0,
+                            max: 100,
+                            splitNumber: 12,
+                            splitLine: {
+                                show: false
+                            },
+                            axisLine: {
+                                show: false
+                            },
+                            axisTick: {
+                                show: false
+                            },
+                            axisLabel: {
+                                show: false
+                            },
+                            splitArea: {
+                                show: false,
+                            }
+                        }
+                    ],
                     series: [{
                         name: '',
                         type: 'bar',
@@ -246,21 +248,21 @@
                                 )
                             }
                         },
-						label:{
-							normal: {
-								show: true,
-								position: 'top',
-								color:'#00feff',
-								fontSize: 14 * this.scale,
-							}
-						}
+                        label: {
+                            normal: {
+                                show: true,
+                                position: 'top',
+                                color: '#00feff',
+                                fontSize: 14 * this.scale,
+                            }
+                        }
                     },
                         {
                             type: 'bar',
                             barWidth: '50%',
                             xAxisIndex: 0,
                             yAxisIndex: 1,
-							silent: true,
+                            silent: true,
                             barGap: '-135%',
                             data: [100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100],
                             itemStyle: {
@@ -576,6 +578,14 @@
                     })
                 }
                 item[0].classList.add('active');
+                if (this.detailSource.length < this.detailLength) {
+                    let l = this.detailLength - this.detailSource.length;
+                    let arr=[];
+                    for (let i = 0; i < l; i++) {
+                        arr.push(i);
+                    }
+                    this.detailAdd=arr;
+                }
             },
             selectItem(e) {
                 let item = document.querySelectorAll('.selectListBox>ul>li>div');
@@ -587,7 +597,14 @@
                 this.totalSource.forEach(value => {
                     if (e.target.innerText === value.name) {
                         this.detailSource = value.dataArr;
-                        // this.detailChart();
+                        if (value.dataArr.length < this.detailLength) {
+                            let l = this.detailLength - value.dataArr.length;
+                            let arr=[];
+                            for (let i = 0; i < l; i++) {
+                                arr.push(i);
+                            }
+                            this.detailAdd=arr;
+                        }
                         this.detailProportionChart();
                     }
                 });
@@ -635,7 +652,6 @@
                         let r = [];
                         let narr = [];
                         for (let i = 0; i < res.data.length; i++) {
-                            // arr.push({name:res.data[i].fldmmc,value:res.data[i].jjsl});
                             let n = r.indexOf(res.data[i].sjdmmc);
                             if (n == -1) {
                                 r.push(res.data[i].sjdmmc);
@@ -655,25 +671,14 @@
                         }
                         let nameArr = [];
                         for (let i = 0; i < narr.length; i++) {
-                            if (narr[i].name === undefined) {
+                            /*if (narr[i].name === undefined) {
                                 narr[i].name = '其它警情'
-                            }
+                            }*/
                             nameArr.push(narr[i].name);
                         }
                         that.selectOptions = nameArr;
                         that.totalSource = narr;
-                        // console.log(that.totalSource[0].dataArr);
                         that.detailSource = that.totalSource[0].dataArr;
-                        // console.log(that.detailSource);
-                        // console.log(that.detailLength);
-                        if (that.totalSource[0].dataArr.length < that.detailLength) {
-                            let l = that.detailLength - that.totalSource[0].dataArr.length;
-                            // console.log(l);
-                            for (let i = 0; i < l; i++) {
-                                that.detailAdd.push(i);
-                            }
-                        }
-                        // console.log(that.detailAdd);
                         that.detailProportionChart();
                     }).then(() => {
                     that.selectedItem();
@@ -704,6 +709,7 @@
                     }
                 })
                     .then(function (res) {
+                        res.data.sort(function(a,b){return Number(a.fldm)-Number(b.fldm)});
                         // console.log(res);
                         let arr = [];
                         let brr = [];
@@ -869,7 +875,7 @@
                 height: 100%;
                 background-image: url('../assets/images/index/l-t-bg1.png');
                 background-repeat: no-repeat;
-                background-size: 105% 105%;
+                background-size: 100% 100%;
                 background-position: center;
 
                 .chart-wrap > h3 {
@@ -883,7 +889,7 @@
                 height: 100%;
                 background-image: url('../assets/images/index/l-t-bg1.png');
                 background-repeat: no-repeat;
-                background-size: 105% 105%;
+                background-size: 100% 100%;
                 background-position: center;
 
                 .chart-wrap > h3 {
@@ -900,156 +906,167 @@
             flex-direction: column;
             justify-content: space-between;
 
-            background-image: url('../assets/images/index/l-t-bg1.png');
+            background-image: url('../assets/images/index/l-t-bg2.png');
             background-repeat: no-repeat;
-            background-size: 105% 105%;
+            background-size: 100% 100%;
             background-position: center;
 
             h3 {
                 height: 8%;
-                margin-top: 1rem;
+                // margin-top: 1rem;
+                display: flex;
+                justify-content: center;
+                align-items: center;
                 padding-left: 2rem;
                 box-sizing: border-box;
             }
-
-            .selectListBox {
-                width: 14%;
+            .detailBox{
+                width: 100%;
                 height: 85%;
-                float: left;
-                margin-left: 1.8rem;
-                margin-top: -0.8rem;
                 position: relative;
-                background-image: url('../assets/images/type/bg.png');
-                background-repeat: no-repeat;
-                background-size: 100% 100%;
-                overflow: auto;
-
-                &::-webkit-scrollbar {
-                    display: none
-                }
-
-                /* & { -ms-overflow-style: none; }
-                & { overflow: -moz-scrollbars-none; }*/
-
-                ul {
-                    width: 100%;
+                .selectListBox {
+                    position: absolute;
+                    width: 14%;
                     height: 100%;
-                    box-shadow: 0 0 5px #011425;
+                    left: 1.8rem;
+                    top: -0.8rem;
+                    background-image: url('../assets/images/type/bg.png');
+                    background-repeat: no-repeat;
+                    background-size: 100% 100%;
+                    overflow: auto;
+                    &::-webkit-scrollbar {
+                        width: 10px;     /*高宽分别对应横竖滚动条的尺寸*/
+                        height: 1px;
+                    }
+                    &::-webkit-scrollbar-thumb {/*滚动条里面小方块*/
+                        border-radius: 10px;
+                        -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+                        background: #4c7fff;
+                    }
+                    &::-webkit-scrollbar-track {/*滚动条里面轨道*/
+                        -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+                        border-radius: 10px;
+                        background: #e1ebff;
+                    }
 
-                    li {
+                    /* & { -ms-overflow-style: none; }
+                    & { overflow: -moz-scrollbars-none; }*/
+
+                    ul {
                         width: 100%;
-                        height: 3rem;
+                        box-shadow: 0 0 5px #011425;
 
-                        div {
+                        li {
                             width: 100%;
-                            height: 100%;
-                            text-align: center;
-                            line-height: 2;
-                            cursor: pointer;
-                            background-image: url('../assets/images/type/itemBg.png');
-                            display: flex;
-                            align-items: center;
-                            justify-content: center;
-                            /*font-size: 1rem;*/
-                            color: #06fffb;
-                            letter-spacing: 1px;
+                            height: 3rem;
 
-                            &.active {
-                                color: #ffffff;
-                                background: #4c7fff;
+                            div {
+                                width: 100%;
+                                height: 100%;
+                                text-align: center;
+                                line-height: 2;
+                                cursor: pointer;
+                                background-image: url('../assets/images/type/itemBg.png');
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                /*font-size: 1rem;*/
+                                color: #06fffb;
+                                letter-spacing: 1px;
+
+                                &.active {
+                                    color: #ffffff;
+                                    background: #4c7fff;
+                                }
                             }
                         }
                     }
                 }
-            }
 
-            .detail {
-                width: 37%;
-                height: 74%;
-                box-shadow: 0px 4px 24px 0px rgba(0, 130, 255, 0.75);
-                border-radius: 2px;
-                border: solid 1px rgba(0, 186, 255, 0.35);
-                opacity: 0.75;
-                /*background: url("../assets/images/province/list.png");
-                background-size: 100% 100%;
-                background-repeat: no-repeat;*/
-                float: left;
-                position: relative;
-                overflow: auto;
-                margin-top: 1.2%;
-                margin-left: 2.5%;
+                .detail {
+                    width: 37%;
+                    height: 89%;
+                    box-shadow: 0px 4px 24px 0px rgba(0, 130, 255, 0.75);
+                    border-radius: 2px;
+                    border: solid 1px rgba(0, 186, 255, 0.35);
+                    opacity: 0.75;
+                    position: absolute;
+                    overflow: auto;
+                    left: 17%;
+                    top: 2%;
 
-                &::-webkit-scrollbar {
-                    display: none
-                }
+                    &::-webkit-scrollbar {
+                        display: none
+                    }
 
-                /* & { -ms-overflow-style: none; }
-                & { overflow: -moz-scrollbars-none; }*/
-                ul {
-                    width: 100%;
-                    height: 100%;
-                    display: flex;
-                    flex-direction: column;
-                    align-content: start;
-                    flex-wrap: wrap;
-                    /*justify-content: space-between;*/
+                    /* & { -ms-overflow-style: none; }
+                    & { overflow: -moz-scrollbars-none; }*/
+                    ul {
+                        width: 100%;
+                        height: 100%;
+                        display: flex;
+                        flex-direction: column;
+                        align-content: start;
+                        flex-wrap: wrap;
+                        /*justify-content: space-between;*/
 
-                    li {
-                        width: 50%;
-                        height: 9.09%;
+                        li {
+                            width: 50%;
+                            height: 9.09%;
 
-                        div {
-                            height: 100%;
-                            float: left;
-                            border-right: solid 1px rgba(0, 255, 255, 0.1);
-                            border-bottom: solid 1px rgba(0, 255, 255, 0.1);
-                            display: flex;
-                            justify-content: center;
-                            align-items: center;
-
-                            p {
-                                width: 100%;
-                                height: 50%;
-                                text-align: center;
+                            div {
+                                height: 100%;
+                                float: left;
+                                border-right: solid 1px rgba(0, 255, 255, 0.1);
+                                border-bottom: solid 1px rgba(0, 255, 255, 0.1);
                                 display: flex;
                                 justify-content: center;
                                 align-items: center;
-                                font-weight: bold;
-                                line-height: 1rem;
-                                font-size: 0.8rem;
-                            }
-
-                            &:nth-child(1) {
-                                width: 60%;
 
                                 p {
-                                    color: #61ecff;
+                                    width: 100%;
+                                    height: 50%;
+                                    text-align: center;
+                                    display: flex;
+                                    justify-content: center;
+                                    align-items: center;
+                                    font-weight: bold;
+                                    line-height: 1rem;
+                                    font-size: 0.8rem;
+                                }
+
+                                &:nth-child(1) {
+                                    width: 60%;
+
+                                    p {
+                                        color: #61ecff;
+                                    }
+                                }
+
+                                &:nth-child(2) {
+                                    width: 40%;
+
+                                    p {
+                                        color: #ffee2d;
+                                    }
                                 }
                             }
 
-                            &:nth-child(2) {
-                                width: 40%;
+                            /*&:nth-child(3n) {
+                                border-right: none;
+                                width: 33.4%;
+                            }*/
 
-                                p {
-                                    color: #ffee2d;
-                                }
-                            }
                         }
-
-                        /*&:nth-child(3n) {
-                            border-right: none;
-                            width: 33.4%;
-                        }*/
-
                     }
                 }
-            }
 
-            .chart {
-                width: 36.97%;
-                height: 85%;
-                float: right;
-                margin-right: 4rem;
+                .chart {
+                    width: 36.97%;
+                    height: 100%;
+                    float: right;
+                    margin-right: 4rem;
+                }
             }
         }
     }

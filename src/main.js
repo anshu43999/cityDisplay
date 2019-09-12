@@ -29,10 +29,10 @@ Vue.prototype.apiRoot = 'http://192.168.1.252:8082/dataDisplay/'//su
 
 // Vue.prototype.apiRoot ='http://my.ityyedu.com/alarmSystem/';
 
-// Vue.prototype.apiRoot ='http://10.94.68.188:8086/alarmSystem/'; //这是打包的地址
+
 
 // Vue.prototype.apiRoot ='http://10.94.68.187:8086/dataDisplay/'; //这是打包的地址
-// Vue.prototype.apiRoot ='http://10.94.68.188:8082/dataDisplay/'; //这是打包的地址
+
 
 
 

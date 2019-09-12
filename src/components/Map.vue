@@ -132,7 +132,7 @@
                             renderMap('山西省', mapdata);
                             // console.log(that.newStr)
                             let str =  '省'+that.newStr;
-                                    console.log(str);
+                                    // console.log(str);
                             let str1 = '全省'+that.newStr;
                             // console.log(str);
                             that.$router.push({name:str,query:{title:str1}});

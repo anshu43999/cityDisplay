@@ -1,9 +1,12 @@
 <!--  -->
 <template>
 <div id='header_wrap' @click="handleClick">
+    <!-- <div class="jkBtn">
+        全流程执法办案
+    </div> -->
     <div id="header_main">
         <div class="main_center" style="">
-            <div id="header_title">山西省公安厅情报指挥中心警情分析统计系统</div>
+            <div id="header_title">{{topTitle}}</div>
             <time id="headerTime"></time>
         </div>
         
@@ -17,6 +20,7 @@
 
 export default {
 //import引入的组件需要注入到对象中才能使用
+props : ['topTitle'],
 components: {},
 data() {
 //这里存放数据
@@ -57,12 +61,20 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
 #header_wrap{
     // background-color: #011426;
     // height:10rem;
-    background-image: url('../assets/images/index/top.png');
+    background-image: url('../assets/images/index/top1.png');
     background-repeat: no-repeat;
     background-size: contain;
     background-position: 99% 90%;
+    position: relative;
     overflow: hidden;
     // height: 7rem;
+    .jkBtn{
+        width: 3rem;
+        height: 1rem;
+        // background: url()
+        // background: url('../assets/images/index/jkbtn.png');
+        background-repeat:no-repeat; 
+    }
     #header_main{
         height: 100%;
         .main_center{

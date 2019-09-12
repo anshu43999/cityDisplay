@@ -143,9 +143,6 @@
             sevensjfx(xAxisData,chartContainer, sourceArr, colorList) {
                 let seriesArr = [];
                 let dateArr = xAxisData;
-                // console.log(dateArr);
-                console.log(sourceArr);
-
                 let myChart = this.$echarts.init(document.getElementById(chartContainer));
                 this.chartsObj[chartContainer] = myChart;
 
@@ -404,7 +401,6 @@
                             if (prams[0].data === min) {
                                 return  prams[1].name+"：0%"
                             } else {
-                                // console.log(prams);
                                 return prams[1].name +"：" + prams[0].data 
                             }
                         }
@@ -771,7 +767,6 @@
                     case '全省来话类型数据分析':
                         this.show = false;
 
-                        console.log(this.show);
                         this.chartTitle = [
                             '来话类型数据分析',
                             '来话类型占比分析',
@@ -820,10 +815,8 @@
                         this.endDate=this.myPeriod.end;
                         break;
                     default:
-                        // console.log('false');
                         break;
                 }
-                // console.log(this.startDate);
                 
                 let Index = {
                     init() {
@@ -845,7 +838,6 @@
                 };
                 Index.init();
                 // Index.loadData()
-                // console.log(this.myPeriod);
             },
             // 省市  时间选择是否存在
             pdFilter_btn() {
@@ -873,26 +865,22 @@
                             }
                         })
                         .then(function (res) { 
-                            // console.log(res);
                             this.tableData =   res['data'];
                             if(this.tableData){
                                 //接警类型数据分析
                                 this.leftList = this.tableData['type'];
                                 let firstChild = this.leftList[0];   //找到初始
-                                console.log(this.tableData[firstChild]);
                                 // this.tableData[firstChild];
                                 this.cityTypeNUm = [];  // y  数据清空\
                                 this.roseSource = [];   
 
                                 this.citySource.forEach((item,index)=>{
-                                    console.log(item);
                                     this.cityTypeNUm.push( {city :this.citySource1[index],value:parseInt(this.tableData[firstChild][item]),type : item });
                                     this.roseSource.push({name : item, value : this.tableData['rose'][firstChild][item]  })
                                 })
                                 this.roseSource.sort( function (a,b) {
                                     return b.value - a.value;
                                 })
-                                // console.log(this.roseSource);
                                
                                 // 警情数据占比分析  proportionSource
                                 this.proportionSource = [
@@ -904,10 +892,8 @@
                                 ];
 
                                 let obj5 = this.tableData['proportion'];
-                                // console.log(obj5['110报警'])
 
 
-                                // console.log(obj5['其他接警类型'])
                                 this.proportionSource[0]['value'] =  obj5['110报警'];
                                 this.proportionSource[1]['value'] =  obj5['122报警'];
                                 this.proportionSource[2]['value'] =  obj5['119报警'];
@@ -921,7 +907,6 @@
                                 let str1 ;
                                 let qian ;
                                 let hou ; 
-                                // console.log(obj6 );
                                 this.xAxisData = [];
                                 obj6.forEach((item,index)=>{
                                     str1 = item['tjrq'] ;
@@ -985,19 +970,19 @@
                             }
                         })
                         .then(function (res) { 
-                            // console.log(res);
+
                             this.tableData =   res['data'];
                             if(this.tableData){
                                 //接警类型数据分析
                                 this.leftList = this.tableData['type'];
                                 let firstChild = this.leftList[0];   //找到初始
-                                console.log(this.tableData[firstChild]);
+
                                 // this.tableData[firstChild];
                                 this.cityTypeNUm = [];  // y  数据清空\
                                 this.roseSource = [];   
 
                                 this.citySource.forEach((item,index)=>{
-                                    console.log(item);
+
                                     this.cityTypeNUm.push( {city :this.citySource1[index],value:parseInt(this.tableData[firstChild][item]),type : item });
                                     this.roseSource.push({name : item, value : this.tableData['rose'][firstChild][item]  })
                                 })
@@ -1015,10 +1000,7 @@
                                 ];
 
                                 let obj5 = this.tableData['proportion'];
-                                // console.log(obj5['110报警'])
 
-
-                                // console.log(obj5['其他接警类型'])
                                 this.proportionSource[0]['value'] =  obj5['电话报警'];
                                 this.proportionSource[1]['value'] =  obj5['来人(来电)报警'];
                                 this.proportionSource[2]['value'] =  obj5['技防报警'];
@@ -1032,7 +1014,7 @@
                                 let str1 ;
                                 let qian ;
                                 let hou ; 
-                                // console.log(obj6 );
+
                                 this.xAxisData = [];
                                 obj6.forEach((item,index)=>{
                                     str1 = item['tjrq'] ;
@@ -1103,20 +1085,20 @@
                             }
                         })
                         .then(function (res) { 
-                            console.log(res);
+
                             this.tableData =   res['data'];
-                            console.log(this.tableData)
+
                             if(this.tableData){
                                //接警类型数据分析
                                 this.leftList = this.tableData['type'];
                                 let firstChild = this.leftList[0];   //找到初始
-                                console.log(this.tableData[firstChild]);
+
                                 // this.tableData[firstChild];
                                 this.cityTypeNUm = [];  // y  数据清空\
                                 this.roseSource = [];   
 
                                 this.citySource.forEach((item,index)=>{
-                                    console.log(item);
+
                                    this.cityTypeNUm.push( {city :this.citySource1[index],value:parseInt(this.tableData[firstChild][item]),type : item });
                                     this.roseSource.push({name : item, value : this.tableData['rose'][firstChild][item]  })
                                 })
@@ -1138,10 +1120,7 @@
                                 ];
 
                                 let obj5 = this.tableData['proportion'];
-                                // console.log(obj5['110报警'])
 
-
-                                // console.log(obj5['其他接警类型'])
                                 this.proportionSource[0]['value'] =  obj5['报警求助、举报投诉'];
                                 this.proportionSource[1]['value'] =  obj5['处警反馈'];
                                 this.proportionSource[2]['value'] =  obj5['信息咨询'];
@@ -1158,7 +1137,7 @@
                                 let str1 ;
                                 let qian ;
                                 let hou ; 
-                                // console.log(obj6 );
+
                                 this.xAxisData = [];
                                 obj6.forEach((item,index)=>{
                                     str1 = item['tjrq'] ;
@@ -1249,18 +1228,16 @@
                             this.roseSource = [];   
                             let num ;
                             if(this.tableData){
-                                console.log(this.tableData);
+
                                 this.citySource.forEach( (val,i)=>{
-                                    // console.log(this.tableData[item])
+
                                     this.cityTypeNUm.push( {city :this.citySource1[i],value:parseInt(this.tableData[item][val]),type : item });
-                                    // console.log(val);   //太原市大同市朔州市忻州市吕梁市晋中市
-                                    // console.log(this.tableData['rose'][item]);
+
                                     this.roseSource.push({name : val, value : this.tableData['rose'][item][val]  })
                                 } )
                                 this.roseSource.sort( function (a,b) {
                                     return b.value - a.value;
                                 })
-                                // console.log(this.roseSource);  
 
                             }
                         }
@@ -1287,7 +1264,7 @@
             this.pdFilter_btn();   // 判断筛选框是否显示
             this.getScale();    //获取缩放值
             // this.renderChart();
-            // console.log(this.tableData);
+
              this.getShen();
 
             
@@ -1313,7 +1290,7 @@
         destroyed() {
         }, //生命周期 - 销毁完成
         activated() {
-            // console.log('缓存')
+
         }, //如果页面有keep-alive缓存功能，这个函数会触发
     }
 </script>
@@ -1392,7 +1369,7 @@
 				justify-content: center;
             }
             .r-b-main{
-                padding: 0 3%;
+                padding: 0 2.5%;
                 height: 85%;
                 display: flex; 
                 // margin-bottom: 10%;
