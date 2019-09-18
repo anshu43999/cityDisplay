@@ -1959,7 +1959,7 @@
                         // cjsl: 14020      //处警事件总数 // fksl: 7419   //反馈事件总数 // hb: 0      //环比
                         // jjsl: 18669    //报警事件总数 // yxjq: 4887  //有效警情总数
                         this.jqtjjcData[0]['value'] = res['data'][0]['jjsl'];
-                        this.mapData['value'] = res['data'][0]['jjsl'];
+                        this.mapData['value'] = res['data'][0]['yxjq'];
                         this.jqtjjcData[1]['value'] = res['data'][0]['yxjq'];
                         this.jqtjjcData[2]['value'] = res['data'][0]['cjsl'];
                         this.jqtjjcData[3]['value'] = res['data'][0]['fksl'];
