@@ -25,10 +25,11 @@
 
                             <span v-else-if="index ===1 || index ===4" class="sumType2">{{value}}</span>
 
-                            <span v-else-if="index ===2 || index ===5" :class="value<0 ? 'sumType3': 'sumType4' ">
+                            <span v-else-if="index ===2 || index ===5" :class="value<0 ? 'sumType3':value>0 ? 'sumType4':'sumType5' ">
                                 {{Math.abs(value)}}
                                 <i v-if="value<0" class="iconfont iconxiangshang-copy"></i> 
-                                <i v-else   class="iconfont iconxiangshang"></i>
+                                <i v-else-if="value>0"   class="iconfont iconxiangshang"></i>
+                                <i v-else class="iconfont iconchiping"></i>
                             </span>
                         </div>
                     </div>
@@ -47,10 +48,10 @@
                     <ul class="main_context_list">
                         <li   v-for="(item,key,index) in ratio" :key="index">
                             <span>{{key}}</span>
-                            <span :class="item<0 ? 'decline':'rise'">{{Math.abs(item)}}%  
+                            <span :class="item<0 ? 'decline':  item>0 ? 'rise'  :'striping' ">{{Math.abs(item)}}%  
                                 <i v-if="item<0" class="iconfont iconxiangshang-copy"></i> 
-                                <i v-else   class="iconfont iconxiangshang"></i>
-                                    
+                                <i v-else-if="item>0"   class="iconfont iconxiangshang"></i>
+                                <i v-else class="iconfont iconchiping"></i>    
                             </span>
                         </li>
                     </ul>  
@@ -110,10 +111,10 @@
                 },
                 b_sumData : {
                     "昨日报警总数" : 18363,
-                    "昨日有效警情" : 18363,
-                    "前日报警总数" : -18363,
-                    "前日有效警情" : 18363,
+                    "前日报警总数" : 21312,
                     "报警总数环比" : 18363,
+                    "昨日有效警情" : 18363,
+                    "前日有效警情" : 18363,
                     "有效警情环比" : 18364,
                 },
                 ratio : {
@@ -123,7 +124,7 @@
                     '消防救援' : 1, 
                     '群众求助' : 4, 
                     '应急联动事件' : 5, 
-                    '纠纷' : 3,
+                    '纠纷' : 0,
                     '灾害事故': -2,
                 }
 
@@ -682,6 +683,9 @@
                             .sumType4{
                                 color: #ff581e;
                             }
+                            .sumType5{
+                                color: #fff900;
+                            }
 
 
 
@@ -724,6 +728,9 @@
                             }
                             .rise{
                                 color: #ff581e;
+                            }
+                            .striping{
+                                color: #fff900;
                             }
                             
                         }

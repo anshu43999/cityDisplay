@@ -40,6 +40,19 @@
                 }
             },
             changeOption(e) {
+                console.log(e.target.innerText);
+                switch (e.target.innerText) {
+                    case '警情详情':
+                            // this.$router.push({path : '10.94.7.4' })
+                            // window.location.href = 'http://10.94.7.4'
+                            window.open('http://10.94.7.4', '_blank');
+                        break;
+                    case '受立案统计':
+                            this.$router.push({path : 'handling'})
+                        break;
+                    default:
+                        break;
+                }
 
             },
         }
