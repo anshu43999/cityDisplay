@@ -1090,7 +1090,7 @@
                         data: total,
                         itemStyle: {
                             normal: {
-                                color: 'red'
+                                color: '#ff5e17'
                             }
                         }
                     }, {
@@ -1100,7 +1100,7 @@
                         data: total,
                         itemStyle: {
                             normal: {
-                                color: 'green'
+                                color: '#00ff78'
                             }
                         }
                     }],
@@ -3007,7 +3007,7 @@
                         text-align: center;
 
                         p:first-child {
-                            font-size: 1.5rem;
+                            font-size: 1.3rem;
                             letter-spacing: 2px;
                             font-weight: bold;
                             color: #fff;
@@ -3015,7 +3015,7 @@
 
                         p:nth-child(2) {
                             color: #ff9c54;
-                            font-size: 2rem;
+                            font-size: 1.8rem;
                             letter-spacing: 2px;
                             font-weight: bold;
                         }
