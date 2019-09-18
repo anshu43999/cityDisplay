@@ -108,7 +108,7 @@
         data() {
             return {
                 admin: 'admin',
-                settings: ['警情分布占比设置', '各市警情峰值设置'],
+                settings: ['警情分布占比设置', '各市警情阈值设置'],
                 model: 'display',
                 settingsOption: 'distribute',
                 click:false
@@ -136,7 +136,9 @@
                     .then(res => {
                         console.log('res=>', res);
                         this.$parent.getGrading();
-                        this.model = 'display';
+                        // this.model = 'display';
+                        this.click=true;
+                        this.slide();
                     });
             },
             cancel() {
@@ -188,7 +190,9 @@
                     .then(res => {
                         console.log('res=>', res);
                         this.$parent.getPeak();
-                        this.model = 'display';
+                        // this.model = 'display';
+                        this.click=true;
+                        this.slide();
                     });
             },
             exit() {
@@ -196,11 +200,13 @@
                 this.$router.push('/');
             },
             slide(){
+                // console.log('slide');
                 let setting=document.getElementById('bar');
                 let icon=document.querySelector('#bar>.l');
                 this.click=!this.click;
 
                 if (this.click===true){
+                    // console.log(this.click);
                     setting.style.transform='translate(-34.71rem)';
                     icon.innerHTML='<i class="iconfont iconxiangyou2"></i>'
                 }else {

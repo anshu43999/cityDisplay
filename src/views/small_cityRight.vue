@@ -519,9 +519,12 @@
             detailProportionChart() {
                 let myChart = this.$echarts.init(document.getElementById('detailProportionChart'));
                 let sourceArr = this.detailSource;
-                let colorList1 = ['#fff093', '#00ffeb', '#0096ff', '#ffffff', '#8fd1ff', '#ffdf18', '#ff9f16', '#b9ff9e', '#00ffc0',
-                    '#ff2a52', '#1ada86', '#49bcf3', '#ff64bf', '#ff8155', '#3ecf6a', '#fff497', '#c64f47', '#81799e', '#2f9a94',
-                    '#9e57b7', '#d58a85'
+                let colorList1 = ['#fff093', '#00ffeb', '#0096ff', '#ffffff',
+                    '#8fd1ff', '#ffdf18', '#ff9f16', '#b9ff9e',
+                    '#00ffc0', '#84ff00', '#1ada86', '#49bcf3',
+                    '#ff64bf', '#ff8155', '#3ecf6a', '#fff497',
+                    '#c64f47', '#81799e', '#2f9a94', '#9e57b7',
+                    '#d58a85'
                 ];
                 let total = 0;
                 sourceArr.forEach((value, index) => {

@@ -15,25 +15,25 @@
                     <div class="chart-wrap">
                         <!--                    标题-->
                         <div class="title_wrap filter">
-							警情统计监测
-							<div class="options">
-								<div>
-									<!--<div>
-										<img class="iconBox" data-id="jjlx" src="../assets/images/index/childrenPage.png">
-									</div>-->
-									<div data-id="jjlx" class="option">
-										<div class="filterTitle">
-											<div>页面跳转</div>
-										</div>
-										<ul class="filterItem" @click="selectItem">
-											<li v-for="item in periodArr2" :key="item">
-												<div data-id="jjlx">{{item}}</div>
-											</li>
-										</ul>
-									</div>
-								</div>
-							</div>
-						</div>
+                            警情统计监测
+                            <div class="options">
+                                <div>
+                                    <!--<div>
+                                        <img class="iconBox" data-id="jjlx" src="../assets/images/index/childrenPage.png">
+                                    </div>-->
+                                    <div data-id="jjlx" class="option">
+                                        <div class="filterTitle">
+                                            <div>页面跳转</div>
+                                        </div>
+                                        <ul class="filterItem" @click="selectItem">
+                                            <li v-for="item in periodArr2" :key="item">
+                                                <div data-id="jjlx">{{item}}</div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
                         <!--                    内容-->
                         <div class="chartBox">
@@ -78,42 +78,42 @@
             </div>
 
 
-			<div class="m_wrap"> 		
-				<div class="m">
-					<div class="chart-wrap">
-						<div class="chartBox">
-							<div class="yxjq">
-								<p>{{mapData.name}}</p>
-								<p>{{mapData.value}}</p>
-							</div>
-							<div class="yxjqhb">
-								<p>{{mapData.name}}环比</p>
-								<p :class="[mapData.hb>0?'up':'down']">
-									{{
-									mapData.hb<0?-mapData.hb:mapData.hb
-									}}%
-									<i :class="['iconfont',mapData.hb>0?'iconxiangshang':'iconxiangshang-copy']"></i>
-								</p>
-							</div>
-							<div class="shoulian">
-								<p>{{shoulian.name}}</p>
-								<p>{{shoulian.value}}</p>
-							</div>
-							<div class="shoulianhb">
-								<p>{{shoulian.name}}环比</p>
-								<p :class="[shoulian.hb>0?'up':'down']">
-									{{
-									shoulian.hb<0?-shoulian.hb:shoulian.hb
-									}}%
-									<i :class="['iconfont',shoulian.hb>0?'iconxiangshang':'iconxiangshang-copy']"></i>
-								</p>
-							</div>
-							<!--                        图表-->
-							<div id="mapChart" class="chart"></div>
-						</div>
-					</div>
-				</div>
-			</div>
+            <div class="m_wrap">
+                <div class="m">
+                    <div class="chart-wrap">
+                        <div class="chartBox">
+                            <div class="yxjq">
+                                <p>{{mapData.name}}</p>
+                                <p>{{mapData.value}}</p>
+                            </div>
+                            <div class="yxjqhb">
+                                <p>{{mapData.name}}环比</p>
+                                <p :class="mapHbClass">
+                                    {{
+                                    mapData.hb<0?-mapData.hb:mapData.hb
+                                    }}%
+                                    <i :class="['iconfont',mapHbIcon]"></i>
+                                </p>
+                            </div>
+                            <div class="shoulian">
+                                <p>{{shoulian.name}}</p>
+                                <p>{{shoulian.value}}</p>
+                            </div>
+                            <div class="shoulianhb">
+                                <p>{{shoulian.name}}环比</p>
+                                <p :class="shoulianClass">
+                                    {{
+                                    shoulian.hb<0?-shoulian.hb:shoulian.hb
+                                    }}%
+                                    <i :class="['iconfont',shoulianHbIcon]"></i>
+                                </p>
+                            </div>
+                            <!--                        图表-->
+                            <div id="mapChart" class="chart"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="r">
 
                 <div class="r-t">
@@ -307,17 +307,17 @@
                 jqtjjcSource: [{
                     name: '已处警数占比',
                     value: 0,
-                    radius: '50%'
+                    radius: '55%'
                 },
                     {
                         name: '有效警情占比',
                         value: 0,
-                        radius: '50%'
+                        radius: '55%'
                     },
                     {
                         name: '已反馈数占比',
                         value: 0,
-                        radius: '50%'
+                        radius: '55%'
                     }
                 ],
 
@@ -444,12 +444,12 @@
                 mapData: {
                     name: '有效警情',
                     value: 0,
-                    hb: -4,
+                    hb: 0,
                 },
                 shoulian: {
                     name: '立案总数',
                     value: 0,
-                    hb: -4,
+                    hb: 0,
                 },
                 //    今日接警类型数据分析、今日来话类型数据分析
                 jrjjlxsjfxSourceSource: [],
@@ -536,6 +536,52 @@
 
             }
         },
+        computed:{
+            mapHbClass(){
+                let c='';
+                if (this.mapData.hb>0){
+                    c='up';
+                }else if (this.mapData.hb==0){
+                    c='static';
+                }else {
+                    c='down';
+                }
+                return c
+            },
+            mapHbIcon(){
+                let c='';
+                if (this.mapData.hb>0){
+                    c='iconxiangshang';
+                }else if (this.mapData.hb==0){
+                    c='iconchiping';
+                }else {
+                    c='iconxiangshang-copy';
+                }
+                return c
+            },
+            shoulianClass(){
+                let c='';
+                if (this.shoulian.hb>0){
+                    c='up';
+                }else if (this.shoulian.hb==0){
+                    c='static';
+                }else {
+                    c='down';
+                }
+                return c
+            },
+            shoulianHbIcon(){
+                let c='';
+                if (this.shoulian.hb>0){
+                    c='iconxiangshang';
+                }else if (this.shoulian.hb==0){
+                    c='iconchiping';
+                }else {
+                    c='iconxiangshang-copy';
+                }
+                return c
+            },
+        },
         methods: {
             //获取缩放比例
             getScale() {
@@ -561,7 +607,7 @@
                                 {
                                     name: item.name,
                                     type: 'gauge',
-                                    center: [index * 28 + 22 + '%', '40%'],
+                                    center: [index * 28 + 22 + '%', '45%'],
                                     radius: item.radius,
                                     splitNumber: 2,
                                     axisLine: {
@@ -606,7 +652,7 @@
                                 {
                                     name: item.name,
                                     type: 'gauge',
-                                    center: [index * 28 + 22 + '%', '40%'],
+                                    center: [index * 28 + 22 + '%', '45%'],
                                     radius: item.radius,
                                     splitNumber: 2,
                                     axisLine: {
@@ -650,7 +696,7 @@
                                 {
                                     name: item.name,
                                     type: 'gauge',
-                                    center: [index * 28 + 22 + '%', '40%'],
+                                    center: [index * 28 + 22 + '%', '45%'],
                                     radius: item.radius,
                                     splitNumber: 2,
                                     axisLine: {
@@ -1075,6 +1121,10 @@
                         },
                         icon: "circle",
                         itemGap: 20 * this.scale
+                    },
+                    grid:{
+                        left:60*this.scale,
+                        right:20*this.scale
                     }
                 };
                 myChart.setOption(option);
@@ -1124,9 +1174,9 @@
                     }
                 });
                 myChart.on('click',function(params){
-					console.log(params['data']['name']);
-					that.$router.push({path : '/index/particulars/city',query : { title : '市占比数据分析' ,city :params['data']['name'] }})
-				})
+                    console.log(params['data']['name']);
+                    that.$router.push({path : '/index/particulars/city',query : { title : '市占比数据分析' ,city :params['data']['name'] }})
+                })
 
                 //配置项
                 let option = {
@@ -1429,8 +1479,8 @@
             },
             // 跳转
             jump(e) {
-				let h3 = e.currentTarget;
-				console.log(h3.innerText)
+                let h3 = e.currentTarget;
+                console.log(h3.innerText)
                 switch (h3.innerText) {
                     case '接警类型数据详情':
                         this.$router.push({
@@ -1488,22 +1538,22 @@
                                 title: '全省来话类型数据分析'
                             }
                         });
-						break;
-					case '警情分类环比分析':
-						this.$router.push({
-							name : "省占比数据分析",
-							query: {
+                        break;
+                    case '警情分类环比分析':
+                        this.$router.push({
+                            name : "省占比数据分析",
+                            query: {
                                 title: '全省占比数据分析'
                             }
-						})	
-						break;
-					
+                        })
+                        break;
+
 
                     default:
-						// console.log(h3.innerText);
-						let city = h3.innerText + '市';
-						// console.log(city);
-						this.$router.push({path : '/index/particulars/city',query : { title : '市占比数据分析' ,city :city}})
+                        // console.log(h3.innerText);
+                        let city = h3.innerText + '市';
+                        // console.log(city);
+                        this.$router.push({path : '/index/particulars/city',query : { title : '市占比数据分析' ,city :city}})
 
                         break;
                 }
@@ -1799,21 +1849,21 @@
                         break;
                     case 'jjlx':
                         // this.getJjlx();
-						
-						// this.getJjlxSeven();
+
+                        // this.getJjlxSeven();
                         // this.getBjfsSeven();
                         // this.getLhlxSeven();
                         break;
                     case 'bjfs':
-						// this.getBjfs();
-						
+                        // this.getBjfs();
+
                         // this.getJjlxSeven();
                         // this.getBjfsSeven();
                         // this.getLhlxSeven();
                         break;
                     case 'lhlx':
-						// this.getLhlx();
-						
+                        // this.getLhlx();
+
                         // this.getJjlxSeven();
                         // this.getBjfsSeven();
                         // this.getLhlxSeven();
@@ -1850,9 +1900,9 @@
                     // console.log(options);
                     options.style.display='block'
                 }else {
-					if(options){
-						options.style.display='none'
-					}
+                    if(options){
+                        options.style.display='none'
+                    }
                 }
             },
             //获取或保存筛选时间
@@ -2534,7 +2584,7 @@
         beforeDestroy() {
             clearInterval(counter);
             counter = null;
-          
+
 
         }, //生命周期 - 销毁之前
     }
@@ -2543,121 +2593,122 @@
 <style scoped lang="scss">
     //样式里的l, m, r, t, b分别代表左，中，右，上，下
     //布局
-	.filter{
-		position: relative;
-	}
-	.options {
-		z-index: 99999;
-		display: flex;
-		flex-direction: row-reverse;
-		position: absolute;
-		width: 60%;
-		height: 26%;
-		/*background: #ffffff;*/
-		left: 20%;
-		top: 0;
-		display: none;
-		/*margin: auto;*/
+    .filter{
+        position: relative;
+    }
+    .options {
+        z-index: 99999;
+        display: flex;
+        flex-direction: row-reverse;
+        position: absolute;
+        width: 50%;
+        height: 26%;
+        /*background: #ffffff;*/
+        left: 20%;
+        top: 0;
+        display: none;
+        /*margin: auto;*/
 
-		// >div{
-		//     cursor: pointer;
-		//     width : 3rem;
-		//     height :2.6rem;
-		// }
-		.timer_btn {
-			width: 2rem;
-			height: 2rem;
-			cursor: pointer;
+        // >div{
+        //     cursor: pointer;
+        //     width : 3rem;
+        //     height :2.6rem;
+        // }
+        .timer_btn {
+            width: 2rem;
+            height: 2rem;
+            cursor: pointer;
 
-			img {
-				width: 100%;
-				height: 100%;
-			}
-		}
+            img {
+                width: 100%;
+                height: 100%;
+            }
+        }
 
 
-		.option {
-			width: 100%;
-			height: 22rem;
-			position: absolute;
-			top: 2rem;
-			right: -0.5rem;
-			background: url("../assets/images/index/filter.png");
-			background-repeat: no-repeat;
-			background-size: 100% 100%;
-			/*display: none;*/
+        .option {
+            width: 100%;
+            height: 18rem;
+            position: absolute;
+            top: 1rem;
+            right: -0.5rem;
+            background: url("../assets/images/index/filter.png");
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            /*display: none;*/
 
-			.filterTitle {
-				color: #17fff3;
-				position: absolute;
-				top: 2.6rem;
-				left: 0;
-				right: 0;
-				margin: auto;
-				height: 18%;
+            .filterTitle {
+                color: #17fff3;
+                position: absolute;
+                top: 2rem;
+                left: 0;
+                right: 0;
+                margin: auto;
+                height: 18%;
 
-				div {
-					width: 100%;
-					height: 100%;
-					display: flex;
-					align-items: center;
-					justify-content: center;
-					/*transform: scale(0.6);*/
-					/*transform-origin: left top;*/
-					letter-spacing: 2px;
-				}
-			}
+                div {
+                    width: 100%;
+                    height: 100%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    /*transform: scale(0.6);*/
+                    /*transform-origin: left top;*/
+                    letter-spacing: 2px;
+                }
+            }
 
-			.filterItem {
-				position: absolute;
-				top: 33%;
-				width: 70%;
-				height: 50%;
-				left: 0;
-				right: 0;
-				margin: auto;
-				display: flex;
-				flex-direction: column;
-				justify-content: space-between;
+            .filterItem {
+                position: absolute;
+                top: 33%;
+                width: 70%;
+                height: 50%;
+                left: 0;
+                right: 0;
+                margin: auto;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
 
-				li {
-					width: 100%;
-					height: 27.4%;
+                li {
+                    width: 100%;
+                    height: 27.4%;
 
-					div {
-						width: 100%;
-						height: 100%;
-						/*width: 167%;
+                    div {
+                        width: 100%;
+                        height: 100%;
+                        /*width: 167%;
                         height: 167%;
                         transform: scale(0.6);
                         transform-origin: left top;*/
-						display: flex;
-						align-items: center;
-						justify-content: center;
-						letter-spacing: 2px;
-						cursor: pointer;
-						background-image: linear-gradient(-86deg,
-								#0b5fa7 0%,
-								#0b5fa7 100%);
-						border-style: solid;
-						border-width: 1px;
-						border-image-source: linear-gradient(268deg,
-								#0493e4 41%,
-								#0492e3 43%,
-								rgba(8, 120, 197, 0.5) 71%,
-								#0b5fa7 100%);
-						border-image-slice: 1;
+                        font-size: 1.2rem;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        letter-spacing: 2px;
+                        cursor: pointer;
+                        background-image: linear-gradient(-86deg,
+                                #0b5fa7 0%,
+                                #0b5fa7 100%);
+                        border-style: solid;
+                        border-width: 1px;
+                        border-image-source: linear-gradient(268deg,
+                                #0493e4 41%,
+                                #0492e3 43%,
+                                rgba(8, 120, 197, 0.5) 71%,
+                                #0b5fa7 100%);
+                        border-image-slice: 1;
 
-						&.active {
-							background-image: linear-gradient(-86deg,
-									#53b0ff 0%,
-									#0b5fa7 100%);
-						}
-					}
-				}
-			}
-		}
-	}
+                        &.active {
+                            background-image: linear-gradient(-86deg,
+                                    #53b0ff 0%,
+                                    #0b5fa7 100%);
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     main {
         display: flex;
@@ -2723,7 +2774,7 @@
                 .title_wrap {
                     cursor: pointer;
                     box-sizing: border-box;
-					position: relative;
+                    position: relative;
                 }
             }
 
@@ -2760,9 +2811,9 @@
                             }
 
                             .sp1 {
-								cursor: pointer;
+                                cursor: pointer;
                                 color: #FFFFFF;
-								font-weight: 550;
+                                font-weight: 550;
                             }
 
                             .sp2 {
@@ -2791,8 +2842,8 @@
                 //数据
                 .statistics {
                     width: 80%;
-                    height: 21%;
-                    margin: 6% 10% 0;
+                    /*height: 21%;*/
+                    margin: 3% 10% 0;
                     display: flex;
                     justify-content: space-around;
 
@@ -2865,162 +2916,173 @@
         }
 
         .m_wrap{
-			width: 30%;
-			height: 100%;
-			display: flex;
-			flex-direction:column; 
-			justify-content: space-around;
-			.m {
-				width: 100%;
-				height: 96%;
-				// margin: 2.5% 0;
-				background-image: url('../assets/images/index/m.png');
-				background-repeat: no-repeat;
-				background-size: 100% 100%;
+            width: 30%;
+            height: 100%;
+            display: flex;
+            flex-direction:column;
+            justify-content: space-around;
+            .m {
+                width: 100%;
+                height: 96%;
+                // margin: 2.5% 0;
+                background-image: url('../assets/images/index/m.png');
+                background-repeat: no-repeat;
+                background-size: 100% 100%;
 
-				.chart-wrap {
-					width: 100%;
-					height: 100%;
-					
-				
-
-					.chartBox {
-						padding: 5%;
-					}
-				}
-
-				.chartBox {
-					position: relative;
-					// padding : 2%
-					.yxjq {
-						position: absolute;
-						top: 5%;
-						left: 7%;
-						text-align: center;
-
-						p:first-child {
-							font-size: 1.5rem;
-							letter-spacing: 2px;
-							font-weight: bold;
-							color: #fff;
-						}
-
-						p:nth-child(2) {
-							color: #ffe754;
-							font-size: 2rem;
-							letter-spacing: 2px;
-							font-weight: bold;
-						}
-					}
-					.yxjqhb {
-						position: absolute;
-						top: 15%;
-						left: 7%;
-						text-align: left;
-
-						p:first-child {
-							font-size: 1.3rem;
-							letter-spacing: 2px;
-							font-weight: bold;
-							color: #fff;
-						}
-
-						p:nth-child(2) {
-							font-size: 1.8rem;
-							letter-spacing: 2px;
-							font-weight: bold;
-
-							&.up {
-								color: #ff5e17;
-							}
-
-							&.down {
-								color: #00ffa2;
-							}
-
-							.iconfont {
-								font-size: 1.5rem;
-							}
-						}
-					}
-					.shoulian {
-						position: absolute;
-						top: 5%;
-						right: 7%;
-						text-align: center;
-
-						p:first-child {
-							font-size: 1.5rem;
-							letter-spacing: 2px;
-							font-weight: bold;
-							color: #fff;
-						}
-
-						p:nth-child(2) {
-							color: #ffe754;
-							font-size: 2rem;
-							letter-spacing: 2px;
-							font-weight: bold;
-						}
-					}
-					.shoulianhb {
-						position: absolute;
-						top: 13%;
-						right: 7%;
-						text-align: right;
-
-						p:first-child {
-							font-size: 1.3rem;
-							letter-spacing: 2px;
-							font-weight: bold;
-							color: #fff;
-						}
-
-						p:nth-child(2) {
-							font-size: 1.8rem;
-							letter-spacing: 2px;
-							font-weight: bold;
-
-							&.up {
-								color: #ff5e17;
-							}
-
-							&.down {
-								color: #00ffa2;
-							}
-
-							.iconfont {
-								font-size: 1.5rem;
-							}
-						}
-					}
+                .chart-wrap {
+                    width: 100%;
+                    height: 100%;
 
 
-					// #mapData {
-					// 	position: absolute;
-					// 	top: 8%;
-					// 	left: 10%;
 
-					// 	p:first-child {
-					// 		font-size: 3rem;
-					// 		letter-spacing: 0.3rem;
-					// 		// font-family: heijian;
-					// 		color: #13fef8;
-					// 	}
+                    .chartBox {
+                        padding: 5%;
+                    }
+                }
 
-					// 	p:nth-child(2) {
-					// 		transform: scale(0.6);
-					// 		transform-origin: left;
-					// 		color: #ffffff;
-					// 		font-size: 2rem;
-					// 		letter-spacing: 0.3rem;
-					// 	}
-					// }
-				}
-			}
-		}
-		
-		
+                .chartBox {
+                    position: relative;
+                    // padding : 2%
+                    .yxjq {
+                        position: absolute;
+                        top: 5%;
+                        left: 7%;
+                        text-align: center;
+
+                        p:first-child {
+                            font-size: 1.5rem;
+                            letter-spacing: 2px;
+                            font-weight: bold;
+                            color: #fff;
+                        }
+
+                        p:nth-child(2) {
+                            color: #ffe754;
+                            font-size: 2rem;
+                            letter-spacing: 2px;
+                            font-weight: bold;
+                        }
+                    }
+
+                    .yxjqhb {
+                        position: absolute;
+                        top: 15%;
+                        left: 7%;
+                        text-align: left;
+
+                        p:first-child {
+                            font-size: 1.3rem;
+                            letter-spacing: 2px;
+                            font-weight: bold;
+                            color: #fff;
+                        }
+
+                        p:nth-child(2) {
+                            font-size: 1.8rem;
+                            letter-spacing: 2px;
+                            font-weight: bold;
+
+                            &.up {
+                                color: #ff5e17;
+                            }
+
+                            &.down {
+                                color: #00ffa2;
+                            }
+
+                            &.static {
+                                color: #fff900;
+                            }
+
+                            .iconfont {
+                                font-size: 1.5rem;
+                            }
+                        }
+                    }
+
+                    .shoulian {
+                        position: absolute;
+                        top: 5%;
+                        right: 7%;
+                        text-align: center;
+
+                        p:first-child {
+                            font-size: 1.5rem;
+                            letter-spacing: 2px;
+                            font-weight: bold;
+                            color: #fff;
+                        }
+
+                        p:nth-child(2) {
+                            color: #ff9c54;
+                            font-size: 2rem;
+                            letter-spacing: 2px;
+                            font-weight: bold;
+                        }
+                    }
+
+                    .shoulianhb {
+                        position: absolute;
+                        top: 13%;
+                        right: 7%;
+                        text-align: right;
+
+                        p:first-child {
+                            font-size: 1.3rem;
+                            letter-spacing: 2px;
+                            font-weight: bold;
+                            color: #fff;
+                        }
+
+                        p:nth-child(2) {
+                            font-size: 1.8rem;
+                            letter-spacing: 2px;
+                            font-weight: bold;
+
+                            &.up {
+                                color: #ff5e17;
+                            }
+
+                            &.down {
+                                color: #00ffa2;
+                            }
+
+                            &.static {
+                                color: #fff900;
+                            }
+
+                            .iconfont {
+                                font-size: 1.5rem;
+                            }
+                        }
+                    }
+
+
+                    // #mapData {
+                    // 	position: absolute;
+                    // 	top: 8%;
+                    // 	left: 10%;
+
+                    // 	p:first-child {
+                    // 		font-size: 3rem;
+                    // 		letter-spacing: 0.3rem;
+                    // 		// font-family: heijian;
+                    // 		color: #13fef8;
+                    // 	}
+
+                    // 	p:nth-child(2) {
+                    // 		transform: scale(0.6);
+                    // 		transform-origin: left;
+                    // 		color: #ffffff;
+                    // 		font-size: 2rem;
+                    // 		letter-spacing: 0.3rem;
+                    // 	}
+                    // }
+                }
+            }
+        }
+
+
 
 
         .r {
@@ -3069,7 +3131,7 @@
                 background-size: 100% 100%;
 
                 .title_wrap {
-					// cursor: pointer;
+                    // cursor: pointer;
                     // padding-left: 2.2rem;
                     box-sizing: border-box;
                     margin-top: -0.3rem;
