@@ -29,7 +29,25 @@ const routes = [
         name: '',
         component: App,
         children: [
-
+            {
+                path: "particulars",
+                name: '全省占比数据分析',
+                component: () => import("../views/percentage"),
+                redirect: '/particulars/province',
+                children :[
+                    {
+                        path : 'province',
+                        name : '省占比数据分析',
+                        component : ()=>import("../views/province")
+                    },
+                    {
+                        path : 'city',
+                        name : '市占比数据分析',
+                        component: () => import("../views/city"),
+                    }
+            
+                ]
+            },
             {
                 path: "home",
                 name: '首页',

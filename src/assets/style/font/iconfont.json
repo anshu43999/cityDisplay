@@ -6,6 +6,34 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "1204",
+      "name": "向上",
+      "font_class": "xiangshang",
+      "unicode": "e601",
+      "unicode_decimal": 58881
+    },
+    {
+      "icon_id": "700818",
+      "name": "向左",
+      "font_class": "xiangzuo1",
+      "unicode": "e639",
+      "unicode_decimal": 58937
+    },
+    {
+      "icon_id": "887928",
+      "name": "设置",
+      "font_class": "shezhi",
+      "unicode": "e626",
+      "unicode_decimal": 58918
+    },
+    {
+      "icon_id": "1049942",
+      "name": "向右",
+      "font_class": "xiangyou2",
+      "unicode": "e60c",
+      "unicode_decimal": 58892
+    },
+    {
       "icon_id": "1144868",
       "name": "密码",
       "font_class": "mima",
@@ -62,6 +90,13 @@
       "unicode_decimal": 58912
     },
     {
+      "icon_id": "6335469",
+      "name": "设置",
+      "font_class": "shezhi1",
+      "unicode": "e66d",
+      "unicode_decimal": 58989
+    },
+    {
       "icon_id": "6873832",
       "name": "向左双箭头",
       "font_class": "xiangzuoshuangjiantou",
@@ -76,6 +111,20 @@
       "unicode_decimal": 58880
     },
     {
+      "icon_id": "7587283",
+      "name": "切换",
+      "font_class": "qiehuan",
+      "unicode": "e61c",
+      "unicode_decimal": 58908
+    },
+    {
+      "icon_id": "8044201",
+      "name": "切换",
+      "font_class": "_switch",
+      "unicode": "e64f",
+      "unicode_decimal": 58959
+    },
+    {
       "icon_id": "8582825",
       "name": "跳转",
       "font_class": "tiaozhuan",
@@ -83,11 +132,32 @@
       "unicode_decimal": 58978
     },
     {
+      "icon_id": "8743607",
+      "name": "设置",
+      "font_class": "shezhi2",
+      "unicode": "e669",
+      "unicode_decimal": 58985
+    },
+    {
+      "icon_id": "8759699",
+      "name": "设置",
+      "font_class": "shezhi3",
+      "unicode": "e61d",
+      "unicode_decimal": 58909
+    },
+    {
       "icon_id": "9896885",
       "name": "返回",
       "font_class": "fanhui",
       "unicode": "e60f",
       "unicode_decimal": 58895
+    },
+    {
+      "icon_id": "11752791",
+      "name": "向上",
+      "font_class": "xiangshang-copy",
+      "unicode": "e70d",
+      "unicode_decimal": 59149
     }
   ]
 }

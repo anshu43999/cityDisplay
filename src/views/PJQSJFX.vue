@@ -305,7 +305,7 @@
             width: 25.73%;
             height: 100%;
             // background-image: url('../assets/images/index/m.png');
-            background-image: url('../assets/images/index/m1.png');
+            background-image: url('../assets/images/index/m.png');
 
 
             background-repeat: no-repeat;

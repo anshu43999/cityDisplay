@@ -453,7 +453,7 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
         
         }
         .main_l{
-            background-image: url('../assets/images/index/m1.png');
+            background-image: url('../assets/images/index/m.png');
             background-size: 100% 100%;
             .main_centent{
                 .centent_top{
@@ -511,7 +511,7 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
 
         }
         .main_r{
-            background-image: url('../assets/images/index/m1.png');
+            background-image: url('../assets/images/index/m.png');
             background-size: 100% 100%;
             .main_centent{
                 table{

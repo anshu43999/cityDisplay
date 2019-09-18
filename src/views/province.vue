@@ -25,10 +25,11 @@
 
                             <span v-else-if="index ===1 || index ===4" class="sumType2">{{value}}</span>
 
-                            <span v-else-if="index ===2 || index ===5" class="sumType3">{{value}}</span>
-                        
-                        
-                        
+                            <span v-else-if="index ===2 || index ===5" :class="value<0 ? 'sumType3': 'sumType4' ">
+                                {{Math.abs(value)}}
+                                <i v-if="value<0" class="iconfont iconxiangshang-copy"></i> 
+                                <i v-else   class="iconfont iconxiangshang"></i>
+                            </span>
                         </div>
                     </div>
 
@@ -108,12 +109,12 @@
                     "已反馈数占比" : '98%'
                 },
                 b_sumData : {
-                    "昨日报警总数" : '18363',
-                    "昨日有效警情" : '18363',
-                    "前日报警总数" : '18363',
-                    "前日有效警情" : '18363',
-                    "报警总数环比" : '18363',
-                    "有效警情环比" : '18364',
+                    "昨日报警总数" : 18363,
+                    "昨日有效警情" : 18363,
+                    "前日报警总数" : -18363,
+                    "前日有效警情" : 18363,
+                    "报警总数环比" : 18363,
+                    "有效警情环比" : 18364,
                 },
                 ratio : {
                     '刑事警情' : -1   ,
@@ -341,8 +342,7 @@
                                 show: true,
                                 textStyle: {
                                     color: '#ffffff',
-                                    fontSize: 16*that.scale,
-                                    fontWeight:550,
+                                    fontSize: 20 
                                 }
 
                             },
@@ -405,8 +405,7 @@
                                 position: 'insideTopLeft',
                                 textStyle:{
                                     color: '#ffffff',
-                                    fontSize: 18 * that.scale,
-                                    fontWeight:550,
+                                    fontSize: 20 * that.scale,
                                 },
                                 offset: [0, -25],
                             }
@@ -475,8 +474,7 @@
                                 position: 'insideTopRight',
                                 textStyle:{
                                     color: '#ffffff',
-                                    fontSize: 18* that.scale,
-                                    fontWeight : 550,
+                                    fontSize: 20* that.scale,
                                 },
                                 offset: [0, -25],
                             }
@@ -486,8 +484,7 @@
                             animationDelay: function (dataIndex, params) {
                             return params.index * 30;
                         }
-                    }, 
-                    {
+                    }, {
                         name: '前天',
                         type: 'pictorialBar',
                         xAxisIndex: 2,
@@ -535,9 +532,6 @@
         mounted() {
             clearInterval(counter);
             counter = null;
-            let sessionStorage = window.sessionStorage;
-            // console.log(localStorage)
-            sessionStorage.setItem('city','1');
            
             this.pdFilter_btn();   // 判断筛选框是否显示
             this.getScale();    //获取缩放值
@@ -684,6 +678,9 @@
                             }
                             .sumType3{
                                 color: #01e9dc;
+                            }
+                            .sumType4{
+                                color: #ff581e;
                             }
 
 

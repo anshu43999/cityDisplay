@@ -187,7 +187,7 @@
                         textStyle: {
                             fontSize: 16 * this.scale,
                             color: '#fff',
-                            width: 40,
+                            width: 40
                         },
                         icon: 'rect',
                         itemWidth: 14 * this.scale,
@@ -196,9 +196,6 @@
                         itemGap: 15 * this.scale,
                         top : '5%',
                     },
-
-
-
 
                     xAxis: {
                         type: 'category',
@@ -209,7 +206,8 @@
                         axisLine: {
                             show: true,
                             lineStyle: {
-                                color: this.axisesColor
+                                color: this.axisesColor,
+								width:3*this.scale
                             }
                         },
                         axisTick: {
@@ -217,6 +215,9 @@
                         },
                         axisLabel: {
                             fontSize: 16 * this.scale,
+                            color:'#fff',
+							margin:10,
+							fontWeight:'bold'
                         },
                         data: dateArr
                     },
@@ -232,7 +233,8 @@
                         axisLine: {
                             show: true,
                             lineStyle: {
-                                color: this.axisesColor
+                                color: this.axisesColor,
+								width:3*this.scale
                             }
                         },
                         axisTick: {
@@ -240,6 +242,8 @@
                         },
                         axisLabel: {
                             fontSize: 16 * this.scale,
+                            color:'#fff',
+							fontWeight:'bold'
                         },
                     },
                     series: seriesArr,
@@ -254,7 +258,7 @@
                     grid: {
                         top: 90 * this.scale,
                         bottom: 70 * this.scale,
-                        left: 120 * this.scale
+                        left: 100 * this.scale
                     }
                 };
                 myChart.setOption(option);
@@ -278,14 +282,15 @@
                         axisLine: {
                             show: true,
                             lineStyle: {
-                                color: this.axisesColor
+                                color: this.axisesColor,
+								width:3*this.scale
                             }
                         },
                         axisTick: {
                             show: false
                         },
                          axisLabel: {
-                            showL: true,
+                            show: true,
                             textStyle: {
                                 color: function(value, index) {
                                     return colorList[index];
@@ -299,11 +304,13 @@
                             rich: {
                                 up: {
                                     height: 20 * this.scale,
-                                    fontSize: 14 * this.scale
+                                    fontSize: 16 * this.scale,
+									fontWeight:'bold'
                                 },
                                 down: {
                                     height: 60 * this.scale,
-                                    fontSize: 14 * this.scale
+                                    fontSize: 16 * this.scale,
+									fontWeight:'bold'
                                 }
                             }
                         },
@@ -321,13 +328,16 @@
                         axisLine: {
                             show: true,
                             lineStyle: {
-                                color: this.axisesColor
+                                color: this.axisesColor,
+								width:3*this.scale
                             }
                         },
                         axisLabel: {
                             show: true,
                             formatter: '{value} %',
-                            fontSize: 20 * this.scale
+                            fontSize: 16 * this.scale,
+							color:'#fff',
+							fontWeight:'bold'
                         }
                     },
                     series: {
@@ -352,7 +362,8 @@
                                 formatter: function (params) {
                                     return params.value + '%'
                                 },
-                                fontSize: 20 * this.scale
+                                fontSize: 20 * this.scale,
+								fontWeight:'bold'
                             }
                         },
                         data: sourceArr,
@@ -364,7 +375,7 @@
                         }
                     },
                     grid: {
-                        left: '14%',
+                        left: '13%',
                         right: '7%',
                         bottom: '28%',
                         top: '10%',
@@ -405,10 +416,10 @@
                             }
                         }
                     },
-                    legend: {
-                        data: ['直接访问', '背景'],
-                        show: false
-                    },
+                    // legend: {
+                    //     data: ['直接访问', '背景'],
+                    //     show: false
+                    // },
                     grid: {
                         left: '5%',
                         right: '0%',
@@ -427,13 +438,15 @@
                         },
                         axisLine: {
                             lineStyle: {
-                                color: '#0c3b71'
+                                color: '#0c3b71',
+								width:3*this.scale
                             }
                         },
                         axisLabel: {
                             show: true,
-                            color: 'rgb(170,170,170)',
-                            fontSize:16 *this.scale
+                            color: '#fff',
+                            fontSize:16 *this.scale,
+							fontWeight:'bold'
                         }
                     }],
                     yAxis: [{
@@ -453,12 +466,14 @@
                             // max: 100,
                             axisLine: {
                                 lineStyle: {
-                                    // color: '#0c3b71'
+									color:'#0c3b71',
+                                    width:3*this.scale
                                 }
                             },
                             axisLabel: {
-                                color: 'rgb(170,170,170)',
-                                formatter: '{value}'
+                                color: '#fff',
+                                formatter: '{value}',
+								fontWeight:'bold'
                             }
                         },
                         {
@@ -503,6 +518,11 @@
                             
                             label :{
                                 show :true,
+								textStyle:{
+									fontWeight:'bold',
+                                    color:'#fff',
+                                    fontSize:16*this.scale
+								},
                                 position:'top'
                             }
                         },
@@ -706,7 +726,7 @@
                           
                         ];
                        
-                        this.trendChartColor = ['#05dbb0', '#00a3c0', '#4160fd', '#bd0fdc', '#803ff7'];
+                        this.trendChartColor =  ['#ffe754', '#6becff', '#00fe90', '#c7efff', '#0096ff'];
                        
                         // this.subClassSource1 = [1200, 1500, 900, 900, 1300, 1200, 1500, 1400, 800, 800, 700];    //110报警
                         this.subClassColorList1 = ['#6ffeff', '#00a0a6'];
@@ -740,7 +760,7 @@
                         //     {name: '短信报警', value: [142, 152, 107, 168, 146, 164, 151]},
                         //     {name: '其他报警方式', value: [14, 15, 14, 10, 12, 15, 17]}
                         // ];
-                        this.trendChartColor = ['#ffd75d', '#00a3c0', '#0d28a6', '#e344ff', '#6400cb'];
+                        this.trendChartColor = ['#00ffe4', '#0096ff', '#ffffff', '#fff093', '#2cfa75'];
                         // this.proportionSource = [
                         //     {name: '电话报警', value: 12},
                         //     {name: '来人来电报警', value: 5},
@@ -782,7 +802,7 @@
                         //     {name: '系统测试', value: [123, 130, 128, 110, 125, 135, 120]},
                         //     {name: '其他来话类型', value: [15, 13, 20, 18, 16, 17, 18]}
                         // ];
-                        this.trendChartColor = ['#6c96ff', '#4160fb', '#2626e7', '#e344ff', '#00b3e9', '#803ff7', '#6905c6', '#17fff3'];
+                        this.trendChartColor = ['#4ced7a', '#ffb955', '#00ffeb', '#0096ff', '#8fd1ff', '#ffffff', '#fff093'];
                         // this.proportionSource = [
                         //     {name: '报警求助、举报投诉', value: 12},
                         //     {name: '处警反馈', value: 5},
@@ -1297,12 +1317,13 @@
 <style lang='scss' scoped>
     //@import url(); 引入公共css类
     h3 {
-        height: 10%;
+        
         text-align: center;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 1.2rem;
+        font-size: 1.3rem;
+        font-weight: 550;
         
     }
 
@@ -1316,38 +1337,39 @@
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        .chart-wrap {
-            width: 100%;
-            height: 100%;
-
-            .chartBox {
-                width: 100%;
-                height: 90%;
-                .chart {
-                    width: 100%;
-                    height: 100%;
-                }
-            }
-        }
         .r-t {
             width: 100%;
             height: 38.58%;
             display: flex;
             flex-direction: row;
             justify-content: space-between;
-
-            .r-t-l {
-                width: 50%;
+            .chart-wrap {
+                width: 100%;
                 height: 100%;
-                background-image: url('../assets/images/index/l-t-bg1.png');
+                h3{
+                    height: 12%;
+                }
+                .chartBox {
+                    width: 100%;
+                    height: 88%;
+                    .chart {
+                        width: 100%;
+                        height: 100%;
+                    }
+                }
+            }
+            .r-t-l {
+                width: 49%;
+                height: 100%;
+                background-image: url('../assets/images/index/e-r-t-l.png');
                 background-repeat: no-repeat;
                 background-size: 100% 100%;
             }
 
             .r-t-r {
-                width:50%;
+                width:49%;
                 height: 100%;
-                background-image: url('../assets/images/index/l-t-bg1.png');
+                background-image: url('../assets/images/index/e-r-t-r.png');
                 background-repeat: no-repeat;
                 background-size: 100% 100%;
                 
@@ -1360,7 +1382,7 @@
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
-            background-image: url('../assets/images/index/l-t-bg2.png');
+            background-image: url('../assets/images/index/e-r-b-c.png');
             background-repeat: no-repeat;
             background-size: 100% 100%;
             h3{
@@ -1368,30 +1390,47 @@
 				align-items: center;
 				justify-content: center;
             }
+            h3{
+                height: 8%;
+            }
+            .chartBox {
+                width: 100%;
+                height: 88%;
+                .chart {
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+            
+
+
             .r-b-main{
-                padding: 0 2.5%;
+                padding: 0 1%;
                 height: 85%;
                 display: flex; 
                 // margin-bottom: 10%;
                 .r-b-l{
                     width: 18%;
                     height: 100%;
-                    background: url('../assets/images/index/r-b-m-l.png'); // tab 背景
+                    // background: url('../assets/images/index/r-b-m-l.png'); // tab 背景
                     background-repeat: no-repeat;
                     background-size: 100% 100%; 
                     ul{
+                        border-right: 1px solid #0b5fa7;
                         height: 100%;
                         li{
-                            display: block;
                             height: 10%;
                             display: flex;
                             align-items: center;
                             justify-content: center;
                             border-bottom: 1px solid #0b5fa7;
                             cursor: pointer;
+                            font-size: 1.1rem;
+                            letter-spacing: 1px;
                         }
                         .active {
                             background-color: #4c7fff;
+							font-weight: bold;
                         }
                     }
                 }
@@ -1421,12 +1460,15 @@
                             margin-right:7.5%; 
                             tr{
                                 td:nth-child(1){
-                                    color: #5abcff;
+                                    color: #fff;
                                     text-align: center;
+									font-weight: bold;
                                 }
                                 td:nth-child(2){
                                     color: #ffe754 ;
                                     text-align: center;
+									font-weight: bold;
+									font-size: 1.2rem;
                                 }
                             }
                         }

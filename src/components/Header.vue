@@ -95,10 +95,10 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
         font-size:2rem;
 
         font-weight: 600;
-        background: linear-gradient(-180deg, #ffffff 50%, #0731FF 70%);
-        -webkit-background-clip: text;
-        color: transparent;
-        -webkit-text-fill-color: transparent;
+        // background: linear-gradient(-180deg, #ffffff 50%, #0731FF 70%);
+        // -webkit-background-clip: text;
+        // color: transparent;
+        // -webkit-text-fill-color: transparent;
         // text-fill-color: transparent;
     }
     #headerTime{

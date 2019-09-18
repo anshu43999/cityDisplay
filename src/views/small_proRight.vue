@@ -154,13 +154,16 @@
                             show: false
                         },
                         axisLine: {
-                            show: false
+                            show:true,
+                            lineStyle: {
+                                color: this.axisesColor,
+                                width:3*this.scale
+                            }
                         },
                         axisLabel: {
                             show: true,
                             textStyle: {
-                                color: '#00d7d4',
-                                fontSize: 14 * this.scale,
+                                color: '#FFF',
                             },
                             interval: 0,
                             formatter: function (value, index) {
@@ -171,9 +174,13 @@
                             rich: {
                                 up: {
                                     height: 20 * this.scale,
+                                    fontWeight: 'bold',
+                                    fontSize: 16 * this.scale,
                                 },
                                 down: {
-                                    height: 60 * this.scale,
+                                    height: 80 * this.scale,
+                                    fontWeight: 'bold',
+                                    fontSize: 16 * this.scale,
                                 }
                             }
                         },
@@ -190,13 +197,16 @@
                         // min: min,
                         // max: 100,
                         axisLine: {
+                            show:true,
                             lineStyle: {
-                                color: this.axisesColor
+                                color: this.axisesColor,
+                                width:3*this.scale
                             }
                         },
                         axisLabel: {
-                            color: this.axisesColor,
-                            formatter: '{value}'
+                            color: '#fff',
+                            formatter: '{value}',
+                            fontWeight:'bold'
                         }
                     },
                         {
@@ -252,8 +262,9 @@
                             normal: {
                                 show: true,
                                 position: 'top',
-                                color: '#00feff',
-                                fontSize: 14 * this.scale,
+                                color: '#fff',
+                                fontSize: 16 * this.scale,
+                                fontWeight:'bold'
                             }
                         }
                     },
@@ -273,9 +284,9 @@
                         }],
                     grid: {
                         top: 40 * this.scale,
-                        bottom: 100 * this.scale,
-                        left: 70 * this.scale,
-                        right: 20 * this.scale
+                        bottom: 90 * this.scale,
+                        left: 80 * this.scale,
+                        right: 50 * this.scale
                     }
                 };
                 myChart.setOption(option);
@@ -284,9 +295,7 @@
             percent() {
                 let myChart = this.$echarts.init(document.getElementById('proportionChart'));
                 this.chartsObj['proportionChart'] = myChart;
-                let colorList = ['#ff4860', '#84fff7', '#e3ff7c', '#b137ff', '#387eff', '#ffa4d6', '#a4ffb1', '#cde3ff', '#ec7b15',
-                    '#1fa78f', '#8dffd5', '#8e88ff'
-                ];
+                let colorList = ['#4ced7a', '#ff9f16', '#fff093', '#0096ff', '#8fd1ff', '#ffffff', '#ffdf18', '#00ffeb'];
                 let xData = [];
                 let sourceArr = this.proportionSource;
                 sourceArr.forEach(value => {
@@ -302,7 +311,8 @@
                             show: true,
                             lineStyle: {
                                 color: this.axisesColor
-                            }
+                            },
+                            width: 3*this.scale
                         },
                         axisTick: {
                             show: false
@@ -322,11 +332,13 @@
                             rich: {
                                 up: {
                                     height: 20 * this.scale,
-                                    fontSize: 14 * this.scale
+                                    fontSize: 16 * this.scale,
+                                    fontWeight:'bold'
                                 },
                                 down: {
-                                    height: 60 * this.scale,
-                                    fontSize: 14 * this.scale
+                                    height: 80 * this.scale,
+                                    fontSize: 16 * this.scale,
+                                    fontWeight:'bold'
                                 }
                             }
                         },
@@ -343,13 +355,16 @@
                         axisLine: {
                             show: true,
                             lineStyle: {
-                                color: this.axisesColor
+                                color: this.axisesColor,
+                                width:3*this.scale
                             }
                         },
                         axisLabel: {
                             show: true,
                             formatter: '{value} %',
-                            fontSize: 14 * this.scale,
+                            fontSize: 16 * this.scale,
+                            fontWeight:'bold',
+                            color:'#fff'
                         }
                     },
                     series: {
@@ -374,7 +389,8 @@
                                 formatter: function (params) {
                                     return params.value + '%'
                                 },
-                                fontSize: 14 * this.scale,
+                                fontSize: 20 * this.scale,
+                                fontWeight:'bold',
                             }
                         },
                         data: sourceArr,
@@ -389,7 +405,7 @@
                         top: 50 * this.scale,
                         bottom: 90 * this.scale,
                         left: 90 * this.scale,
-                        right: 40 * this.scale,
+                        right: 50 * this.scale,
                     }
                 };
                 myChart.setOption(option);
@@ -494,8 +510,8 @@
             detailProportionChart() {
                 let myChart = this.$echarts.init(document.getElementById('detailProportionChart'));
                 let sourceArr = this.detailSource;
-                let colorList1 = ['#815179', '#66a99f', '#fc6262', '#8cacc7', '#eacf79', '#63d3c3', '#e9ab50', '#b7564f', '#d8bcca',
-                    '#89b8c7', '#a4c585', '#49bcf3', '#8e88ff', '#ff8155', '#3ecf6a', '#fff497', '#c64f47', '#81799e', '#2f9a94',
+                let colorList1 = ['#fff093', '#00ffeb', '#0096ff', '#ffffff', '#8fd1ff', '#ffdf18', '#ff9f16', '#b9ff9e', '#00ffc0',
+                    '#ff2a52', '#1ada86', '#49bcf3', '#ff64bf', '#ff8155', '#3ecf6a', '#fff497', '#c64f47', '#81799e', '#2f9a94',
                     '#9e57b7', '#d58a85'
                 ];
                 let total = 0;
@@ -511,7 +527,8 @@
                     value.label = {
                         textStyle: {
                             color: colorList1[index],
-                            fontSize: 14 * this.scale,
+                            fontSize: 16 * this.scale,
+                            fontWeight:'bold'
                         },
                     };
                 });
@@ -524,15 +541,39 @@
                     series: {
                         // type: 'sunburst',
                         type: 'pie',
-                        radius: ['47%', '60%'],
+                        radius: ['36%', '49%'],
                         // center: ['50%', '55%'],
                         center: ['50%', '50%'],
                         data: sourceArr,
                         label: {
-                            // rotate: 'radial',
-                            // align:'left',
-                            // position:'top',
-                            // distance:20,
+                            /*formatter: function (params) {
+                                console.log(params);
+                                let newParamsName = "";
+                                let paramsNameNumber = params.data.name.length;
+                                let provideNumber = 7;  //一行显示几个字
+                                let rowNumber = Math.ceil(paramsNameNumber / provideNumber);
+                                if (paramsNameNumber > provideNumber) {
+                                    for (let p = 0; p < rowNumber; p++) {
+                                        let tempStr = "";
+                                        let start = p * provideNumber;
+                                        let end = start + provideNumber;
+                                        if (p == rowNumber - 1) {
+                                            tempStr = params.data.name.substring(start, paramsNameNumber);
+                                        } else {
+                                            tempStr = params.data.name.substring(start, end) + "\n";
+                                        }
+                                        newParamsName += tempStr;
+                                    }
+
+                                } else {
+                                    newParamsName = params.data.name;
+                                }
+                                return newParamsName
+                            },*/
+                            textStyle:{
+                                fontSize:16*this.scale,
+                                fontWeight:'bold'
+                            },
                         },
                         itemStyle: {
                             borderColor: '#021f3b',
@@ -710,6 +751,7 @@
                 })
                     .then(function (res) {
                         res.data.sort(function(a,b){return Number(a.fldm)-Number(b.fldm)});
+                        res.data=res.data.slice(0,8);
                         // console.log(res);
                         let arr = [];
                         let brr = [];
@@ -828,6 +870,9 @@
     h3 {
         height: 10%;
         text-align: center;
+        line-height: 230%;
+        font-size: 1.3rem;
+        font-weight: 550;
     }
 
     .chart-wrap {
@@ -871,31 +916,31 @@
             }
 
             .r-t-l {
-                width: 38%;
+                width: 39%;
                 height: 100%;
-                background-image: url('../assets/images/index/l-t-bg1.png');
+                background-image: url('../assets/images/index/e-r-t-l.png');
                 background-repeat: no-repeat;
                 background-size: 100% 100%;
                 background-position: center;
 
-                .chart-wrap > h3 {
+                /*.chart-wrap > h3 {
                     padding-left: 1.8rem;
                     box-sizing: border-box;
-                }
+                }*/
             }
 
             .r-t-r {
-                width: 60.52%;
+                width: 59%;
                 height: 100%;
-                background-image: url('../assets/images/index/l-t-bg1.png');
+                background-image: url('../assets/images/index/e-r-t-r.png');
                 background-repeat: no-repeat;
                 background-size: 100% 100%;
                 background-position: center;
 
-                .chart-wrap > h3 {
-                    padding-left: 2.4rem;
-                    box-sizing: border-box;
-                }
+                /*.chart-wrap > h3 {*/
+                /*    padding-left: 2.4rem;*/
+                /*    box-sizing: border-box;*/
+                /*}*/
             }
         }
 
@@ -906,7 +951,7 @@
             flex-direction: column;
             justify-content: space-between;
 
-            background-image: url('../assets/images/index/l-t-bg2.png');
+            background-image: url('../assets/images/index/e-r-b-c.png');
             background-repeat: no-repeat;
             background-size: 100% 100%;
             background-position: center;
@@ -917,8 +962,8 @@
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                padding-left: 2rem;
-                box-sizing: border-box;
+                /*padding-left: 2rem;*/
+                /*box-sizing: border-box;*/
             }
             .detailBox{
                 width: 100%;
@@ -928,11 +973,11 @@
                     position: absolute;
                     width: 14%;
                     height: 100%;
-                    left: 1.8rem;
-                    top: -0.8rem;
-                    background-image: url('../assets/images/type/bg.png');
-                    background-repeat: no-repeat;
-                    background-size: 100% 100%;
+                    left: 2.6%;
+                    top: -1.2%;
+                    // background-image: url('../assets/images/type/bg.png');
+                    // background-repeat: no-repeat;
+                    // background-size: 100% 100%;
                     overflow: auto;
                     &::-webkit-scrollbar {
                         width: 10px;     /*高宽分别对应横竖滚动条的尺寸*/
@@ -971,12 +1016,14 @@
                                 align-items: center;
                                 justify-content: center;
                                 /*font-size: 1rem;*/
-                                color: #06fffb;
+                                color: #fff;
                                 letter-spacing: 1px;
+                                font-size: 1.1rem;
 
                                 &.active {
                                     color: #ffffff;
                                     background: #4c7fff;
+                                    font-weight: bold;
                                 }
                             }
                         }
@@ -989,11 +1036,11 @@
                     box-shadow: 0px 4px 24px 0px rgba(0, 130, 255, 0.75);
                     border-radius: 2px;
                     border: solid 1px rgba(0, 186, 255, 0.35);
-                    opacity: 0.75;
+                    /*opacity: 0.75;*/
                     position: absolute;
                     overflow: auto;
-                    left: 17%;
-                    top: 2%;
+                    left: 18%;
+                    top: 4%;
 
                     &::-webkit-scrollbar {
                         display: none
@@ -1030,16 +1077,17 @@
                                     display: flex;
                                     justify-content: center;
                                     align-items: center;
-                                    font-weight: bold;
+                                    /*font-weight: bold;*/
                                     line-height: 1rem;
-                                    font-size: 0.8rem;
+                                    font-size: 1rem;
                                 }
 
                                 &:nth-child(1) {
                                     width: 60%;
 
                                     p {
-                                        color: #61ecff;
+                                        color: #fff;
+                                        font-weight: bold;
                                     }
                                 }
 
@@ -1048,6 +1096,8 @@
 
                                     p {
                                         color: #ffee2d;
+                                        font-weight: bold;
+                                        font-size: 1.1rem;
                                     }
                                 }
                             }
@@ -1062,10 +1112,10 @@
                 }
 
                 .chart {
-                    width: 36.97%;
+                    width: 42%;
                     height: 100%;
                     float: right;
-                    margin-right: 4rem;
+                    margin-right: 2rem;
                 }
             }
         }
