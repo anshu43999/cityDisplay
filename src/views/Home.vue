@@ -295,9 +295,9 @@
                     {name: '反馈事件', value: 0},
                 ],
                 jqtjjcSource: [
-                    {name: '处警事件占比', value: 0, radius: '65%'},
-                    {name: '有效警情占比', value: 0, radius: '75%'},
-                    {name: '反馈事件占比', value: 0, radius: '65%'}
+                    {name: '处警事件占比', value: 0, radius: '50%'},
+                    {name: '有效警情占比', value: 0, radius: '65%'},
+                    {name: '反馈事件占比', value: 0, radius: '50%'}
                 ],
 
                 // 排名
@@ -378,7 +378,7 @@
                 let that = this;
                 let sourceArr = this.jqtjjcSource;
                 let colorSet = [
-                    [0.2, '#ff1f34'],
+                    [0.2, '#ffe754'],
                     [0.8, '#0079cc'],
                     [1, '#1af7f1']
                 ];
@@ -391,10 +391,13 @@
                                 {
                                     type: 'gauge',
                                     radius: item.radius,
-                                    center: [index * 30 + 20 + '%', '50%'],
+                                    center: [index * 30 + 20 + '%', '44%'],
+                                    splitNumber: 2,
                                     axisLine: {
                                         show: false,
                                     },
+                                    
+
                                     detail: {
                                         show: 0
                                     },
@@ -402,13 +405,13 @@
                                         show: false,
                                     },
                                     splitLine: {
-                                        length: 15 * that.scale,
+                                        length: 5 * that.scale,
                                         lineStyle: {
                                             width: 2 * that.scale
                                         }
                                     },
                                     axisLabel: {
-                                        fontSize: 16 * that.scale,
+                                        fontSize:12 * that.scale, // 刻度盘 数字
                                         color: '#91c7ae'
                                     },
                                 },
@@ -416,13 +419,14 @@
                                 {
                                     name: item.name,
                                     type: 'gauge',
-                                    center: [index * 30 + 20 + '%', '50%'],
+                                    center: [index * 30 + 20 + '%', '40%'],
                                     radius: item.radius,
+                                    splitNumber: 2,
                                     axisLine: {
                                         show: true,
                                         lineStyle: {
                                             color: colorSet,
-                                            width: 25 * that.scale,
+                                            width: 15 * that.scale,
                                             shadowOffsetX: 0,
                                             shadowOffsetY: 0,
                                             opacity: 1
@@ -430,14 +434,14 @@
                                     },
                                     pointer: {
                                         show: true,
-                                        length: '102%',
-                                        width: 6 * that.scale
+                                        length: '60%',     // 指针
+                                        width: 4 * that.scale
                                     },
                                     detail: {
                                         show: true,
-                                        offsetCenter: [0, '110%'],
+                                        offsetCenter: [0, '140%'],
                                         textStyle: {
-                                            fontSize: 30 * that.scale,
+                                            fontSize: 20 * that.scale,    //百分比
                                             color: that.axisesColor,
                                         },
                                         formatter: [
@@ -446,9 +450,9 @@
                                         ].join('\n'),
                                         rich: {
                                             name: {
-                                                fontSize: 22 * that.scale,
-                                                lineHeight: 60 * that.scale,
-                                                color: that.axisesColor
+                                                fontSize: 16 * that.scale,
+                                                lineHeight: 20 * that.scale,   //下方文字描述
+                                                color: '#ffffff'
                                             }
                                         }
                                     },
@@ -458,6 +462,7 @@
                                             width: 2 * that.scale
                                         }
                                     },
+                                    // splitNumber: 6,
                                     axisTick: {
                                         length: 8 * that.scale,
                                         lineStyle: {
@@ -472,10 +477,12 @@
                                     }]
                                 },
                                 {
+                                    
                                     name: item.name,
                                     type: 'gauge',
                                     center: [index * 30 + 20 + '%', '50%'],
                                     radius: item.radius,
+                                    splitNumber: 2,
                                     axisLine: {
                                         show: false,
                                     },
@@ -581,7 +588,7 @@
                 myChart.setOption(option);
             },
             //    警情分类数据分析
-            jqflsjfxChart(sourceArr) {
+            jqflsjfxChart(Arr,brr,crr) {
                 let myChart = this.$echarts.init(document.getElementById('jqflsjfxChart'));
                 this.chartsObj.jqflsjfxChart = myChart;
                 let xData = [];
@@ -589,10 +596,11 @@
                 // sourceArr.forEach(value => {
                 //     xData.push(value.name);
                 // });
+                // console.log(Arr);
                 let option = {
                     tooltip: {},
                     xAxis: {
-                        data: ["刑事","行政(治安)", "交通类","行政(治安)", "交通类",'消防救援','群众求助','应急联动事件（非警情事件）','群体事件','纠纷','灾害事故','举报','投诉监督','其它警情'     ],
+                        data: Arr,
                         // "行政(治安)", "交通类",'消防救援','群众求助','应急联动事件（非警情事件）','群体事件','纠纷','灾害事故','举报','投诉监督','其它警情'       
                         axisTick: {
                             show: false
@@ -604,10 +612,33 @@
                             show: true,
                             textStyle: {
                                 color: '#00d7d4',
-                                lineHeight: 10,
+                                lineHeight: 20,
                             },
                             rotate : 45,
                             // margin:40
+                            formatter: function (params) {
+                                let newParamsName = "";
+                                let paramsNameNumber = params.length;
+                                let provideNumber = 5;  //一行显示几个字
+                                let rowNumber = Math.ceil(paramsNameNumber / provideNumber);
+                                if (paramsNameNumber > provideNumber) {
+                                    for (let p = 0; p < rowNumber; p++) {
+                                        let tempStr = "";
+                                        let start = p * provideNumber;
+                                        let end = start + provideNumber;
+                                        if (p == rowNumber - 1) {
+                                            tempStr = params.substring(start, paramsNameNumber);
+                                        } else {
+                                            tempStr = params.substring(start, end) + "\n";
+                                        }
+                                        newParamsName += tempStr;
+                                    }
+
+                                } else {
+                                    newParamsName = params;
+                                }
+                                return newParamsName
+                            }
                         }
                     },
                     yAxis: {
@@ -627,8 +658,8 @@
                     series: [{
                         name: '',
                         type: 'pictorialBar',
-                        symbolSize: [25, 25],
-                        symbolOffset: [0, -20],
+                        symbolSize: [20, 10],
+                        symbolOffset: [0, -5],
                         z: 12,
                         itemStyle: {
                             normal: {
@@ -639,28 +670,19 @@
                             show :true,
                             position :'top',
                         },
-                        data: [{
-                            value: 300,
-                            symbolPosition: 'end'
-                        }, {
-                            value: 50,
-                            symbolPosition: 'end'
-                        }, {
-                            value: 20,
-                            symbolPosition: 'end'
-                        }]
+                        data: crr
                     }, {
                         name: '',
                         type: 'pictorialBar',
-                        symbolSize: [20, 20],
-                        symbolOffset: [0, -20],
+                        symbolSize: [20, 10],
+                        symbolOffset: [0, 5],
                         z: 12,
                         itemStyle: {
                             normal: {
                                 color: '#14b1eb'
                             }
                         },
-                        data: [300, 50, 20]
+                        data: brr
                     }, {
                         type: 'bar',
                         itemStyle: {
@@ -672,7 +694,7 @@
                         silent: true,
                         barWidth: 20,
                         barGap: '-100%', // Make series be overlap
-                        data: [300, 50, 20]
+                        data:brr
                     }]
                 };
                 myChart.setOption(option);
@@ -1499,26 +1521,32 @@
                     }
                 })
                     .then(function (res) {
-                        res.data.map(item => {
-                            item.name = item.fldm;
-                            item.value = item.jjsl;
-                            delete item.fldm;
-                            delete item.jjsl;
-                            delete item.tjrq;
-                            delete item.fllx;
-                            return item;
-                        });
-                        // console.log(res.data);
+                        console.log(res);
                         let arr = [];
-                        for (let i = 0; i < res.data.length; i++) {
-                            if (res.data[i].name === undefined) {
-                                res.data.slice(i, 1);
-                            } else {
-                                arr.push(res.data[i]);
+                        let brr = [];
+                        let crr = [];
+                        // [{
+                        //     value: 300,
+                        //     symbolPosition: 'end'
+                        // }, {
+                        //     value: 50,
+                        //     symbolPosition: 'end'
+                        // }, {
+                        //     value: 20,
+                        //     symbolPosition: 'end'
+                        // }]
+                        res.data.forEach((item,index) => {
+                            console.log(item['name'])
+                            if(item['fldm']){
+                                arr.push(item['fldm']) 
+                                brr.push(item['jjsl'])
+                                crr.push({ value : item['jjsl'], symbolPosition: 'end'  })
                             }
-                        }
-                        // console.log(arr);
-                        that.jqflsjfxChart(arr);
+                            
+                            
+                        });
+                       console.log(crr);
+                        that.jqflsjfxChart(arr,brr,crr);
                     })
             },
             // 地图
