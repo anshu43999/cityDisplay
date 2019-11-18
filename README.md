@@ -1,4 +1,4 @@
-# datadisplay
+# smalldisplay
 
 ## Project setup
 ```
