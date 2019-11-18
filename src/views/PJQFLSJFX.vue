@@ -189,17 +189,23 @@
         }
 
         .filter {
-            width: 16rem;
-            height: 4rem;
-            background: url("../assets/images/province/filterBg.png");
-            background-repeat: no-repeat;
-            background-size: 100% 100%;
+            width: 18rem;
+            height: 2rem;
+            /*background: url("../assets/images/province/filterBg.png");*/
+            /*background-repeat: no-repeat;*/
+            /*background-size: 100% 100%;*/
             float: right;
             position: relative;
+            top: 24%;
+            bottom: 0;
+            margin: auto;
+            right: 0;
 
             .filterItem {
-                width: 13.8rem;
-                height: 1.4rem;
+                /*width: 13.8rem;*/
+                /*height: 1.4rem;*/
+                width: 100%;
+                height: 100%;
                 position: absolute;
                 top: 0;
                 bottom: 0;
@@ -214,20 +220,27 @@
                     width: 33.33%;
 
                     div {
-                        width: 167%;
-                        height: 167%;
+                        /*width: 167%;
+                        height: 167%;*/
+                        width: 100%;
+                        height: 100%;
                         background: url("../assets/images/province/filterItemBg.png");
-                        transform: scale(0.6);
-                        transform-origin: left top;
+                        /*transform: scale(0.6);*/
+                        /*transform-origin: left top;*/
+                        background-repeat: no-repeat;
+                        background-size: 100% 100%;
                         display: flex;
                         align-items: center;
                         justify-content: center;
                         cursor: pointer;
+                        font-size: 1.2rem;
+                        letter-spacing: 2px;
 
                         &.active {
-                            background-image: linear-gradient(-86deg,
+                            background-image: linear-gradient(86deg,
                                     #53b0ff 0%,
                                     #0b5fa7 100%);
+                            font-weight: bold;
                         }
                     }
                 }
