@@ -533,6 +533,8 @@
         mounted() {
             clearInterval(counter);
             counter = null;
+            let sessionStorage = window.sessionStorage;
+            sessionStorage.setItem('city','1');
            
             this.pdFilter_btn();   // 判断筛选框是否显示
             this.getScale();    //获取缩放值
