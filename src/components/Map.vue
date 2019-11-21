@@ -20,7 +20,7 @@
                 flag : false,   //判断省市
                 scale:1,
                 date:'',
-                mapData: {name: '有效警情', value: 0},
+                mapData: {name: '今日有效警情', value: 0},
                 mapArr:[]
             }
         },
@@ -95,7 +95,7 @@
                 }else if(refresh == '全'){
                     // console.log('省刷新');
                     Session.setItem('city',1)   // 进入省   city 标识设置为1
-                    // this.$http.get('static/json/140000_full.json').then(res => {
+                    // this.$http.get('static/json/140001_full.json').then(res => {
                     this.$http.get(that.apiRoot +'dictBJFSDMB/getAll',{ params : {json : '140000_full'} }).then(res => {
 
                         if (res.status === 200) {

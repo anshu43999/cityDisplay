@@ -147,7 +147,7 @@
                 this.$router.go(-1);
             },
             setName() {
-                this.chartTitle = ['警情分类数据分析', '警情分类数据占比分析','警情分类数据占比分析']
+                this.chartTitle = ['警情分类数据分析', '警情分类数据占比分析','警情分类数据细类占比分析']
             },
             //柱状图
             barChart(Arr, brr) {

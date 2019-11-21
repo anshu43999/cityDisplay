@@ -8,8 +8,17 @@
             <div class="box">
                 <p>警情分析</p>
             </div>
-            <i class="iconfont iconxiangyou1"></i>
+            <!-- <i class="iconfont iconxiangyou1"></i> -->
         </div>
+
+        <div class="goLawCaseBtn" @click="ajxq">
+            <div class="box">
+                <p>案件详情</p>
+            </div>
+            <!-- <i class="iconfont iconxiangyou1"></i> -->
+        </div>
+
+
         <div class="main_l main_box">
             <div class="title_wrap">今日各市立案数</div>
             <div class="main_centent">
@@ -61,7 +70,7 @@
 
         <div class="main_r main_box">
             <div class="title_wrap">今日各类别案件数</div>
-            <div class="main_centent">
+            <div class="main_centent right_centent">
                 <table>
                     <tr>
                         <td class="td_left">案件类</td>
@@ -168,14 +177,64 @@ methods: {
             let listData = res.data;
             this.total = listData['total'];
             this.typeNum = listData['caseCategory'] ;
-            // Object.keys(listData['caseCategory']).forEach((item,index)=>{
-            //     if(item === 'null'){
+            // console.log(this.typeNum);
+            Object.keys(listData['caseCategory']).forEach((item,index)=>{
+                if(item === 'null'){
+                    console.log('null')
+                    delete listData['caseCategory'][item];
+                }
+            })
+            console.log(listData['caseCategory']);
+            let obj = {};
+            let lengthNum = Object.keys(listData['caseCategory']).length;
+            console.log(lengthNum);
+            let gsNum = Math.ceil(lengthNum/20);
+            console.log(gsNum);  // 出来div 个数
+            // listData['caseCategory']
 
 
-            //     }
-            // })
 
 
+
+
+
+
+
+
+
+
+
+            // console.log(listData['caseCategory'])
+
+            // console.log(listData['cityNum']);
+            let deleteIndex ;
+            let deleteIndex2 ;
+
+            listData['cityNum'].forEach( (item,index)=>{
+                
+                if(item['city'] === "null市"){
+                    deleteIndex = index;
+                }
+            }  )
+            listData['cityNum'].splice(deleteIndex,1);
+
+            // console.log(listData['cityNum']);
+
+            
+            console.log(listData['cityPercentage'])
+
+            listData['cityPercentage'].forEach( (item,index)=>{
+                if(item['city'] === "null市"){
+                    deleteIndex2 = index;
+                }
+            } )
+            listData['cityPercentage'].splice(deleteIndex2,1);
+
+            console.log(listData['cityPercentage'])
+
+
+
+            
             this.rankSum = listData['cityNum']                
             this.roseSum = listData['cityPercentage'];
             
@@ -324,6 +383,9 @@ methods: {
     },
     skiping(){
         this.$router.push({ path : '/index/home'})
+    },
+    ajxq(){
+        window.open('http://10.94.51.17/jdpt/', '_blank');
     }
     
 
@@ -334,6 +396,8 @@ methods: {
 },
 //生命周期 - 创建完成（可以访问当前this实例）
 created() {
+     clearInterval(counter);
+    counter = null;
 
 },
 //生命周期 - 挂载完成（可以访问DOM元素）
@@ -375,6 +439,59 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
         position: relative;
         .goLawCase{
 			position: fixed;
+			top: 7%;
+			left: .5%;
+			width: 12%;
+			height: 4.6%;
+			.box {
+				background: url("../assets/images/index/box.png");
+				background-repeat: no-repeat;
+				background-size: 100% 100%;
+				background-position: center;
+				cursor: pointer;
+				height: 100%;
+				width: 76%;
+				float: right;
+
+				p {
+					width: 100%;
+					height: 100%;
+					color: #5ae6ff;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+				}
+			}
+			.iconfont{
+				font-size: 1rem;
+				position: absolute;
+				left: 0;
+				top:0;
+				color:#5ae6ff;
+				width: 17%;
+				height: 100%;
+    			animation: myLeft 2s;
+				animation-iteration-count: infinite;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
+			@keyframes myLeft {
+				0%{
+					left: 0rem;
+				}
+				50%{
+					left: 1.2rem;
+				}
+				 100%{
+					left: 0rem;
+				}
+			}
+
+		}
+        .goLawCaseBtn{
+
+            position: fixed;
 			top: 7%;
 			right: 1.5%;
 			width: 12%;
@@ -424,7 +541,9 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
 				}
 			}
 
-		}
+        }
+
+
         .main_box{
             width: 32%;
             height: 100%;
@@ -440,14 +559,31 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
 
                 font-size: 1.3rem;
                 font-weight: 600;
-                background: linear-gradient(-180deg, #ffffff 50%, #0731FF 70%);
-                -webkit-background-clip: text;
-                color: transparent;
-                -webkit-text-fill-color: transparent;
+                color: #ffffff;
+                // background: linear-gradient(-180deg, #ffffff 50%, #0731FF 70%);
+                // -webkit-background-clip: text;
+                // color: transparent;
+                // -webkit-text-fill-color: transparent;
             }
             .main_centent{
-                height: 94%;
-                padding: 0 6% 6%;
+                height: 90%;
+                padding: 0 6% 6% 6%;
+                // overflow: auto;
+                overflow: auto;
+                    &::-webkit-scrollbar {
+                        width: 10px;     /*高宽分别对应横竖滚动条的尺寸*/
+                        height: 1px;
+                    }
+                    &::-webkit-scrollbar-thumb {/*滚动条里面小方块*/
+                        border-radius: 10px;
+                        -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+                        background: #4c7fff;
+                    }
+                    &::-webkit-scrollbar-track {/*滚动条里面轨道*/
+                        -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+                        border-radius: 10px;
+                        background: #e1ebff;
+                    }
                
             }
         
@@ -514,6 +650,8 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
             background-image: url('../assets/images/index/m.png');
             background-size: 100% 100%;
             .main_centent{
+                width: 95%;
+                padding: 0 6% 6%;
                 table{
                     width: 90%;
                     height: 100%;

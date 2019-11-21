@@ -333,7 +333,7 @@
 
                 //    警情分类数据分析
                 jqflsjfxSource: [],
-                jqflhbfxSource: [{
+                jqflhbfxSource: [/*{
                     name: '刑事警情',
                     beforeYesterday: 800,
                     yesterday: 850
@@ -377,7 +377,7 @@
                         name: '其他警情',
                         beforeYesterday: 700,
                         yesterday: 800
-                    }
+                    }*/
                 ],
 
                 grading: [{
@@ -536,48 +536,48 @@
 
             }
         },
-        computed:{
-            mapHbClass(){
-                let c='';
-                if (this.mapData.hb>0){
-                    c='up';
-                }else if (this.mapData.hb==0){
-                    c='static';
-                }else {
-                    c='down';
+        computed: {
+            mapHbClass() {
+                let c = '';
+                if (this.mapData.hb > 0) {
+                    c = 'up';
+                } else if (this.mapData.hb == 0) {
+                    c = 'static';
+                } else {
+                    c = 'down';
                 }
                 return c
             },
-            mapHbIcon(){
-                let c='';
-                if (this.mapData.hb>0){
-                    c='iconxiangshang';
-                }else if (this.mapData.hb==0){
-                    c='iconchiping';
-                }else {
-                    c='iconxiangshang-copy';
+            mapHbIcon() {
+                let c = '';
+                if (this.mapData.hb > 0) {
+                    c = 'iconxiangshang';
+                } else if (this.mapData.hb == 0) {
+                    c = 'iconchiping';
+                } else {
+                    c = 'iconxiangshang-copy';
                 }
                 return c
             },
-            shoulianClass(){
-                let c='';
-                if (this.shoulian.hb>0){
-                    c='up';
-                }else if (this.shoulian.hb==0){
-                    c='static';
-                }else {
-                    c='down';
+            shoulianClass() {
+                let c = '';
+                if (this.shoulian.hb > 0) {
+                    c = 'up';
+                } else if (this.shoulian.hb == 0) {
+                    c = 'static';
+                } else {
+                    c = 'down';
                 }
                 return c
             },
-            shoulianHbIcon(){
-                let c='';
-                if (this.shoulian.hb>0){
-                    c='iconxiangshang';
-                }else if (this.shoulian.hb==0){
-                    c='iconchiping';
-                }else {
-                    c='iconxiangshang-copy';
+            shoulianHbIcon() {
+                let c = '';
+                if (this.shoulian.hb > 0) {
+                    c = 'iconxiangshang';
+                } else if (this.shoulian.hb == 0) {
+                    c = 'iconchiping';
+                } else {
+                    c = 'iconxiangshang-copy';
                 }
                 return c
             },
@@ -799,6 +799,12 @@
 
             //    警情分类数据分析
             jqflsjfxChart(Arr, brr, crr) {
+                console.log(crr);
+                let drr=[];
+                Arr.forEach(value=>{
+                    drr.push(1);
+                });
+                // console.log(drr);
                 let myChart = this.$echarts.init(document.getElementById('jqflsjfxChart'));
                 this.chartsObj.jqflsjfxChart = myChart;
                 let option = {
@@ -816,23 +822,28 @@
                             show: true,
                             textStyle: {
                                 color: '#ffffff',
-                                fontSize: 24 * this.scale,
+                                fontSize: 19 * this.scale,
+                                fontWeight:'bold'
                             },
+                            margin:30*this.scale,
                             interval: 0,
                             formatter: function (value, index) {
-                                let type = index % 2 === 0 ? 'up' : 'down';
-                                return '{' + type + '|' + value + '}'
+                                // let type = index % 2 === 0 ? 'up' : 'down';
+                                // return '{' + type + '|' + value + '}'
+                                return value
                             },
-                            rich: {
+                            /*rich: {
                                 up: {
-                                    height: 20 * this.scale,
+                                    height: 50 * this.scale,
                                     fontWeight: 'bold',
+                                    fontSize: 20 * this.scale,
                                 },
                                 down: {
-                                    height: 60 * this.scale,
+                                    height: 80 * this.scale,
                                     fontWeight: 'bold',
+                                    fontSize: 20 * this.scale,
                                 }
-                            }
+                            }*/
                         },
                     },
                     yAxis: {
@@ -881,7 +892,7 @@
                                 color: '#14b1eb'
                             }
                         },
-                        data: brr
+                        data: drr
                     }, {
                         type: 'bar',
                         itemStyle: {
@@ -905,22 +916,21 @@
                 myChart.setOption(option);
             },
             //    警情分类环比
-            jqflhbfxChart() {
+            jqflhbfxChart(typeArr,yesterdayArr,beforeYesterdayArr,hb) {
+                // this.jqflhbfxChart(name,yesterdayArr,beforedayArr,yesterdayHBArr);
+                // console.log(yesterdayArr);
                 let myChart = this.$echarts.init(document.getElementById('jqflhbfx'));
                 this.chartsObj.jqflsjhbChart = myChart;
-                let data = this.jqflhbfxSource;
-                let typeArr = [];
-                let beforeYesterdayArr = [];
-                let yesterdayArr = [];
+                // let data = this.jqflhbfxSource;
+                // let typeArr = [];
+                // let beforeYesterdayArr = [];
+                // let yesterdayArr = [];
                 // let pArr = [];
+
                 let total = [];
 
-                data.forEach(value => {
-                    typeArr.push(value.name);
-                    beforeYesterdayArr.push(value.beforeYesterday);
-                    yesterdayArr.push(value.yesterday);
+                typeArr.forEach(value => {
                     total.push(0);
-                    // pArr.push(((value.yesterday - value.beforeYesterday) / value.beforeYesterday) * 100);
                 });
 
                 let option = {
@@ -939,14 +949,17 @@
                             show: true,
                             textStyle: {
                                 color: '#ffffff',
-                                fontSize: 24 * this.scale,
+                                fontSize: 19 * this.scale,
+                                fontWeight:'bold'
                             },
+                            margin:25*this.scale,
                             interval: 0,
                             formatter: function (value, index) {
-                                let type = index % 2 === 0 ? 'up' : 'down';
-                                return '{' + type + '|' + value + '}'
+                                // let type = index % 2 === 0 ? 'up' : 'down';
+                                // return '{' + type + '|' + value + '}'
+                                return value
                             },
-                            rich: {
+                           /* rich: {
                                 up: {
                                     height: 20 * this.scale,
                                     fontWeight: 'bold',
@@ -955,7 +968,7 @@
                                     height: 60 * this.scale,
                                     fontWeight: 'bold',
                                 }
-                            }
+                            }*/
                         },
                         axisTick: {
                             show: false
@@ -977,7 +990,7 @@
                             show: false
                         },
                         axisLabel: {
-                            fontSize: 16 * this.scale,
+                            fontSize: 20 * this.scale,
                             color: '#fff',
                             margin: 10,
                             fontWeight: 'bold',
@@ -1058,9 +1071,15 @@
                                 show: true,
                                 position: 'top',
                                 formatter: function (params) {
+                                    // console.log(params);
                                     let color = '';
-                                    let p = Number(((yesterdayArr[params.dataIndex] - beforeYesterdayArr[params.dataIndex]) /
-                                        beforeYesterdayArr[params.dataIndex]).toFixed(2));
+                                    let p=0;
+                                    if(beforeYesterdayArr[params.dataIndex]=='0'){
+                                        p=yesterdayArr[params.dataIndex]
+                                    }else{
+                                        p= Number(((yesterdayArr[params.dataIndex] - beforeYesterdayArr[params.dataIndex]) /
+                                            beforeYesterdayArr[params.dataIndex]).toFixed(2));
+                                    }
                                     if (p > 0) {
                                         color = 'red';
                                     } else {
@@ -1122,9 +1141,9 @@
                         icon: "circle",
                         itemGap: 20 * this.scale
                     },
-                    grid:{
-                        left:60*this.scale,
-                        right:20*this.scale
+                    grid: {
+                        left: 60 * this.scale,
+                        right: 20 * this.scale
                     }
                 };
                 myChart.setOption(option);
@@ -1173,9 +1192,12 @@
                         renderMap('山西省', data2);
                     }
                 });
-                myChart.on('click',function(params){
+                myChart.on('click', function (params) {
                     console.log(params['data']['name']);
-                    that.$router.push({path : '/index/particulars/city',query : { title : '市占比数据分析' ,city :params['data']['name'] }})
+                    that.$router.push({
+                        path: '/index/particulars/city',
+                        query: {title: '市占比数据分析', city: params['data']['name']}
+                    })
                 })
 
                 //配置项
@@ -1480,7 +1502,7 @@
             // 跳转
             jump(e) {
                 let h3 = e.currentTarget;
-                console.log(h3.innerText)
+                // console.log(h3.innerText);
                 switch (h3.innerText) {
                     case '接警类型数据详情':
                         this.$router.push({
@@ -1541,7 +1563,7 @@
                         break;
                     case '警情分类环比分析':
                         this.$router.push({
-                            name : "省占比数据分析",
+                            name: "省占比数据分析",
                             query: {
                                 title: '全省占比数据分析'
                             }
@@ -1553,7 +1575,7 @@
                         // console.log(h3.innerText);
                         let city = h3.innerText + '市';
                         // console.log(city);
-                        this.$router.push({path : '/index/particulars/city',query : { title : '市占比数据分析' ,city :city}})
+                        this.$router.push({path: '/index/particulars/city', query: {title: '市占比数据分析', city: city}})
 
                         break;
                 }
@@ -1587,8 +1609,12 @@
                         that.getMapData(); // map  数据
 
                         that.getJqtj(); //警情统计监测  左上角
-                        that.getFlsj();
-                        that.jqflhbfxChart();
+                        // that.getFlsj();
+                        that.getJqfl();
+                        that.getJqflHb();
+                        that.getYxjqHb();
+                        that.getLAS();
+                        // that.jqflhbfxChart();
                         // that.getJjlxSeven();
                         // that.getBjfsSeven();
                         // that.getLhlxSeven();
@@ -1892,16 +1918,16 @@
                     }
                 }*/
             },
-            hideJump(e){
-                let c=e.target.getAttribute('class');
-                let options=document.querySelector('.options');
+            hideJump(e) {
+                let c = e.target.getAttribute('class');
+                let options = document.querySelector('.options');
 
-                if(c!=null&&c=='title_wrap filter'){
+                if (c != null && c == 'title_wrap filter') {
                     // console.log(options);
-                    options.style.display='block'
-                }else {
-                    if(options){
-                        options.style.display='none'
+                    options.style.display = 'block'
+                } else {
+                    if (options) {
+                        options.style.display = 'none'
                     }
                 }
             },
@@ -1994,12 +2020,84 @@
             },
 
             // 警情分类数据分析
-            getFlsj() {
-
-                let that = this;
+            // getFlsj() {
+            //
+            //     let that = this;
+            //     this.$http({
+            //         method: 'post',
+            //         url: this.apiRoot + this.findUrl[2],
+            //         headers: {
+            //             'Content-Type': 'application/x-www-form-urlencoded',
+            //             'crossDomain': true
+            //         },
+            //         transformRequest: [function (data) {
+            //             let ret = '';
+            //             for (let it in data) {
+            //                 ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+            //             }
+            //             return ret
+            //         }],
+            //         // withCredentials: true,// 允许携带token ,这个是解决跨域产生的相关问题
+            //         crossDomain: true,
+            //         data: {
+            //             tjTime: that.jqfl.date,
+            //             // tjTime: '20160909',
+            //         }
+            //     })
+            //         .then(function (res) {
+            //             // console.log(res);
+            //             res.data.sort(function (a, b) {
+            //                 return Number(a.fldm) - Number(b.fldm)
+            //             });
+            //             res.data = res.data.slice(0, 8);
+            //
+            //
+            //             let arr = [];
+            //             let brr = [];
+            //             let crr = [];
+            //             // [{
+            //             //     value: 300,
+            //             //     symbolPosition: 'end'
+            //             // }, {
+            //             //     value: 50,
+            //             //     symbolPosition: 'end'
+            //             // }, {
+            //             //     value: 20,
+            //             //     symbolPosition: 'end'
+            //             // }]
+            //             res.data.forEach((item, index) => {
+            //
+            //                 /*if (!item['fldmmc']) {
+            //                         item['fldmmc'] = '其它警情';
+            //                     }*/
+            //                 arr.push(item['fldmmc'])
+            //                 brr.push(item['jjsl'])
+            //                 crr.push({
+            //                     value: item['jjsl'],
+            //                     symbolPosition: 'end'
+            //                 })
+            //
+            //
+            //             });
+            //
+            //             that.jqflsjfxChart(arr, brr, crr);
+            //         })
+            // },
+            getJqfl(){
+                let timestamp = (new Date()).getTime();
+                let day1 = timestamp;
+                let day2 = timestamp -  24 * 60 * 60 * 1000;
+                let date1 = new Date(day1);
+                let date2 = new Date(day2);
+                let start1 = date1.getFullYear().toString() + (date1.getMonth() + 1).toString().padStart(2, '0') + date1.getDate()
+                    .toString().padStart(2, '0');
+                let start2 = date2.getFullYear().toString() + (date2.getMonth() + 1).toString().padStart(2, '0') + date2.getDate()
+                    .toString().padStart(2, '0');
+                // console.log(start1);
+                // let that = this;
                 this.$http({
                     method: 'post',
-                    url: this.apiRoot + this.findUrl[2],
+                    url: this.apiRoot + 'recJQTJB/findNumHB',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
                         'crossDomain': true
@@ -2014,48 +2112,98 @@
                     // withCredentials: true,// 允许携带token ,这个是解决跨域产生的相关问题
                     crossDomain: true,
                     data: {
-                        tjTime: that.jqfl.date,
+                        qtTime: start2,
+                        tjTime: start1,
                         // tjTime: '20160909',
                     }
+                }).then(res => {
+                    let crr = [];
+                    let name=res.data.aa;
+                    let yesterdayArr=[];
+                    for (let i=0;i<name.length;i++){
+                        if(name[i] in res.data.yesterday){
+                        }else {
+                            res.data.yesterday[name[i]]='0';
+                        }
+                        yesterdayArr.push(res.data.yesterday[name[i]]);
+                    };
+                    // console.log(yesterdayHBArr);
+                    yesterdayArr.forEach(value => {
+                        crr.push({
+                            value: value,
+                            symbolPosition: 'end'
+                        })
+                    });
+                    this.jqflsjfxChart(name, yesterdayArr, crr);
                 })
-                    .then(function (res) {
-                        // console.log(res);
-                        res.data.sort(function (a, b) {
-                            return Number(a.fldm) - Number(b.fldm)
-                        });
-                        res.data = res.data.slice(0, 8);
+            },
+            getJqflHb() {
+                let timestamp = (new Date()).getTime();
+                let day1 = timestamp - 24 * 60 * 60 * 1000;
+                let day2 = timestamp - 2 * 24 * 60 * 60 * 1000;
+                let date1 = new Date(day1);
+                let date2 = new Date(day2);
+                let start1 = date1.getFullYear().toString() + (date1.getMonth() + 1).toString().padStart(2, '0') + date1.getDate()
+                    .toString().padStart(2, '0');
+                let start2 = date2.getFullYear().toString() + (date2.getMonth() + 1).toString().padStart(2, '0') + date2.getDate()
+                    .toString().padStart(2, '0');
+                // let that = this;
+                this.$http({
+                    method: 'post',
+                    url: this.apiRoot + 'recJQTJB/findNumHB',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'crossDomain': true
+                    },
+                    transformRequest: [function (data) {
+                        let ret = '';
+                        for (let it in data) {
+                            ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+                        }
+                        return ret
+                    }],
+                    // withCredentials: true,// 允许携带token ,这个是解决跨域产生的相关问题
+                    crossDomain: true,
+                    data: {
+                        qtTime: start2,
+                        tjTime: start1,
+                        // tjTime: '20160909',
+                    }
+                }).then(res => {
+                    let crr = [];
+                    let name=res.data.aa;
+                    let yesterdayArr=[];
+                    let beforedayArr=[];
+                    let yesterdayHBArr=[];
+                    for (let i=0;i<name.length;i++){
+                        if(name[i] in res.data.yesterday){
+                        }else {
+                            res.data.yesterday[name[i]]='0';
+                        }
+                        if(name[i] in res.data.beforeday){
+                        }else {
+                            res.data.beforeday[name[i]]='0'
+                        }
+                        if(name[i] in res.data.yesterdayHB){
+                        }else {
+                            res.data.yesterdayHB[name[i]]='0.0'
+                        }
+                        yesterdayArr.push(res.data.yesterday[name[i]]);
+                        beforedayArr.push(res.data.beforeday[name[i]]);
+                        yesterdayHBArr.push(res.data.yesterdayHB[name[i]]);
+                    };
+                    // console.log(yesterdayHBArr);
+                    yesterdayArr.forEach(value => {
+                        crr.push({
+                            value: value,
+                            symbolPosition: 'end'
+                        })
+                    });
 
-
-                        let arr = [];
-                        let brr = [];
-                        let crr = [];
-                        // [{
-                        //     value: 300,
-                        //     symbolPosition: 'end'
-                        // }, {
-                        //     value: 50,
-                        //     symbolPosition: 'end'
-                        // }, {
-                        //     value: 20,
-                        //     symbolPosition: 'end'
-                        // }]
-                        res.data.forEach((item, index) => {
-
-                            /*if (!item['fldmmc']) {
-                                    item['fldmmc'] = '其它警情';
-                                }*/
-                            arr.push(item['fldmmc'])
-                            brr.push(item['jjsl'])
-                            crr.push({
-                                value: item['jjsl'],
-                                symbolPosition: 'end'
-                            })
-
-
-                        });
-
-                        that.jqflsjfxChart(arr, brr, crr);
-                    })
+                    // console.log(yesterdayHBArr);
+                    // this.jqflsjfxChart(name, yesterdayArr, crr);
+                    this.jqflhbfxChart(name,yesterdayArr,beforedayArr,yesterdayHBArr);
+                })
             },
             // 地图
             getMapData() {
@@ -2570,6 +2718,73 @@
                 })
             },
 
+            //获取环比
+            getYxjqHb() {
+                //1 今天，2 昨天
+                let timestamp = (new Date()).getTime();
+                let day1 = timestamp - 24 * 60 * 60 * 1000;
+                let day2 = timestamp - 2 * 24 * 60 * 60 * 1000;
+                let date1 = new Date(day1);
+                let date2 = new Date(day2);
+                let start1 = date1.getFullYear().toString() + (date1.getMonth() + 1).toString().padStart(2, '0') + date1.getDate()
+                    .toString().padStart(2, '0');
+                let start2 = date2.getFullYear().toString() + (date2.getMonth() + 1).toString().padStart(2, '0') + date2.getDate()
+                    .toString().padStart(2, '0');
+                this.$http({
+                    method: 'get',
+                    url: this.apiRoot + 'recJQTJB/findNumSYHB',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'crossDomain': true
+                    },
+                    transformRequest: [function (data) {
+                        let ret = '';
+                        for (let it in data) {
+                            ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+                        }
+                        return ret
+                    }],
+                    // withCredentials: true,// 允许携带token ,这个是解决跨域产生的相关问题
+                    crossDomain: true,
+                    params: {
+                        // tjTime: 20160909,
+                        qtTime: start2,
+                        tjTime: start1
+                    }
+                }).then(res => {
+                    // console.log(res);
+                    this.mapData.hb = parseFloat((res.data['Sjqhbfx']['有效警情环比'] * 100).toFixed(2));
+                })
+            },
+            // 立案数
+            getLAS(){
+                this.$http.get(this.apiRoot+'processHandling/findProcessCase',{
+                    // params : {}
+                })
+                .then(function (res) {
+                    // console.log(res['data']['total'] );
+                    this.shoulian.value = res['data']['total'];
+                }.bind(this))
+
+                let timestamp = (new Date()).getTime();
+                let day1 = timestamp - 24 * 60 * 60 * 1000;
+                let date1 = new Date(day1);
+                let start1 = date1.getFullYear().toString() + '-'+ (date1.getMonth() + 1).toString().padStart(2, '0')  + '-'+ date1.getDate()
+                                    .toString().padStart(2, '0');
+                // console.log(start1);
+                this.$http.get(this.apiRoot+'processHandling/findProcessCaseHB',{
+                    params : {
+                        tjTime : start1,
+                    }
+                } )
+                .then(function(res){
+                    this.shoulian.hb = res['data']['hb'];
+                }.bind(this))
+
+
+
+
+            }
         },
 
         mounted() {
@@ -2579,7 +2794,17 @@
             this.getScale();
             // this.selectedItem();
             this.renderChart();
+            // this.goSwiper();  // this.getPeak();
+            this.getDate();
+            this.setperiod();
+            this.getScale();
+            // this.selectedItem();
+            // this.renderChart();
             // this.goSwiper();
+            // this.getYxjqHb();
+            
+            // this.getJqfl();
+            // this.getJqflHb();
         },
         beforeDestroy() {
             clearInterval(counter);
@@ -2593,9 +2818,10 @@
 <style scoped lang="scss">
     //样式里的l, m, r, t, b分别代表左，中，右，上，下
     //布局
-    .filter{
+    .filter {
         position: relative;
     }
+
     .options {
         z-index: 99999;
         display: flex;
@@ -2786,7 +3012,7 @@
                 position: relative;
 
                 .title_wrap {
-                    // padding-left: 1.2rem;
+
                     box-sizing: border-box;
                     margin-top: -0.5rem;
                 }
@@ -2915,12 +3141,13 @@
             height: 100%;
         }
 
-        .m_wrap{
+        .m_wrap {
             width: 30%;
             height: 100%;
             display: flex;
-            flex-direction:column;
+            flex-direction: column;
             justify-content: space-around;
+
             .m {
                 width: 100%;
                 height: 96%;
@@ -2932,7 +3159,6 @@
                 .chart-wrap {
                     width: 100%;
                     height: 100%;
-
 
 
                     .chartBox {
@@ -3083,8 +3309,6 @@
         }
 
 
-
-
         .r {
             width: 32%;
             display: flex;
@@ -3134,9 +3358,8 @@
                     // cursor: pointer;
                     // padding-left: 2.2rem;
                     box-sizing: border-box;
-                    margin-top: -0.3rem;
+                    margin-top: -0.5rem;
                 }
-
 
 
                 .chart-wrap {

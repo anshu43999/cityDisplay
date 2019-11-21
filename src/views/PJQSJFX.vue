@@ -197,6 +197,8 @@
             // this.getShen();
         },
         created() {
+             clearInterval(counter);
+            counter = null;
             this.typeAnalyze = this.$route.query.title
         },
         watch:{
