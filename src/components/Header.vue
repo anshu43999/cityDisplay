@@ -1,15 +1,14 @@
 <!--  -->
 <template>
-<div id='header_wrap' @click="handleClick">
-    <!-- <div class="jkBtn">
+<div id='header_wrap'>
+     <!--<div class="jkBtn">
         全流程执法办案
     </div> -->
     <div id="header_main">
         <div class="main_center" style="">
-            <div id="header_title">{{topTitle}}</div>
-            <time id="headerTime"></time>
+            <div id="header_title">{{topTitle}}公安局情报指挥中心警情分析统计系统</div>
         </div>
-        
+        <time id="headerTime"></time>
     </div>
 </div>
 </template>
@@ -20,12 +19,12 @@
 
 export default {
 //import引入的组件需要注入到对象中才能使用
-props : ['topTitle'],
+// props : ['topTitle'],
 components: {},
 data() {
 //这里存放数据
 return {
-
+    topTitle:'太原市',
 };
 },
 //监听属性 类似于data概念
@@ -34,9 +33,9 @@ computed: {},
 watch: {},
 //方法集合
 methods: {
-    handleClick(e){
+/*    handleClick(e){
         this.$parent.filter(e);
-    }
+    }*/
 },
 //生命周期 - 创建完成（可以访问当前this实例）
 created() {
@@ -60,27 +59,30 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
 
 #header_wrap{
     // background-color: #011426;
-    // height:10rem;
-    background-image: url('../assets/images/index/top1.png');
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position: 99% 90%;
+    height:8rem;
     position: relative;
     overflow: hidden;
-    // height: 7rem;
+    z-index: 9;
+
     .jkBtn{
         width: 3rem;
         height: 1rem;
         // background: url()
         // background: url('../assets/images/index/jkbtn.png');
-        background-repeat:no-repeat; 
+        background-repeat:no-repeat;
     }
     #header_main{
-        height: 100%;
+        background-image: url('../assets/images/index/top2.png');
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-position: 99% 90%;
+        width: 70%;
+        height: 5rem;
+        margin:0 auto;
         .main_center{
 
             margin: 0 auto;
-            width:50%;
+            width:40%;
             display : flex;
             justify-content: center
 
@@ -102,12 +104,13 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
         // text-fill-color: transparent;
     }
     #headerTime{
-        margin-left: 1rem;
-        height: 7rem;
         overflow: hidden;
-        line-height:8rem;
-        font-size: 1rem;
-
+        font-size: 2rem;
+        display: block;
+        margin: -1.2rem auto 0;
+        text-align: center;
+        font-weight: bold;
+        color: #05ede0;
     }
 }
 </style>

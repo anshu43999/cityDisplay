@@ -23,7 +23,11 @@ Vue.prototype.$echarts = echarts;
 // Vue.use(ElementUI);
 //温馨提示注意同步修改ueditor.config.js
 
+<<<<<<< HEAD
+Vue.prototype.apiRoot = 'http://192.168.1.248:8083/cityDisplay/'//kun
+=======
 Vue.prototype.apiRoot = 'http://192.168.1.248:8084/dataDisplay/'//kun
+>>>>>>> 47ae4cb6653964e395b3e139a14b571cf9804eda
 // Vue.prototype.apiRoot = 'http://192.168.1.252:8082/dataDisplay/'//su
 
 

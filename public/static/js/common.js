@@ -105,7 +105,7 @@ const Public = {
      * @param someRefresh 指定要刷新的图表，有重复指定的图表时优先权高于noRefresh
      */
     chartsReDraw(charts, t = settings.chartRefreshPeriod, noRefresh, someRefresh,callBack) {
-        
+        // console.log(charts);
         counter = setInterval(() => {
             // console.log(charts);
             Object.keys(charts).forEach(item => {
@@ -114,7 +114,7 @@ const Public = {
                 let opt = chart.getOption();
                 chart.clear();
                 chart.setOption(opt);
-            })
+            });
             if(callBack){
                 callBack();
             }

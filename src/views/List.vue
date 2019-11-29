@@ -1,6 +1,10 @@
 <template>
     <div id="container">
         <my-header></my-header>
+        <div class="back" @click="back">
+            <i class="iconfont iconfanhui"></i>
+            <span>返回</span>
+        </div>
         <main>
             <div class="chart-wrap">
                 <!--                    标题-->
@@ -17,7 +21,7 @@
                     </div>
                     <div class="b">
                         <div class="caseWarp">
-                            <ul v-for="item in ularr">
+                            <ul>
                                 <li v-for="item in caseList">
                                     <div class="b-l">
                                         <img src="../assets/images/index/caseIcon.png">
@@ -88,16 +92,22 @@
                 },{
                     cameName:'案件1',
                     time:'2019.10.15  10：35：26'
+                },{
+                    cameName:'案件1',
+                    time:'2019.10.15  10：35：26'
+                },{
+                    cameName:'案件1',
+                    time:'2019.10.15  10：35：26'
+                },{
+                    cameName:'案件1',
+                    time:'2019.10.15  10：35：26'
                 }];
-                let l=Math.ceil(caseArr.length / this.caseListLength);
-                for (let i=0;i<l;i++){
-                    this.ularr.push('0');
-                }
-                for (let i=0;i<this.ularr.length;i++){
-                    // console.log(i);
-                    // console.log(i * 7, (i + 1) * 7);
-                    console.log(caseArr.slice(0, 10));
-                }
+                console.log(caseArr.slice(0, 10));
+                this.caseList=caseArr.slice(0, 10);
+            },
+            //    返回
+            back(){
+                this.$router.go(-1);
             }
         },
         mounted() {
@@ -107,6 +117,12 @@
 </script>
 
 <style scoped lang="scss">
+    .back{
+        position: fixed;
+        left: 2%;
+        top: 8%;
+        z-index: 10;
+    }
     main{
         display: flex;
         flex-direction: row;
@@ -122,7 +138,6 @@
             .title_wrap {
                 width: 100%;
                 height: 3.6rem;
-                cursor: pointer;
                 box-sizing: border-box;
                 position: relative;
                 background-repeat: no-repeat;
@@ -191,7 +206,7 @@
                             li{
                                 width: 100%;
                                 height: 6.2%;
-                                margin: 1.5% 0;
+                                margin: 0.7% 0;
                                 padding: 0 1rem;
                                 box-sizing: border-box;
                                 float: left;

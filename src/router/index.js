@@ -30,103 +30,20 @@ const routes = [
         component: App,
         children: [
             {
-                path: "particulars",
-                name: '全省占比数据分析',
-                component: () => import("../views/percentage"),
-                redirect: '/particulars/province',
-                children :[
-                    {
-                        path : 'province',
-                        name : '省占比数据分析',
-                        component : ()=>import("../views/province")
-                    },
-                    {
-                        path : 'city',
-                        name : '市占比数据分析',
-                        component: () => import("../views/city"),
-                    }
-            
-                ]
-            },
-            {
                 path: "home",
                 name: '首页',
                 component: () => import("../views/Home"),
             },
             {
-                path : "handling",
-                name : "执法办案",
-                component : () => import("../views/Handling"),
+                path: "proportion",
+                name: '占比',
+                component: () => import("../views/Proportion"),
             },
             {
-                path: "pjqsjfx",
-                name: '全省接警类型数据分析',
-                component: () => import("../views/PJQSJFX"),
-                redirect: '/pjqsjfx/province_dataAnalyze',
-                children : [
-                    {
-                        path : 'province_dataAnalyze',
-                        name : '省接警类型数据分析',
-                        component: () => import("../views/big_proRight"),
-                    },
-                    {
-                        path : 'city_dataAnalyze',
-                        name : '市接警类型数据分析',
-                        component: () => import("../views/big_cityRight"),
-                    }
-                ]
+                path: "list",
+                name: '分类列表',
+                component: () => import("../views/List"),
             },
-            {
-                path: "pjqsjfx",
-                name: '全省报警方式数据分析',
-                component: () => import("../views/PJQSJFX"),
-                children : [
-                    {
-                        path : 'province_dataAnalyze',
-                        name : '省报警方式数据分析',
-                        component: () => import("../views/big_proRight"),
-                    },
-                    {
-                        path : 'city_dataAnalyze',
-                        name : '市报警方式数据分析',
-                        component: () => import("../views/big_cityRight"),
-                    }
-                ]
-            },
-            {
-                path: "pjqsjfx",
-                name: '全省来话类型数据分析',
-                component: () => import("../views/PJQSJFX"),
-                children : [
-                    {
-                        path : 'province_dataAnalyze',
-                        name : '省来话类型数据分析',
-                        component: () => import("../views/big_proRight"),
-                    },
-                    {
-                        path : 'city_dataAnalyze',
-                        name : '市来话类型数据分析',
-                        component: () => import("../views/big_cityRight"),
-                    }
-                ]
-            },
-            {
-                path: "pjqflsjfx",
-                name: '全省警情分类数据分析',
-                component: () => import("../views/PJQFLSJFX"),
-                children : [
-                    {
-                        path : 'province_dataAnalyze',
-                        name : '省警情分类数据分析',
-                        component: () => import("../views/small_proRight"),
-                    },
-                    {
-                        path : 'city_dataAnalyze',
-                        name : '市警情分类数据分析',
-                        component: () => import("../views/small_cityRight"),
-                    }
-                ]
-            }
         ]
     },
     /*{
@@ -156,7 +73,7 @@ router.beforeEach((to, from, next) => {
     }else if(to.path == '/login' ) {
 
         next();
-        
+
     }else{
         next();
     }

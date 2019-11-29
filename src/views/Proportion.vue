@@ -1,13 +1,16 @@
 <template>
     <div id="container">
         <my-header></my-header>
+        <div class="back" @click="back">
+            <i class="iconfont iconfanhui"></i>
+            <span>返回</span>
+        </div>
         <main>
             <div class="chart-wrap">
                 <!--                    标题-->
                 <div class="title_wrap">
                     <span>{{this.$route.query.type}}分类</span>
                 </div>
-
                 <!--                                            内容-->
                 <div class="chartBox">
                     <div class="mahjong">
@@ -31,7 +34,7 @@
         components: {MyHeader},
         data(){
             return {
-                myData:['1', '2', '3', '4', '5', '6', '7','8','9', '10', '11', '12', '13', '14', '15','16','17','18','19','20'],
+                myData:['侵犯人身、民主权利', '2', '3', '4', '5', '6', '7','8','9', '10', '11', '12', '13', '14', '15','16','17','18','19','20'],
                 lineData:[100, 100, 100, 100, 100, 100, 100,100,100,100,100,100,100,100,100,100,100,100,100,100],
                 last:[3, 20, 0, 34, 55, 65, 33,90,20,10,50,40,21,15,25,13,16,25,15,45],
                 yesterday:[0, 38, 23, 39, 66, 66, 79,90,15,26,48,34,54,45,21,45,12,13,15,45],
@@ -52,8 +55,8 @@
                             data: []
                         },
                         legend : {
-                            top : '2%',
-                            right : '10%',
+                            top : '4%',
+                            right : '8%',
                             itemWidth : 22,
                             itemHeight : 14,
                             itemGap: 343,
@@ -152,9 +155,33 @@
                                 show: true,
                                 textStyle: {
                                     color: '#ffffff',
-                                    fontSize: 20
-                                }
+                                    fontSize: 16,
+                                    padding:[0,0,0,35],
+                                    lineHeight:25
+                                },
+                                formatter: function (params) {
+                                    let newParamsName = "";
+                                    let paramsNameNumber = params.length;
+                                    let provideNumber = 5;  //一行显示几个字
+                                    let rowNumber = Math.ceil(paramsNameNumber / provideNumber);
+                                    if (paramsNameNumber > provideNumber) {
+                                        for (let p = 0; p < rowNumber; p++) {
+                                            let tempStr = "";
+                                            let start = p * provideNumber;
+                                            let end = start + provideNumber;
+                                            if (p == rowNumber - 1) {
+                                                tempStr = params.substring(start, paramsNameNumber);
+                                            } else {
+                                                tempStr = params.substring(start, end) + "\n";
+                                            }
+                                            newParamsName += tempStr;
+                                        }
 
+                                    } else {
+                                        newParamsName = params;
+                                    }
+                                    return newParamsName
+                                },
                             },
                             data: myData.map(function(value) {
                                 return {
@@ -178,7 +205,6 @@
                             },
                             axisLabel: {
                                 show: false
-
                             },
                             data: myData
                         }],
@@ -353,7 +379,7 @@
                             data: []
                         },
                         legend : {
-                            top : '2%',
+                            top : '4%',
                             left : '10%',
                             itemWidth : 22,
                             itemHeight : 14,
@@ -453,7 +479,9 @@
                                 show: true,
                                 textStyle: {
                                     color: '#ffffff',
-                                    fontSize: 20
+                                    fontSize: 16,
+                                    padding:[0,0,0,35],
+                                    lineHeight:25
                                 }
 
                             },
@@ -479,7 +507,6 @@
                             },
                             axisLabel: {
                                 show: false
-
                             },
                             data: myData
                         }],
@@ -643,7 +670,6 @@
             },
             //饼
             detailProportionChart(myData,last,yesterday) {
-                // console.log(last);
                 let myChart = this.$echarts.init(document.getElementById('pie'));
                 let colorList = ['#fff093', '#00ffeb', '#0096ff', '#ffffff',
                     '#8fd1ff', '#ffdf18', '#ff9f16', '#b9ff9e',
@@ -717,9 +743,14 @@
                         data:yesSourceArr,
                         label: {
                             textStyle:{
-                                fontSize:16*this.scale,
+                                fontSize:20*this.scale,
                                 fontWeight:'bold'
                             },
+                        },
+                        labelLine:{
+                            show:true,
+                            length:25,
+                            length2:25
                         },
                         itemStyle: {
                             borderColor: '#021f3b',
@@ -733,9 +764,14 @@
                         radius: ['30%', '40%'],
                         center: ['50%','75%'],
                         data:lastSourceArr,
+                        labelLine:{
+                            show:true,
+                            length:25,
+                            length2:25
+                        },
                         label: {
                             textStyle:{
-                                fontSize:16*this.scale,
+                                fontSize:20*this.scale,
                                 fontWeight:'bold'
                             },
                         },
@@ -748,9 +784,62 @@
                     }]
                 };
                 myChart.setOption(option);
+                myChart.on('click',params=>{
+                    this.$router.push({
+                        name: '分类列表',
+                        query: {
+                            type: params.name||params.value
+                        }
+                    });
+                })
+            },
+        //    返回
+            back(){
+                this.$router.go(-1);
+            },
+
+        //    获取数据
+            getData() {
+                //1 昨天，2 前天
+                let timestamp = (new Date()).getTime();
+                let day1 = timestamp - 24 * 60 * 60 * 1000;
+                let day2 = timestamp - 2 * 24 * 60 * 60 * 1000;
+                let date1 = new Date(day1);
+                let date2 = new Date(day2);
+                let start1 = date1.getFullYear().toString() + (date1.getMonth() + 1).toString().padStart(2, '0') + date1.getDate()
+                    .toString().padStart(2, '0');
+                let start2 = date2.getFullYear().toString() + (date2.getMonth() + 1).toString().padStart(2, '0') + date2.getDate()
+                    .toString().padStart(2, '0');
+                this.$http({
+                    method: 'post',
+                    url: this.apiRoot + 'recJQFLTJB/findJQFLsecondNumHB',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'crossDomain': true
+                    },
+                    transformRequest: [function (data) {
+                        let ret = '';
+                        for (let it in data) {
+                            ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+                        }
+                        return ret
+                    }],
+                    // withCredentials: true,// 允许携带token ,这个是解决跨域产生的相关问题
+                    crossDomain: true,
+                    data: {
+                        // tjTime: 20160909,
+                        qtTime: start2,
+                        tjTime: start1,
+                        xzqhdm:JSON.parse(sessionStorage.getItem('city')),
+                        fldm:this.$route.query.type
+                    }
+                }).then(res => {
+                    console.log(res);
+                })
             },
         },
         mounted() {
+            this.getData();
             let myData1=[];
             let myData2=[];
             let lineData1=[];
@@ -777,6 +866,12 @@
 </script>
 
 <style scoped lang="scss">
+    .back{
+        position: fixed;
+        left: 2%;
+        top: 8%;
+        z-index: 10;
+    }
 main{
     display: flex;
     flex-direction: row;
@@ -792,7 +887,6 @@ main{
         .title_wrap {
             width: 100%;
             height: 3.6rem;
-            cursor: pointer;
             box-sizing: border-box;
             position: relative;
             background-repeat: no-repeat;
