@@ -1,151 +1,240 @@
 <template>
-    <div id="container">
-        <my-header></my-header>
-        <main>
-            <div class="myContainer">
-                <!--样式里的l,m,r,t,b分别代表左，中，右，上，下-->
-                <div class="t">
-                    <div class="t-l">
-                        <div class="chart-wrap">
-                            <!--                    标题-->
-                            <div class="title_wrap">
-                                <span>警情统计监测</span>
-                            </div>
+    <div id="container" @click="hideJump">
+        <my-header :topTitle='topTitle'></my-header>
+        <main @click="filter">
+            <!--<div class="goLawCase" @click="skiping">
+                <div class="box">
+                    <p>受立案情况统计</p>
+                </div>
+                <i class="iconfont iconxiangzuoshuangjiantou"></i>
+            </div>-->
 
-                            <!--                                            内容-->
-                            <div class="chartBox">
-                                <!--                                                    数据-->
-                                <ul class="statistics">
-                                    <li v-for="item in jqtjjcData" :key="item.name">
-                                        <p>{{item.name}}</p>
-                                        <p>{{item.value}}</p>
-                                    </li>
-                                </ul>
-                                <!--                        图表-->
-                                <div class="chart" id="jqtjjcChart"></div>
+            <!--样式里的l,m,r,t,b分别代表左，中，右，上，下-->
+            <div class="l">
+                <div class="l-t">
+                    <div class="chart-wrap">
+                        <!--                    标题-->
+                        <div class="title_wrap filter">
+                            警情统计监测
+                            <div class="options">
+                                <div>
+                                    <!--<div>
+                                        <img class="iconBox" data-id="jjlx" src="../assets/images/index/childrenPage.png">
+                                    </div>-->
+                                    <div data-id="jjlx" class="option">
+                                        <div class="filterTitle">
+                                            <div>页面跳转</div>
+                                        </div>
+                                        <ul class="filterItem" @click="selectItem">
+                                            <li v-for="item in periodArr2" :key="item">
+                                                <div data-id="jjlx">{{item}}</div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="t-m">
-                        <div class="box">
-                            <table cellspacing="0">
-                                <tr>
-                                    <td>{{mapData.name}}</td>
-                                    <td>{{shoulian.name}}</td>
-                                </tr>
-                                <tr>
-                                    <td>{{mapData.value}}</td>
-                                    <td>{{shoulian.value}}</td>
-                                </tr>
-                                <tr>
-                                    <td>{{mapData.name}}环比</td>
-                                    <td>{{shoulian.name}}环比</td>
-                                </tr>
-                                <tr>
-                                    <td :class="mapHbClass">
-                                        <span>{{Math.abs(mapData.hb)}}</span>
-                                        <i :class="['iconfont',mapHbIcon]"></i>
-                                    </td>
-                                    <td :class="mapHbClass">
-                                        <span>{{Math.abs(shoulian.hb)}}</span>
-                                        <i :class="['iconfont',mapHbIcon]"></i>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-
-                    <div class="t-r">
-                        <div class="chart-wrap">
-                            <!--                    标题-->
-                            <div class="title_wrap">
-                                <span>警情分类数据分析</span>
-                            </div>
-
-                            <!--                                            内容-->
-                            <div class="chartBox">
-                                <!--                                                    数据-->
-                                <!--                        图表-->
-                                <div class="chart" id="jqflsjfxChart"></div>
-                            </div>
+                        <!--                    内容-->
+                        <div class="chartBox">
+                            <!--                        数据-->
+                            <ul class="statistics">
+                                <li v-for="item in jqtjjcData" :key="item.name">
+                                    <p>{{item.name}}</p>
+                                    <p>{{item.value}}</p>
+                                </li>
+                            </ul>
+                            <!--                        图表-->
+                            <div class="chart" id="jqtjjcChart"></div>
                         </div>
                     </div>
                 </div>
 
-                <div class="b">
-                    <div class="b-l">
-                        <div class="chart-wrap">
-                            <!--标题-->
-                            <div class="title_wrap">
-                                <span>今日县区警情数据分析</span>
-                            </div>
 
-                            <!--内容-->
-                            <!-- <div class="chartBox" v-show="rankShow"> -->
-                            <div class="chartBox">
-                                <div class="myBox">
-                                    <table>
-                                        <tr>
-                                            <td class="span1">县（区）</td>
-                                            <td class="span2">报警总数</td>
-                                            <td class="span3">有效警情</td>
-                                        </tr>
-                                        <tr v-for="(item,index) in  ranking" :key="index">
-<!--                                            <td class="span1 sp1" @click="jump">{{item['xzqhdm']}}</td>-->
-                                            <td class="span1 sp1">{{item['xzqhdm']}}</td>
-                                            <td class="span2 sp2">{{item['jjsl']}}</td>
-                                            <td class="span3 sp3">{{item['yxjq']}}</td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </div>
+                <!-- 警情分类数据分析 -->
+                <div class="l-b">
+                    <div class="chart-wrap">
+                        <!--                    标题-->
+                        <div class="title_wrap">今日各市警情数据分析</div>
+                        <!--                    内容-->
+                        <div class="chartBox" v-show="rankShow">
+                            <ul>
+                                <li>
+                                    <span class="span1">地市</span>
+                                    <span class="span2">报警总数</span>
+                                    <span class="span3">有效警情</span>
+                                </li>
+                                <li v-for="(item,index) in  ranking" :key="index">
+                                    <span class="span1 sp1" @click="jump">{{item['xzqhdm']}}</span>
+                                    <span class="span2 sp2">{{item['jjsl']}}</span>
+                                    <span class="span3 sp3">{{item['yxjq']}}</span>
+                                </li>
+                            </ul>
                         </div>
                     </div>
 
-                    <div class="b-m">
-                        <div class="chart-wrap">
-                            <!--图表-->
-                            <div class="chartBox">
-                                <div class="chart" id="mapChart"></div>
-                            </div>
-                            <div class="mapLegend">
-                                <p>1:杏花岭区</p>
-                                <p>2:迎泽区</p>
-                                <p>3:小店区</p>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="b-r">
-                        <div class="chart-wrap">
-                            <!--标题-->
-                            <div class="title_wrap">
-                                <span>今日县区警情数据分析</span>
-                            </div>
+                </div>
+            </div>
 
-                            <!--内容-->
-                            <div class="chartBox" id="jqflhbfx"></div>
+
+            <div class="m_wrap">
+                <div class="m">
+                    <div class="chart-wrap">
+                        <div class="chartBox">
+                            <div class="yxjq">
+                                <p>{{mapData.name}}</p>
+                                <p>{{mapData.value}}</p>
+                            </div>
+                            <div class="yxjqhb">
+                                <p>{{mapData.name}}环比</p>
+                                <p :class="mapHbClass">
+                                    {{
+                                    mapData.hb<0?-mapData.hb:mapData.hb
+                                    }}%
+                                    <i :class="['iconfont',mapHbIcon]"></i>
+                                </p>
+                            </div>
+                            <div class="shoulian">
+                                <p>{{shoulian.name}}</p>
+                                <p>{{shoulian.value}}</p>
+                            </div>
+                            <div class="shoulianhb">
+                                <p>{{shoulian.name}}环比</p>
+                                <p :class="shoulianClass">
+                                    {{
+                                    shoulian.hb<0?-shoulian.hb:shoulian.hb
+                                    }}%
+                                    <i :class="['iconfont',shoulianHbIcon]"></i>
+                                </p>
+                            </div>
+                            <!--                        图表-->
+                            <div id="mapChart" class="chart"></div>
                         </div>
                     </div>
                 </div>
             </div>
+            <div class="r">
+
+                <div class="r-t">
+                    <!--<div class="options">
+                        <div class="timer_btn" @click="selectItem">
+                            <img class="iconBox" data-id="jqfl" src='../assets/images/index/filter_time.png'>
+                        </div>
+                        <div data-id="jqfl" class="option">
+                            <div class="filterTitle">
+                                <div>时间筛选</div>
+                            </div>
+                            <ul class="filterItem" @click="selectItem">
+                                <li v-for="item in periodArr1" :key="item">
+                                    <div data-id="jqfl">{{item}}</div>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
+-->
+                    <div class="chart-wrap">
+                        <div @click="jump" class="title_wrap">警情分类数据分析</div>
+                        <div class="chartBox">
+                            <div class="chart" id="jqflsjfxChart"></div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="r-b">
+                    <!--<div class="options">
+                        <div>
+                            <div>
+                                <img class="iconBox" data-id="jjlx" src="../assets/images/index/filter_time.png">
+                            </div>
+                            <div data-id="jjlx" class="option">
+                                <div class="filterTitle">
+                                    <div>时间筛选</div>
+                                </div>
+                                <ul class="filterItem" @click="selectItem">
+                                    <li v-for="item in periodArr" :key="item">
+                                        <div data-id="jjlx">{{item}}</div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div>
+                                <img class="iconBox" data-id="jjlx" src="../assets/images/index/childrenPage.png">
+                            </div>
+                            <div data-id="jjlx" class="option">
+                                <div class="filterTitle">
+                                    <div>页面跳转</div>
+                                </div>
+                                <ul class="filterItem" @click="selectItem">
+                                    <li v-for="item in periodArr2" :key="item">
+                                        <div data-id="jjlx">{{item}}</div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+
+                    </div>-->
+
+
+                    <!--					<div :class="[showIndex === 1 ? 'showIndex' : 'disappear'    ,'chart-wrap']">-->
+                    <!--						<div @click="jump" class="title_wrap">接警类型数据分析</div>-->
+                    <!--						<div class="chartBox">-->
+                    <!--							<div class="chart" id="sevenjjlxsjfxChart"></div>-->
+                    <!--						</div>-->
+                    <!--					</div>-->
+
+                    <!--					<div :class="[showIndex === 2 ? 'showIndex' : 'disappear'    ,'chart-wrap']">-->
+                    <!--						<div @click="jump" class="title_wrap">报警方式数据分析</div>-->
+                    <!--						<div class="chartBox">-->
+                    <!--							<div class="chart" id="sevenbjfssjfxChart"></div>-->
+                    <!--						</div>-->
+                    <!--					</div>-->
+
+                    <!--					<div :class="[showIndex === 3 ? 'showIndex' : 'disappear'    ,'chart-wrap']">-->
+                    <!--						<div @click="jump" class="title_wrap">来话类型数据分析</div>-->
+                    <!--						<div class="chartBox">-->
+                    <!--							<div class="chart" id="sevenlhlxsjfxChart"></div>-->
+                    <!--						</div>-->
+                    <!--					</div>-->
+
+                    <div :class="[showIndex === 1 ? 'showIndex' : 'disappear'    ,'chart-wrap']">
+                        <div @click="jump" class="title_wrap">警情分类环比分析</div>
+                        <div class="chartBox">
+                            <div class="chart" id="jqflhbfx"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </main>
+        <my-setting :map-source="mapSource" :grading="grading" :peak="peak"></my-setting>
+        <my-link></my-link>
     </div>
 </template>
 
 <script>
     import MyHeader from "../components/Header";
+    import MySetting from "../components/Setting";
+    import MyLink from "../components/Link";
+    // import gl from "../assets/js/GL"
 
     export default {
         name: "Test",
         components: {
-            MyHeader
+            MyHeader,
+            MySetting,
+            MyLink
         },
         data() {
             return {
                 // 标题
-                // topTitle: '太原市公安局情报指挥中心警情分析统计系统',
+                topTitle: '山西省公安厅情报指挥中心警情分析统计系统',
                 //今天的日期
                 todayIndex: '',
                 threeDaysAgo: '',
@@ -217,76 +306,25 @@
                 ],
                 jqtjjcSource: [{
                     name: '已处警数占比',
-                    value: 10
+                    value: 0,
+                    radius: '55%'
                 },
                     {
                         name: '有效警情占比',
-                        value: 10
+                        value: 0,
+                        radius: '55%'
                     },
                     {
                         name: '已反馈数占比',
-                        value: 10
+                        value: 0,
+                        radius: '55%'
                     }
                 ],
 
                 // 排名
-                ranking: [{
-                    'xzqhdm': '尖草坪区',
-                    'jjsl': 10,
-                    'yxjq': 10
-                }, {
-                    'xzqhdm': '尖草坪区',
-                    'jjsl': 10,
-                    'yxjq': 10
-                }, {
-                    'xzqhdm': '尖草坪区',
-                    'jjsl': 10,
-                    'yxjq': 10
-                }, {
-                    'xzqhdm': '尖草坪区',
-                    'jjsl': 10,
-                    'yxjq': 10
-                }, {
-                    'xzqhdm': '尖草坪区',
-                    'jjsl': 10,
-                    'yxjq': 10
-                }, {
-                    'xzqhdm': '尖草坪区',
-                    'jjsl': 10,
-                    'yxjq': 10
-                }, {
-                    'xzqhdm': '尖草坪区',
-                    'jjsl': 10,
-                    'yxjq': 10
-                }, {
-                    'xzqhdm': '尖草坪区',
-                    'jjsl': 10,
-                    'yxjq': 10
-                }, {
-                    'xzqhdm': '尖草坪区',
-                    'jjsl': 10,
-                    'yxjq': 10
-                }, {
-                    'xzqhdm': '尖草坪区',
-                    'jjsl': 10,
-                    'yxjq': 10
-                }, {
-                    'xzqhdm': '尖草坪区',
-                    'jjsl': 10,
-                    'yxjq': 10
-                }, {
-                    'xzqhdm': '尖草坪区',
-                    'jjsl': 10,
-                    'yxjq': 10
-                }, {
-                    'xzqhdm': '尖草坪区',
-                    'jjsl': 10,
-                    'yxjq': 10
-                }, {
-                    'xzqhdm': '尖草坪区',
-                    'jjsl': 10,
-                    'yxjq': 10
-                }],
+                ranking: [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}
+
+                ],
 
                 //    近期警情统计  y
                 jqjqtjScoure: [],
@@ -294,62 +332,14 @@
                 // jqjqtjXdata: ['10-1', '10-2', '10-3', '10-4', '10-5', '10-6', '10-7'],
 
                 //    警情分类数据分析
-                jqflsjfxSource: [/*{
-                    name: '刑事',
-                    value: 10
-                },
-                    {
-                        name: '行政（治安）',
-                        value: 10
-                    },
-                    {
-                        name: '交通类',
-                        value: 10
-                    },
-                    {
-                        name: '消防救援',
-                        value: 10
-                    },
-                    {
-                        name: '群众求助',
-                        value: 10
-                    },
-                    {
-                        name: '应急联动事件',
-                        value: 10
-                    },
-                    {
-                        name: '群体事件',
-                        value: 10
-                    },
-                    {
-                        name: '纠纷',
-                        value: 10
-                    },
-                    {
-                        name: '灾害事故',
-                        value: 10
-                    },
-                    {
-                        name: '举报',
-                        value: 10
-                    },
-                    {
-                        name: '投诉监督',
-                        value: 10
-                    },
-                    {
-                        name: '其它警情',
-                        value: 10
-                    },*/
-                ],
+                jqflsjfxSource: [],
                 jqflhbfxSource: [/*{
                     name: '刑事警情',
                     beforeYesterday: 800,
                     yesterday: 850
                 },
                     {
-                        name: '行政(治安)',
+                        name: '行政治安',
                         beforeYesterday: 700,
                         yesterday: 600
                     },
@@ -369,27 +359,12 @@
                         yesterday: 150
                     },
                     {
-                        name: '应急联动事件',
-                        beforeYesterday: 200,
-                        yesterday: 150
-                    },
-                    {
-                        name: '群体事件',
-                        beforeYesterday: 200,
-                        yesterday: 150
-                    },
-                    {
                         name: '纠纷',
                         beforeYesterday: 400,
                         yesterday: 500
                     },
                     {
                         name: '灾害事故',
-                        beforeYesterday: 600,
-                        yesterday: 600
-                    },
-                    {
-                        name: '举报',
                         beforeYesterday: 600,
                         yesterday: 600
                     },
@@ -419,46 +394,53 @@
                     },
                 ],
                 mapSource: [{
-                    name: "娄烦县",
-                    value: 10
+                    name: "太原市",
+                    value: 0
                 },
                     {
-                        name: "古交市",
+                        name: "长治市",
                         value: 0
                     },
                     {
-                        name: "阳曲县",
+                        name: "朔州市",
                         value: 0
                     },
                     {
-                        name: "万柏林区",
+                        name: "运城市",
                         value: 0
                     },
                     {
-                        name: "尖草坪区",
+                        name: "大同市",
                         value: 0
                     },
                     {
-                        name: "杏花岭区",
+                        name: "晋城市",
                         value: 0
                     },
                     {
-                        name: "迎泽区",
+                        name: "晋中市",
                         value: 0
                     },
                     {
-                        name: "晋源区",
+                        name: "临汾市",
                         value: 0
                     },
                     {
-                        name: "小店区",
+                        name: "忻州市",
                         value: 0
                     },
                     {
-                        name: "清徐县",
+                        name: "阳泉市",
+                        value: 0
+                    },
+                    {
+                        name: "吕梁市",
                         value: 0
                     },
                 ],
+                geoCoordMap: {
+                    "太原市": [112.549248, 36]
+                },
                 mapData: {
                     name: '有效警情',
                     value: 0,
@@ -545,18 +527,7 @@
                         jjslsx: 2000,
                     },
                 ],
-                geoCoordMap: {
-                    '娄烦县': [111.81, 37.98],
-                    '古交市':[112.16, 37.87],
-                    '阳曲县':[112.68, 38.07],
-                    '万柏林区': [112.40558624267578, 37.84],
-                    '尖草坪区':[112.48, 37.94],
-                    '杏花岭区':[112.63, 37.89],
-                    '迎泽区':[112.7, 37.84],
-                    '晋源区':[112.43785858154297, 37.69],
-                    '小店区':[112.59, 37.68],
-                    '清徐县': [112.40009307861328, 37.53]
-                },
+
                 flag: {
                     proportionValue: false, // 分布占比
                     peakValue: false, // 获取峰值
@@ -612,9 +583,6 @@
             },
         },
         methods: {
-            setCity(){
-                sessionStorage.setItem('city',JSON.stringify(this.$route.query.city));
-            },
             //获取缩放比例
             getScale() {
                 this.scale = localStorage.getItem('scale');
@@ -623,141 +591,208 @@
             panChart() {
                 let myChart = this.$echarts.init(document.getElementById('jqtjjcChart'));
                 this.chartsObj.panChart = myChart; //放入charts对象方便后面的刷新缩放以及其他操作
-                let myColor = [{left: "#07fe92", right: "#73ffb8"},
-                    {left: "#0076ff", right: "#00f7ff"},
-                    {left: "#febf07", right: "#f3fd66"}];
-                let titlename = [];
-                let data = [];
-                let valdata = [];
                 let that = this;
                 let sourceArr = this.jqtjjcSource;
-                sourceArr.forEach(value => {
-                    titlename.push(value.name);
-                    data.push(value.value);
-                    valdata.push(100);
-                });
+                let colorSet = [
+                    [0.2, '#ffe754'],
+                    [0.8, '#0079cc'],
+                    [1, '#1af7f1']
+                ];
                 let option = {
-                    xAxis: {
-                        show: false
-                    },
-                    yAxis: [{
-                        show: true,
-                        data: titlename,
-                        inverse: true,
-                        axisLine: {
-                            show: false
-                        },
-                        splitLine: {
-                            show: false
-                        },
-                        axisTick: {
-                            show: false
-                        },
-                        axisLabel: {
-                            color: '#fff',
-                            formatter: function (value, index) {
-                                return value
-                            },
-                            textStyle: {
-                                fontSize: 20 * this.scale,
-                                color: '#fff',
-                                fontWeight: 'bold'
-                            },
-                        },
-                    }, {
-                        show: true,
-                        inverse: true,
-                        data: data,
-                        axisLabel: {
-                            formatter: function (params) {
-                                return params + '%'
-                            },
-                            textStyle: {
-                                fontSize: 20 * this.scale,
-                                color: '#fff',
-                                fontWeight: 'bold'
-                            },
-                        },
-                        axisLine: {
-                            show: false
-                        },
-                        splitLine: {
-                            show: false
-                        },
-                        axisTick: {
-                            show: false
-                        },
-                    }],
-                    tooltip:{
-                        formatter:function (params) {
-                            console.log(params);
-                            let t='';
-                            if (params.seriesName==='条'){
-                                t=`<span style="display:inline-block;margin-right:5px;border-radius:10px;width:10px;height:10px;background-color:${myColor[params.dataIndex].left};"></span>`+params.name+'：'+params.value
-                            }else {
-                                t='';
-                            }
-                            return t;
+                    series: (function () {
+                        let result = [];
+                        sourceArr.forEach(function (item, index) {
+                            result.push(
+                                // 外围仪表盘刻度与数字
+                                {
+                                    name: item.name,
+                                    type: 'gauge',
+                                    center: [index * 28 + 22 + '%', '45%'],
+                                    radius: item.radius,
+                                    splitNumber: 2,
+                                    axisLine: {
+                                        show: true,
+                                        lineStyle: {
+                                            color: colorSet,
+                                            width: 14 * that.scale,
+                                            shadowOffsetX: 0,
+                                            shadowOffsetY: 0,
+                                            opacity: 1
+                                        }
+                                    },
+                                    pointer: {
+                                        show: false,
+                                    },
+                                    detail: {
+                                        show: false,
+                                    },
+                                    splitLine: {
+                                        length: 10 * that.scale,
+                                        lineStyle: {
+                                            width: 2 * that.scale
+                                        }
+                                    },
+                                    axisTick: {
+                                        show: true,
+                                        splitNumber: 5,
+                                        length: 6 * that.scale,
+                                        lineStyle: {
+                                            width: 1 * that.scale
+                                        }
+                                    },
+                                    axisLabel: {
+                                        fontSize: 16 * that.scale, // 刻度盘 数字
+                                        color: '#91c7ae',
+                                    },
+                                    data: [{
+                                        value: item.value
+                                    }]
+                                },
+                                // 小刻度
+                                {
+                                    name: item.name,
+                                    type: 'gauge',
+                                    center: [index * 28 + 22 + '%', '45%'],
+                                    radius: item.radius,
+                                    splitNumber: 2,
+                                    axisLine: {
+                                        show: false,
+                                        lineStyle: {
+                                            color: colorSet,
+                                            width: 18 * that.scale,
+                                            shadowOffsetX: 0,
+                                            shadowOffsetY: 0,
+                                            opacity: 1
+                                        }
+                                    },
+                                    pointer: {
+                                        show: false,
+                                    },
+                                    detail: {
+                                        show: false,
+                                    },
+                                    splitLine: {
+                                        length: 14 * that.scale,
+                                        lineStyle: {
+                                            width: 1 * that.scale
+                                        }
+                                    },
+                                    axisTick: {
+                                        show: true,
+                                        splitNumber: 25,
+                                        length: 2 * that.scale,
+                                        lineStyle: {
+                                            width: 1 * that.scale
+                                        }
+                                    },
+                                    axisLabel: {
+                                        show: false,
+                                    },
+                                    data: [{
+                                        value: item.value
+                                    }]
+                                },
+                                // 内侧指针、数值显示
+                                {
+                                    name: item.name,
+                                    type: 'gauge',
+                                    center: [index * 28 + 22 + '%', '45%'],
+                                    radius: item.radius,
+                                    splitNumber: 2,
+                                    axisLine: {
+                                        show: false,
+                                        lineStyle: {
+                                            color: colorSet,
+                                            width: 15 * that.scale,
+                                            shadowOffsetX: 0,
+                                            shadowOffsetY: 0,
+                                            opacity: 1
+                                        }
+                                    },
+                                    pointer: {
+                                        show: true,
+                                        length: '70%', // 指针
+                                        width: 5 * that.scale
+                                    },
+                                    detail: {
+                                        show: true,
+                                        offsetCenter: [0, '140%'],
+                                        textStyle: {
+                                            fontSize: 20 * that.scale, //百分比
+                                            color: '#5ae6ff',
+                                            fontWeight: 'bold'
+                                        },
+                                        formatter: [
+                                            '{value}% ' + (item.unit || ''),
+                                            '{name|' + item.name + '}'
+                                        ].join('\n'),
+                                        rich: {
+                                            name: {
+                                                fontSize: 20 * that.scale,
+                                                lineHeight: 50 * that.scale, //下方文字描述
+                                                color: '#ffffff',
+                                            }
+                                        }
+                                    },
+                                    splitLine: {
+                                        show: false,
+                                    },
+                                    axisTick: {
+                                        show: false,
+                                    },
+                                    axisLabel: {
+                                        show: false,
+                                    },
+                                    data: [{
+                                        value: item.value
+                                    }]
+                                },
+                                // 扩大提示范围
+                                {
+                                    name: item.name,
+                                    type: 'gauge',
+                                    center: [index * 28 + 22 + '%', '40%'],
+                                    radius: item.radius,
+                                    splitNumber: 2,
+                                    axisLine: {
+                                        show: false,
+                                    },
+                                    pointer: {
+                                        show: true,
+                                        length: '150%',
+                                        width: '150%',
+                                    },
+                                    tooltip: {},
+                                    itemStyle: {
+                                        normal: {
+                                            color: 'transparent'
+                                        }
+                                    },
+                                    detail: {
+                                        show: false,
+                                    },
+                                    splitLine: {
+                                        show: false
+                                    },
+                                    axisTick: {
+                                        show: false
+                                    },
+                                    axisLabel: {
+                                        show: false
+                                    },
+                                    data: [{
+                                        value: item.value
+                                    }]
+                                }
+                            );
+                        });
+                        return result;
+                    })(),
+                    tooltip: {
+                        formatter: function (params) {
+                            return params.seriesName + '：' + params.data.value + '%';
                         }
                     },
-                    series: [{
-                        name: '条',
-                        type: 'bar',
-                        yAxisIndex: 0,
-                        data: data,
-                        barWidth: 20 * this.scale,
-                        itemStyle: {
-                            normal: {
-                                barBorderRadius: 30,
-                                color: function (params) {
-                                    return new that.$echarts.graphic.LinearGradient(
-                                        //右，下，左，上
-                                        0, 0, 1, 0, [{
-                                            //0%位置的颜色
-                                            offset: 0,
-                                            color: myColor[params.dataIndex].left
-                                        },
-                                            {
-                                                //100%位置的颜色
-                                                offset: 1,
-                                                color: myColor[params.dataIndex].right
-                                            }
-                                        ]
-                                    )
-                                },
-                            }
-                        },
-                    }, {
-                        name: '框',
-                        type: 'bar',
-                        yAxisIndex: 1,
-                        barGap: '-100%',
-                        data: [100, 100, 100, 100, 100],
-                        barWidth: 25 * this.scale,
-                        itemStyle: {
-                            normal: {
-                                color: 'none',
-                                borderColor: '#00c1de',
-                                borderWidth: 2,
-                                barBorderRadius: 15,
-                            }
-                        },
-                        label: {
-                            normal: {
-                                show: false,
-                                position: 'right',
-                                formatter: function (params) {
-                                    return data[params.dataIndex] + '%'
-                                }
-                            }
-                        },
-                    },],
-                    grid: {
-                        top: 10 * this.scale,
-                        bottom: 10 * this.scale,
-                        left: 164 * this.scale,
-                        right: 100 * this.scale,
-                    }
                 };
                 myChart.setOption(option);
             },
@@ -765,8 +800,8 @@
             //    警情分类数据分析
             jqflsjfxChart(Arr, brr, crr) {
                 // console.log(crr);
-                let drr = [];
-                Arr.forEach(value => {
+                let drr=[];
+                Arr.forEach(value=>{
                     drr.push(1);
                 });
                 // console.log(drr);
@@ -788,29 +823,28 @@
                             textStyle: {
                                 color: '#ffffff',
                                 fontSize: 19 * this.scale,
-                                fontWeight: 'bold'
+                                fontWeight:'bold'
                             },
+                            margin:30*this.scale,
                             interval: 0,
                             formatter: function (value, index) {
-                                let type = index % 2 === 0 ? 'up' : 'down';
-                                // console.log(type);
-                                return '{' + type + '|' + value + '}'
+                                // let type = index % 2 === 0 ? 'up' : 'down';
+                                // return '{' + type + '|' + value + '}'
+                                return value
                             },
-                            rich: {
+                            /*rich: {
                                 up: {
-                                    height: 30 * this.scale,
+                                    height: 50 * this.scale,
                                     fontWeight: 'bold',
-                                    fontSize: 16 * this.scale,
+                                    fontSize: 20 * this.scale,
                                 },
                                 down: {
                                     height: 80 * this.scale,
                                     fontWeight: 'bold',
-                                    fontSize: 16 * this.scale
-                                },
-                            }
-
+                                    fontSize: 20 * this.scale,
+                                }
+                            }*/
                         },
-
                     },
                     yAxis: {
                         splitLine: {
@@ -829,13 +863,13 @@
                     series: [{
                         name: '',
                         type: 'pictorialBar',
-                        symbolSize: [24*this.scale, 10*this.scale],
+                        symbolSize: [24, 10],
                         symbolOffset: [0, -5],
                         z: 12,
                         silent: true,
                         itemStyle: {
                             normal: {
-                                color: 'rgba(0,255,174,1)'
+                                color: '#14b1eb'
                             }
                         },
                         label: {
@@ -843,19 +877,19 @@
                             position: 'top',
                             fontWeight: 'bold',
                             fontSize: 18 * this.scale,
-                            color: '#fff'
+                            color: '#ffe754'
                         },
                         data: crr
                     }, {
                         name: '',
                         type: 'pictorialBar',
-                        symbolSize: [24*this.scale, 10*this.scale],
+                        symbolSize: [24, 10],
                         symbolOffset: [0, 5],
                         z: 12,
                         silent: true,
                         itemStyle: {
                             normal: {
-                                color: 'rgba(0,255,174,1)'
+                                color: '#14b1eb'
                             }
                         },
                         data: drr
@@ -863,56 +897,36 @@
                         type: 'bar',
                         itemStyle: {
                             normal: {
-                                color: 'rgba(0,255,174,1)',
+                                color: '#14b1eb',
                                 opacity: .7
                             }
                         },
                         // silent: true,
-                        barWidth: 24*this.scale,
+                        barWidth: 24,
                         barGap: '-100%', // Make series be overlap
                         data: brr
                     }],
                     grid: {
-                        top: 70 * this.scale,
-                        bottom: 100 * this.scale,
-                        left: 30 * this.scale,
-                        right: 30 * this.scale
+                        top: 42 * this.scale,
+                        bottom: 55 * this.scale,
+                        left: 40 * this.scale,
+                        right: 40 * this.scale
                     }
                 };
-                /*myChart.on('click', function (p) {
-                    // console.log(p.value);
-                    option.xAxis.axisLabel.formatter=function (params,index) {
-                        if (params===p.value){
-                            let c = index % 2 === 0 ? 'activeUp' : 'activeDown';
-                            console.log(c);
-                            return '{'+c+'|'+p.value+'}';
-                            // return p.value
-                        }else {
-                            let type = index % 2 === 0 ? 'up' : 'down';
-                            // console.log(type);
-                            return '{' + type + '|' + params + '}'
-                        }
-                    };
-                    option.xAxis.axisLabel.rich.activeUp={
-                        height: 30 * that.scale,
-                        fontWeight: 'bold',
-                        fontSize: 16 * that.scale,
-                        color:'red',
-                    };
-                    option.xAxis.axisLabel.rich.activeDown={
-                        height: 80 * that.scale,
-                        fontWeight: 'bold',
-                        fontSize: 16 * that.scale,
-                        color:'red',
-                    };
-                    myChart.setOption(option);
-                });*/
                 myChart.setOption(option);
             },
             //    警情分类环比
-            jqflhbfxChart(typeArr, yesterdayArr, beforeYesterdayArr, hb) {
+            jqflhbfxChart(typeArr,yesterdayArr,beforeYesterdayArr,hb) {
+                // this.jqflhbfxChart(name,yesterdayArr,beforedayArr,yesterdayHBArr);
+                // console.log(yesterdayArr);
                 let myChart = this.$echarts.init(document.getElementById('jqflhbfx'));
                 this.chartsObj.jqflsjhbChart = myChart;
+                // let data = this.jqflhbfxSource;
+                // let typeArr = [];
+                // let beforeYesterdayArr = [];
+                // let yesterdayArr = [];
+                // let pArr = [];
+
                 let total = [];
 
                 typeArr.forEach(value => {
@@ -922,7 +936,6 @@
                 let option = {
                     tooltip: {},
                     xAxis: {
-                        triggerEvent: true,
                         type: 'category',
                         data: typeArr,
                         axisLine: {
@@ -936,39 +949,26 @@
                             show: true,
                             textStyle: {
                                 color: '#ffffff',
-                                fontWeight: 'bold'
+                                fontSize: 19 * this.scale,
+                                fontWeight:'bold'
                             },
-                            margin: 25 * this.scale,
+                            margin:25*this.scale,
                             interval: 0,
                             formatter: function (value, index) {
-                                let type = '';
-                                if (index % 3 === 0) {
-                                    type = 'up';
-                                } else if (index % 3 === 1) {
-                                    type = 'middle'
-                                } else {
-                                    type = 'down'
-                                }
-                                return '{' + type + '|' + value + '}'
-                                // return value
+                                // let type = index % 2 === 0 ? 'up' : 'down';
+                                // return '{' + type + '|' + value + '}'
+                                return value
                             },
-                            rich: {
+                           /* rich: {
                                 up: {
                                     height: 20 * this.scale,
                                     fontWeight: 'bold',
-                                    fontSize: 18 * this.scale,
-                                },
-                                middle: {
-                                    height: 70 * this.scale,
-                                    fontWeight: 'bold',
-                                    fontSize: 18 * this.scale,
                                 },
                                 down: {
-                                    height: 120 * this.scale,
+                                    height: 60 * this.scale,
                                     fontWeight: 'bold',
-                                    fontSize: 18 * this.scale,
                                 }
-                            }
+                            }*/
                         },
                         axisTick: {
                             show: false
@@ -1071,39 +1071,32 @@
                                 show: true,
                                 position: 'top',
                                 formatter: function (params) {
+                                    // console.log(params);
                                     let color = '';
-                                    let p = 0;
-                                    if (beforeYesterdayArr[params.dataIndex] == '0') {
-                                        p = yesterdayArr[params.dataIndex]
-                                    } else {
-                                        p = Number(((yesterdayArr[params.dataIndex] - beforeYesterdayArr[params.dataIndex]) /
+                                    let p=0;
+                                    if(beforeYesterdayArr[params.dataIndex]=='0'){
+                                        p=yesterdayArr[params.dataIndex]
+                                    }else{
+                                        p= Number(((yesterdayArr[params.dataIndex] - beforeYesterdayArr[params.dataIndex]) /
                                             beforeYesterdayArr[params.dataIndex]).toFixed(2));
                                     }
                                     if (p > 0) {
                                         color = 'red';
-                                    } else if (p === 0) {
-                                        color = 'yellow';
                                     } else {
                                         color = 'green';
                                         p = -p;
                                     }
-                                    // console.log(p);
                                     return `{${color}|${p}}`
                                 },
                                 rich: {
                                     red: {
                                         color: '#ff5e17',
-                                        fontSize: 16 * this.scale,
+                                        fontSize: 18 * this.scale,
                                         fontWeight: 'bold'
                                     },
                                     green: {
                                         color: '#00ff78',
-                                        fontSize: 16 * this.scale,
-                                        fontWeight: 'bold'
-                                    },
-                                    yellow: {
-                                        color: '#fdff05',
-                                        fontSize: 16 * this.scale,
+                                        fontSize: 18 * this.scale,
                                         fontWeight: 'bold'
                                     }
                                 }
@@ -1129,16 +1122,6 @@
                                 color: '#00ff78'
                             }
                         }
-                    }, {
-                        name: '环比持平',
-                        type: 'bar',
-                        stack: '数量',
-                        data: total,
-                        itemStyle: {
-                            normal: {
-                                color: '#fdff05'
-                            }
-                        }
                     }],
                     legend: {
                         data: [{
@@ -1149,8 +1132,6 @@
                             name: '环比增长',
                         }, {
                             name: '环比减少',
-                        }, {
-                            name: '环比持平',
                         }],
                         textStyle: {
                             color: '#fff',
@@ -1158,198 +1139,447 @@
                             fontWeight: 'bold'
                         },
                         icon: "circle",
-                        itemGap: 20 * this.scale,
-                        top: 40 * this.scale
+                        itemGap: 20 * this.scale
                     },
                     grid: {
-                        top: 100 * this.scale,
-                        bottom: 130 * this.scale,
-                        left: 90 * this.scale,
-                        right: 40 * this.scale
+                        left: 60 * this.scale,
+                        right: 20 * this.scale
                     }
                 };
                 myChart.setOption(option);
-                myChart.on('click',params=>{
-                    this.$router.push({
-                        name: '占比',
-                        query: {
-                            type: params.name||params.value
-                        }
-                    });
-                });
             },
+
             //地图
             mapChart() {
-                let cityObj = {};
-                let mapdata = [];
-                let flag = true;
-                let that = this;
-                let myChart = this.$echarts.init(document.getElementById('mapChart')); //初始化
-                this.chartsObj = myChart;
-                this.$http.get('static/json/140100_full.json').then(res => {
-                    // console.log(res);
-                    let d = [];
-                    for (let i = 0; i < res.data.features.length; i++) {
-                        cityObj[res.data.features[i].properties.name] = res.data.features[i].properties.adcode;
+                let running = false;
+                Object.keys(this.flag).forEach((item, index) => {
+                    if (!this.flag[item]) {
+                        running = true;
                     }
-                    mapdata = d;
-                    // console.log(mapdata);
-                    // 注册地图
-                    that.$echarts.registerMap('太原市', res.data);
-                    // 绘制地图
-                    renderMap('太原市', that.mapSource, that.geoCoordMap);
                 });
+                if (running) return;
+                // console.log('rander');
 
+                let cityObj = {};
+                let cityData = this.mapSource;
+                let that = this;
+                let myChart = that.$echarts.init(document.getElementById('mapChart')); //初始化
+                this.chartsObj.mapChart = myChart;
+                let data2 = [];
+                cityData.forEach(value => {
+                    data2.push({
+                        name: value.name,
+                        value: parseFloat(value.value / value.value1).toFixed(2),
+                        value1: value.value
+                    });
+                });
+                that.data1 = data2;
+                //初显示   http://192.168.1.252:8082/dataDisplay/dictBJFSDMB/140000_full.json
+                this.$http.get(this.apiRoot + 'dictBJFSDMB/getAll', {
+                    params: {
+                        json: '140001_full'
+                    }
+                }).then(res => {
+                    // this.$http.get('static/json/140001_full.json').then(res => {
+                    if (res.status === 200) {
+
+                        for (let i = 0; i < res.data.features.length; i++) {
+                            cityObj[res.data.features[i].properties.name] = res.data.features[i].properties.adcode;
+                        }
+                        // 注册地图
+                        that.$echarts.registerMap('山西省', res.data);
+                        // 绘制地图
+                        renderMap('山西省', data2);
+                    }
+                });
+                myChart.on('click', function (params) {
+                    console.log(params['data']['name']);
+                    that.$router.push({
+                        path: '/index/particulars/city',
+                        query: {title: '市占比数据分析', city: params['data']['name']}
+                    })
+                })
+
+                //配置项
                 let option = {
+                    title: {
+                        show: false
+                    },
                     animationDuration: 1000,
                     animationEasing: 'cubicOut',
                     animationDurationUpdate: 1000,
                 };
 
-                let convertData = function (d) {
-                    // console.log(d);
-                    let res = [];
-                    for (let i = 0; i < d.length; i++) {
-                        let geoCoord = that.geoCoordMap[d[i].name];
-                        // console.log(that.geoCoordMap[data[i].name]);
-                        if (geoCoord) {
-                            res.push({
-                                name: d[i].name,
-                                value: geoCoord.concat(d[i].value)
-                            });
-                        }
-                        // console.log(d[i].value);
-                    }
-                    return res;
-                };
-
                 function renderMap(map, data) {
-                    // console.log(geo);
                     // 初始化绘制全国地图配置
-
+                    option.title.subtext = map;
                     option.series = [{
-                        name: '',
+                        name: '散点',
                         type: 'scatter',
                         coordinateSystem: 'geo',
-                        data: convertData(data),
-                        symbolSize: 1,
-                        label: {
-                            normal: {
-                                show: true,
-                                formatter: function (params) {
-                                    if (params.data.name === '杏花岭区') {
-                                        params.data.name = '1';
-                                    } else if (params.data.name === '迎泽区') {
-                                        params.data.name = '2';
-                                    } else if (params.data.name === '小店区') {
-                                        params.data.name = '3';
-                                    }
-                                    ;
-                                    // console.log(params.data.name);
-                                    return params.data.name
-                                },
-                                position: 'top',
-                                textStyle: {
-                                    fontSize: 20 * that.scale,
-                                    fontWeight: 'bold',
-                                    color: '#9a8758'
-                                }
-                            },
-                            emphasis: {
-                                formatter: function (params) {
-                                    return params.data.name
-                                },
-                                position: 'top',
-                                show: true,
-                                textStyle: {
-                                    fontSize: 20 * that.scale,
-                                    fontWeight: 'bold',
-                                    color: '#9a8758'
-                                }
-                            }
-                        },
-                        itemStyle: {
-                            color: 'transparent'
-                        },
-                        animation: false
+                        data: data,
+                        symbolSize: 0,
                     },
                         {
                             map: map,
-                            type: 'map',
-                            mapType: map,
-                            roam: false,
+                            type: 'map3D',
+                            roam: true,
                             data: data,
-                            zoom: 1.2,
                             nameMap: {
                                 '山西省': '山西省'
                             },
-                            itemStyle: {
-                                normal: {
-                                    areaColor: '#d1bd8f'
+                            shading: 'realistic', //光照
+                            light: {
+                                main: { //主光源设置
+                                    intensity: 0.7, //主光源强度
+                                    shadow: false, //主光源是否投射阴影
+                                    shadowQuality: 'low', //阴影的质量
+                                    /*alpha: 120, //主光源绕 x 轴偏离的角度
+                                    beta: 190//主光源绕 y 轴偏离的角度*/
                                 },
-                                emphasis: {
-                                    areaColor: '#d1bd8f'
+                                ambient: { //全局的环境光设置。
+                                    intensity: 0 //环境光的强度
                                 }
                             },
+                            boxWidth: 100,
+                            viewControl: { //用于鼠标的旋转，缩放等视角控制
+                                distance: 250, //默认视角距离主体的距离
+                                panMouseButton: 'left', //平移操作使用的鼠标按键
+                                rotateMouseButton: 'left', //旋转操作使用的鼠标按键
+                                alpha: 60, // 让canvas在x轴有一定的倾斜角度
+                                // autoRotate : true,
+                                animation: true,
+                                panSensitivity: 0,
+                            },
+                            postEffect: { //后处理特效的相关配置，后处理特效可以为画面添加高光，景深，环境光遮蔽（SSAO），调色等效果。可以让整个画面更富有质感。
+                                enable: true,
+                                bloom: { //光晕
+                                    enable: false
+                                },
+                                SSAO: { //屏幕空间环境光遮蔽
+                                    radius: 1, //环境光遮蔽的强度。值越大颜色越深。
+                                    intensity: 1, //环境光遮蔽的强度。值越大颜色越深。
+                                    enable: true
+                                },
+                                depthOfField: { //景深
+                                    enable: false,
+                                    focalRange: 10, //完全聚焦的区域范围，在此范围内的物体时完全清晰的，不会有模糊
+                                    blurRadius: 10, //焦外的模糊半径
+                                    fstop: 1 //焦外的模糊半径
+                                }
+                            },
+                            temporalSuperSampling: { //分帧超采样。在开启 postEffect 后，WebGL 默认的 MSAA 会无法使用,分帧超采样用来解决锯齿的问题
+                                enable: true
+                            },
+                            itemStyle: { //三维图形的视觉属性
+                                color: '#4ced7a', //地图颜色
+                                borderWidth: 1.2,
+                                borderColor: '#050324'
+                            },
+                            regionHeight: 10,
                             label: {
                                 normal: {
-                                    show: false,
+                                    show: true,
                                     formatter: function (params) {
                                         return params.name
                                     },
                                     position: 'inside',
-                                    color: '#9a8758',
                                     textStyle: {
+                                        color: '#ffffff',
+                                        opacity: 1, // 字体透明度
+                                        backgroundColor: 'transparent',
                                         fontSize: 20 * that.scale,
+                                        borderColor: '#004c51',
                                         fontWeight: 'bold'
                                     }
                                 },
-                                emphasis: {
-                                    show: false
-                                }
-                            },
-                        },
-                    ];
-                    option.geo = {
-                        show: false,
-                        map: map,
-                        zoom: 1.2,
-                        label: {
-                            normal: {
-                                show: false,
                             },
                             emphasis: {
-                                show: false,
+                                itemStyle: { //三维图形的视觉属性
+                                    color: '#50a0ea',
+                                    borderWidth: 1.2,
+                                    borderColor: '#050324'
+                                },
+                                label: {
+                                    show: true,
+                                    textStyle: {
+                                        color: '#02061a',
+                                        borderColor: '#7f91ff',
+                                        fontWeight: 'bold'
+                                    }
+                                }
                             }
                         },
-                        roam: false,
-                    };
-                    option.tooltip={
-                        formatter:function (params) {
-                            return params.name+'：'+params.value;
+                    ];
+                    option.tooltip = {
+                        formatter: function (params) {
+                            return params.marker + params.data.name + '：' + params.data.value1
                         }
                     };
+                    option.visualMap = {
+                        type: 'piecewise',
+                        pieces: [{
+                            max: (100 + Number(that.grading[0].proportion)) / 100,
+                            label: '良好',
+                            color: '#4ced7a'
+                        }, {
+                            min: (100 + Number(that.grading[0].proportion)) / 100,
+                            max: (100 + Number(that.grading[1].proportion)) / 100,
+                            label: '一般',
+                            color: '#ffe538'
+                        }, {
+                            min: (100 + Number(that.grading[1].proportion)) / 100,
+                            max: (100 + Number(that.grading[2].proportion)) / 100,
+                            label: '较重',
+                            color: '#ff8f2c'
+                        },
+                            {
+                                min: (100 + Number(that.grading[2].proportion)) / 100,
+                                // max: Number((that.grading[3].proportion / 100).toFixed(2)),
+                                label: '严重',
+                                color: '#ff3600'
+                            },
+                        ],
+                        right: 20 * that.scale,
+                        bottom: 20 * that.scale,
+                        calculable: true,
+                        seriesIndex: [1],
+                        textStyle: {
+                            color: '#fff'
+                        },
+                        /*itemWidth:24*that.scale,
+                        itemHeight:24*that.scale*/
+
+                        /*inRange: {
+                            color: ['#00e57c', '#ed0000']
+                        }*/
+                    };
+                    // 渲染地图
+
                     myChart.setOption(option);
-                    // console.log(option);
-                }
+                };
+            },
 
-				myChart.on('click',(params)=>{
-					$("#msg").remove();
-					let pWidth=200;
-					let content='正在开发，尚未开发';
-					        var html ='<div id="msg" style="position:fixed;top:50%;width:100%;height:30px;line-height:30px;margin-top:-15px;"><p style="background:#000;opacity:0.8;width:'+ pWidth +'px;color:#fff;text-align:center;padding:10px 10px;margin:0 auto;font-size:12px;border-radius:4px;">'+ content +'</p></div>'
-					                $("body").append(html);
-					                var t=setTimeout(next,2000);
-					                function next()
-					                {
-					                    $("#msg").remove();
-
-					                }
-				})
-			},
 
             //    今日接警类型数据分析、今日报警方式数据分析、今日来话类型数据分析
+            /**
+             * @param chartContainer String 图表容器
+             * @param sourceArr Arrary 数据数组
+             * @param colorList Arrary 颜色数组
+             * */
+            // 近七日接警类型数据分析、近七日报警方式数据分析、近七日来话类型数据分析
+            sevensjfx1(chartContainer, sourceArr, colorList, dateArr) {
+                let seriesArr = [];
+                let myChart = this.$echarts.init(document.getElementById(chartContainer));
+                this.chartsObj[chartContainer] = myChart;
+                for (let i = 0; i < sourceArr.length; i++) {
+                    seriesArr.push({
+                        name: sourceArr[i].name,
+                        type: "line",
+                        showSymbol: false,
+                        smooth: true,
+                        itemStyle: {
+                            normal: {
+                                color: colorList[i]
+                            }
+                        },
+                        areaStyle: {
+                            normal: {
+                                color: new this.$echarts.graphic.LinearGradient(0, 1, 0, 0, [{
+                                    offset: 0,
+                                    color: 'transparent'
+                                },
+                                    {
+                                        offset: 0.3,
+                                        color: 'transparent'
+                                    },
+                                    {
+                                        offset: 1,
+                                        color: colorList[i]
+                                    }
+                                ], false),
+                            }
+                        },
+                        lineStyle: {
+                            width: 0.9
+                        },
+                        data: sourceArr[i].value
+                    });
+                }
+                let option = {
+                    legend: {
+                        textStyle: {
+                            fontSize: 18 * this.scale,
+                            color: '#fff',
+                            width: 40,
+                        },
+                        icon: 'rect',
+                        itemWidth: 18 * this.scale,
+                        itemHeight: 14 * this.scale,
+                        width: '85%',
+                        itemGap: 25 * this.scale,
+                    },
+                    xAxis: {
+                        type: 'category',
+                        splitLine: {
+                            show: false
+                        },
+                        boundaryGap: false,
+                        axisLine: {
+                            show: true,
+                            lineStyle: {
+                                color: this.axisesColor,
+                                width: 3 * this.scale
+                            }
+                        },
+                        axisTick: {
+                            show: false
+                        },
+                        axisLabel: {
+                            fontSize: 18 * this.scale,
+                            fontWeight: 'bold'
+                        },
+                        data: dateArr
+                    },
+                    yAxis: {
+                        type: 'value',
+                        splitLine: {
+                            show: false,
+                            lineStyle: {
+                                type: 'dashed',
+                                color: '#03eeff'
+                            }
+                        },
+                        axisLine: {
+                            show: true,
+                            lineStyle: {
+                                color: this.axisesColor,
+                                width: 3 * this.scale
+                            }
+                        },
+                        axisTick: {
+                            show: false
+                        },
+                        axisLabel: {
+                            fontSize: 18 * this.scale,
+                            fontWeight: 'bold'
+                        },
+                    },
+                    series: seriesArr,
+                    tooltip: {
+                        trigger: 'axis',
+                        axisPointer: {
+                            lineStyle: {
+                                color: '#57617B'
+                            }
+                        },
+                    },
+                    grid: {
+                        top: 90 * this.scale,
+                        bottom: 30 * this.scale,
+                        left: 80 * this.scale,
+                    }
+                };
+                myChart.setOption(option);
+            },
+            //柱状图渐变
+            gradient(colorList) {
+                return new this.$echarts.graphic.LinearGradient(
+                    //右，下，左，上
+                    0, 0, 0, 1, [{
+                        //0%位置的颜色
+                        offset: 0,
+                        color: colorList[0]
+                    },
+                        {
+                            //100%位置的颜色
+                            offset: 1,
+                            color: colorList[1]
+                        }
+                    ]
+                )
+            },
+            // 跳转
+            jump(e) {
+                let h3 = e.currentTarget;
+                // console.log(h3.innerText);
+                switch (h3.innerText) {
+                    case '接警类型数据详情':
+                        this.$router.push({
+                            name: '省接警类型数据分析',
+                            query: {
+                                title: '全省接警类型数据分析'
+                            }
+                        });
+                        break;
+                    case '报警方式数据详情':
+                        this.$router.push({
+                            name: '省接警类型数据分析',
+                            query: {
+                                title: '全省报警方式数据分析'
+                            }
+                        });
+                        break;
+                    case '来话类型数据详情':
+                        this.$router.push({
+                            name: '省接警类型数据分析',
+                            query: {
+                                title: '全省来话类型数据分析'
+                            }
+                        });
+                        break;
+                    case '警情分类数据分析':
+                        this.$router.push({
+                            name: '省警情分类数据分析',
+                            query: {
+                                title: '全省警情分类数据分析'
+                            }
+                        });
+                        break;
 
+                    case '接警类型数据分析':
+                        this.$router.push({
+                            name: '省接警类型数据分析',
+                            query: {
+                                title: '全省接警类型数据分析'
+                            }
+                        });
+                        break;
+                    case '报警方式数据分析':
+                        this.$router.push({
+                            name: '省接警类型数据分析',
+                            query: {
+                                title: '全省报警方式数据分析'
+                            }
+                        });
+                        break;
+                    case '来话类型数据分析':
+                        this.$router.push({
+                            name: '省接警类型数据分析',
+                            query: {
+                                title: '全省来话类型数据分析'
+                            }
+                        });
+                        break;
+                    case '警情分类环比分析':
+                        this.$router.push({
+                            name: "省占比数据分析",
+                            query: {
+                                title: '全省占比数据分析'
+                            }
+                        })
+                        break;
+
+
+                    default:
+                        // console.log(h3.innerText);
+                        let city = h3.innerText + '市';
+                        // console.log(city);
+                        this.$router.push({path: '/index/particulars/city', query: {title: '市占比数据分析', city: city}})
+
+                        break;
+                }
+            },
             //渲染图表
             renderChart() {
                 let myCharts = document.querySelectorAll('.chart');
@@ -1380,7 +1610,7 @@
 
                         that.getJqtj(); //警情统计监测  左上角
                         // that.getFlsj();
-                        that.getYxjqHb();
+                        that .getYxjqHb();
                         that.getJqfl();
                         that.getJqflHb();
                         // that.jqflhbfxChart();
@@ -1392,7 +1622,340 @@
                 };
                 Index.init();
             },
+            //进入渲染选中的选项
+            selectedItem() {
+                let item = document.querySelectorAll('.option>.filterItem');
+                switch (this.jqfl.per) {
+                    case "today":
+                        item[0].childNodes[0].firstChild.classList.add('active');
+                        break;
+                    case "yesterday":
+                        item[0].childNodes[1].firstChild.classList.add('active');
+                        break;
+                    case "threeDaysAgo":
+                        item[0].childNodes[2].childNodes[0].classList.add('active');
+                        break;
+                    default:
+                }
+                switch (this.jjlx.per) {
+                    case "week":
+                        item[1].childNodes[0].firstChild.classList.add('active');
+                        break;
+                    case "lastWeek":
+                        item[1].childNodes[1].childNodes[0].classList.add('active');
+                        break;
+                    case "halfYear":
+                        item[1].childNodes[2].childNodes[0].classList.add('active');
+                        break;
+                    default:
 
+                }
+                switch (this.bjfs.per) {
+                    case "week":
+                        item[1].childNodes[0].firstChild.classList.add('active');
+                        break;
+                    case "lastWeek":
+                        item[1].childNodes[1].childNodes[0].classList.add('active');
+                        break;
+                    case "halfYear":
+                        item[1].childNodes[2].childNodes[0].classList.add('active');
+                        break;
+                    default:
+
+                }
+                switch (this.lhlx.per) {
+                    case "week":
+                        item[1].childNodes[0].firstChild.classList.add('active');
+                        break;
+                    case "lastWeek":
+                        item[1].childNodes[1].childNodes[0].classList.add('active');
+                        break;
+                    case "halfYear":
+                        item[1].childNodes[2].childNodes[0].classList.add('active');
+                        break;
+                    default:
+
+                }
+            },
+            //选择选项
+            selectItem(e) {
+
+                // return;
+                let item = document.querySelectorAll('.option');
+                let type = e.target.getAttribute('data-id');
+                item.forEach(value => {
+                    let children = value.childNodes[1].childNodes;
+                    if (value.getAttribute('data-id') === type) {
+
+                        switch (e.target.innerHTML) {
+                            // sessionStorage.setItem('jqfl', JSON.stringify(this.jqfl));
+
+                            // sessionStorage.setItem('jjlx', JSON.stringify(this.jjlx));
+                            // sessionStorage.setItem('bjfs', JSON.stringify(this.bjfs));
+                            // sessionStorage.setItem('lhlx', JSON.stringify(this.lhlx));
+
+                            case '近7日':
+                                e.target.parentNode.parentNode.parentNode.style.display = 'none';
+                                let type1 = e.target.getAttribute('data-id');
+
+                                this['jjlx'].end = this.todayIndex;
+                                this['jjlx'].start = this.sevenDaysAgo;
+                                this['jjlx'].per = 'week';
+
+                                this['bjfs'].end = this.todayIndex;
+                                this['bjfs'].start = this.sevenDaysAgo;
+                                this['bjfs'].per = 'week';
+
+                                this['lhlx'].end = this.todayIndex;
+                                this['lhlx'].start = this.sevenDaysAgo;
+                                this['lhlx'].per = 'week';
+
+                                // this.start = this.todayIndex;
+                                for (let i = 0; i < children.length; i++) {
+                                    children[i].childNodes[0].classList.remove('active');
+                                }
+                                e.target.classList.add('active');
+                                break;
+                            case '上周':
+                                let d = new Date();
+                                // set to Monday of this week
+                                d.setDate(d.getDate() - (d.getDay() + 6) % 7);
+                                // set to previous Monday
+                                let date3 = new Date(d.setDate(d.getDate() - 7));
+                                let Monday = date3.getFullYear().toString() + (date3.getMonth() + 1).toString().padStart(2, '0') + date3.getDate()
+                                    .toString().padStart(2, '0');
+                                // create new date of day before
+                                let date4 = new Date(d.getFullYear(), d.getMonth(), d.getDate() + 6);
+                                let Sunday = date4.getFullYear().toString() + (date4.getMonth() + 1).toString().padStart(2, '0') + date4.getDate()
+                                    .toString().padStart(2, '0');
+                                e.target.parentNode.parentNode.parentNode.style.display = 'none';
+                                let type2 = e.target.getAttribute('data-id');
+
+                                this['jjlx'].end = Sunday;
+                                this['jjlx'].start = Monday;
+                                this['jjlx'].per = 'lastWeek';
+
+                                this['bjfs'].end = Sunday;
+                                this['bjfs'].start = Monday;
+                                this['bjfs'].per = 'lastWeek';
+
+                                this['lhlx'].end = Sunday;
+                                this['lhlx'].start = Monday;
+                                this['lhlx'].per = 'lastWeek';
+
+
+                                for (let i = 0; i < children.length; i++) {
+                                    children[i].childNodes[0].classList.remove('active');
+                                }
+                                e.target.classList.add('active');
+                                break;
+                            case '上上周':
+                                let dt = new Date();
+                                // set to Monday of this week
+                                dt.setDate(dt.getDate() - (dt.getDay() + 6) % 7);
+                                // set to previous Monday
+                                let date5 = new Date(dt.setDate(dt.getDate() - 14));
+
+                                let beforeMonday = date5.getFullYear().toString() + ((date5.getMonth() + 1).toString()).padStart(2, 0) + (
+                                    date5.getDate().toString()).padStart(2, 0);
+                                // create new date of day before
+                                let date6 = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate() + 6);
+                                let beforeSunday = date6.getFullYear().toString() + ((date6.getMonth() + 1).toString()).padStart(2, 0) + (
+                                    date6.getDate().toString()).padStart(2, 0);
+
+                                e.target.parentNode.parentNode.parentNode.style.display = 'none';
+                                let type3 = e.target.getAttribute('data-id');
+
+
+                                this['jjlx'].end = beforeSunday;
+                                this['jjlx'].start = beforeMonday;
+                                this['jjlx'].per = 'halfYear';
+
+                                this['bjfs'].end = beforeSunday;
+                                this['bjfs'].start = beforeMonday;
+                                this['bjfs'].per = 'halfYear';
+
+                                this['lhlx'].end = beforeSunday;
+                                this['lhlx'].start = beforeMonday;
+                                this['lhlx'].per = 'halfYear';
+
+
+                                for (let i = 0; i < children.length; i++) {
+                                    children[i].childNodes[0].classList.remove('active');
+                                }
+                                e.target.classList.add('active');
+                                break;
+                            case '今天':
+                                let type4 = e.target.getAttribute('data-id');
+                                this[type4].date = this.todayIndex;
+                                this[type4].per = 'today';
+                                e.target.parentNode.parentNode.parentNode.style.display = 'none';
+                                // this.start = this.todayIndex;
+
+                                for (let i = 0; i < children.length; i++) {
+                                    children[i].childNodes[0].classList.remove('active');
+                                }
+                                e.target.classList.add('active');
+                                break;
+                            case '昨天':
+                                let timestamp = (new Date()).getTime();
+                                let day = timestamp - 24 * 60 * 60 * 1000;
+                                let date1 = new Date(day);
+                                let start1 = date1.getFullYear().toString() + (date1.getMonth() + 1).toString().padStart(2, '0') + date1.getDate()
+                                    .toString().padStart(2, '0');
+                                e.target.parentNode.parentNode.parentNode.style.display = 'none';
+                                let type5 = e.target.getAttribute('data-id');
+                                this[type5].date = start1;
+                                this[type5].per = 'yesterday';
+                                // this.start = this.todayIndex;
+
+                                for (let i = 0; i < children.length; i++) {
+                                    children[i].childNodes[0].classList.remove('active');
+                                }
+                                e.target.classList.add('active');
+                                break;
+                            case '前天':
+                                e.target.parentNode.parentNode.parentNode.style.display = 'none';
+                                let type6 = e.target.getAttribute('data-id');
+                                this[type6].date = this.threeDaysAgo;
+                                this[type6].per = 'threeDaysAgo';
+                                // this.start = this.todayIndex;
+
+                                for (let i = 0; i < children.length; i++) {
+                                    children[i].childNodes[0].classList.remove('active');
+                                }
+                                e.target.classList.add('active');
+                                break;
+
+
+                            // periodArr2: ['接警类型数据详情', '报警方式数据详情', '来话类型数据详情'],
+
+                            case '接警类型数据详情':
+                                this.$router.push({
+                                    name: '省接警类型数据分析',
+                                    query: {
+                                        title: '全省接警类型数据分析'
+                                    }
+                                });
+                                break;
+                            case '报警方式数据详情':
+                                this.$router.push({
+                                    name: '省接警类型数据分析',
+                                    query: {
+                                        title: '全省报警方式数据分析'
+                                    }
+                                });
+                                break;
+                            case '来话类型数据详情':
+                                this.$router.push({
+                                    name: '省接警类型数据分析',
+                                    query: {
+                                        title: '全省来话类型数据分析'
+                                    }
+                                });
+                                break;
+
+
+                            default:
+
+                                break;
+                        }
+                    }
+                });
+
+                sessionStorage.setItem('jqfl', JSON.stringify(this.jqfl));
+                sessionStorage.setItem('jjlx', JSON.stringify(this.jjlx));
+                sessionStorage.setItem('bjfs', JSON.stringify(this.bjfs));
+                sessionStorage.setItem('lhlx', JSON.stringify(this.lhlx));
+
+                switch (type) {
+                    case 'jqfl':
+                        this.getFlsj();
+                        break;
+                    case 'jjlx':
+                        // this.getJjlx();
+
+                        // this.getJjlxSeven();
+                        // this.getBjfsSeven();
+                        // this.getLhlxSeven();
+                        break;
+                    case 'bjfs':
+                        // this.getBjfs();
+
+                        // this.getJjlxSeven();
+                        // this.getBjfsSeven();
+                        // this.getLhlxSeven();
+                        break;
+                    case 'lhlx':
+                        // this.getLhlx();
+
+                        // this.getJjlxSeven();
+                        // this.getBjfsSeven();
+                        // this.getLhlxSeven();
+                        break;
+                    default:
+
+                }
+            },
+            //筛选显示隐藏
+            filter(e) {
+                /*let ele = e.target.getAttribute('class');
+                // console.log(ele);
+                let option = document.getElementsByClassName('option');
+                // console.log(ele);
+                if (ele == 'iconBox') {
+
+                    for (let i = 0; i < option.length; i++) {
+                        option[i].style.display = 'none';
+                    }
+                    let selected = e.target.parentNode.parentNode.lastChild;
+                    selected.style.display = 'block';
+                }
+                if (ele === null) {
+                    for (let i = 0; i < option.length; i++) {
+                        option[i].style.display = 'none';
+                    }
+                }*/
+            },
+            hideJump(e) {
+                let c = e.target.getAttribute('class');
+                let options = document.querySelector('.options');
+
+                if (c != null && c == 'title_wrap filter') {
+                    // console.log(options);
+                    options.style.display = 'block'
+                } else {
+                    if (options) {
+                        options.style.display = 'none'
+                    }
+                }
+            },
+            //获取或保存筛选时间
+            setperiod() {
+                if (sessionStorage.getItem('jqfl') && sessionStorage.getItem('jjlx') && sessionStorage.getItem('bjfs') &&
+                    sessionStorage.getItem('lhlx')) {
+                    this.jqfl = JSON.parse(sessionStorage.getItem('jqfl'));
+                    this.jjlx = JSON.parse(sessionStorage.getItem('jjlx'));
+                    this.bjfs = JSON.parse(sessionStorage.getItem('bjfs'));
+                    this.lhlx = JSON.parse(sessionStorage.getItem('lhlx'));
+                } else {
+                    this.jjlx.end = this.todayIndex;
+                    this.jjlx.start = this.sevenDaysAgo;
+                    this.jjlx.per = 'week';
+                    this.bjfs.end = this.todayIndex;
+                    this.bjfs.start = this.sevenDaysAgo;
+                    this.bjfs.per = 'week';
+                    this.jqfl.date = this.todayIndex;
+                    this.jqfl.per = 'today';
+                    this.lhlx.end = this.todayIndex;
+                    this.lhlx.start = this.sevenDaysAgo;
+                    this.lhlx.per = 'week';
+                    sessionStorage.setItem('jqfl', JSON.stringify(this.jqfl));
+                    sessionStorage.setItem('jjlx', JSON.stringify(this.jjlx));
+                    sessionStorage.setItem('bjfs', JSON.stringify(this.bjfs));
+                    sessionStorage.setItem('lhlx', JSON.stringify(this.lhlx));
+                }
+            },
             // 警情统计监测  左上角
             getJqtj() {
                 this.$http({
@@ -1454,10 +2017,75 @@
                         this.panChart();
                     }.bind(this))
             },
-            getJqfl() {
+
+            // 警情分类数据分析
+            // getFlsj() {
+            //
+            //     let that = this;
+            //     this.$http({
+            //         method: 'post',
+            //         url: this.apiRoot + this.findUrl[2],
+            //         headers: {
+            //             'Content-Type': 'application/x-www-form-urlencoded',
+            //             'crossDomain': true
+            //         },
+            //         transformRequest: [function (data) {
+            //             let ret = '';
+            //             for (let it in data) {
+            //                 ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+            //             }
+            //             return ret
+            //         }],
+            //         // withCredentials: true,// 允许携带token ,这个是解决跨域产生的相关问题
+            //         crossDomain: true,
+            //         data: {
+            //             tjTime: that.jqfl.date,
+            //             // tjTime: '20160909',
+            //         }
+            //     })
+            //         .then(function (res) {
+            //             // console.log(res);
+            //             res.data.sort(function (a, b) {
+            //                 return Number(a.fldm) - Number(b.fldm)
+            //             });
+            //             res.data = res.data.slice(0, 8);
+            //
+            //
+            //             let arr = [];
+            //             let brr = [];
+            //             let crr = [];
+            //             // [{
+            //             //     value: 300,
+            //             //     symbolPosition: 'end'
+            //             // }, {
+            //             //     value: 50,
+            //             //     symbolPosition: 'end'
+            //             // }, {
+            //             //     value: 20,
+            //             //     symbolPosition: 'end'
+            //             // }]
+            //             res.data.forEach((item, index) => {
+            //
+            //                 /*if (!item['fldmmc']) {
+            //                         item['fldmmc'] = '其它警情';
+            //                     }*/
+            //                 arr.push(item['fldmmc'])
+            //                 brr.push(item['jjsl'])
+            //                 crr.push({
+            //                     value: item['jjsl'],
+            //                     symbolPosition: 'end'
+            //                 })
+            //
+            //
+            //             });
+            //
+            //             that.jqflsjfxChart(arr, brr, crr);
+            //         })
+            // },
+            getJqfl(){
                 let timestamp = (new Date()).getTime();
                 let day1 = timestamp;
-                let day2 = timestamp - 24 * 60 * 60 * 1000;
+                let day2 = timestamp -  24 * 60 * 60 * 1000;
                 let date1 = new Date(day1);
                 let date2 = new Date(day2);
                 let start1 = date1.getFullYear().toString() + (date1.getMonth() + 1).toString().padStart(2, '0') + date1.getDate()
@@ -1465,10 +2093,10 @@
                 let start2 = date2.getFullYear().toString() + (date2.getMonth() + 1).toString().padStart(2, '0') + date2.getDate()
                     .toString().padStart(2, '0');
                 // console.log(start1);
-                let that = this;
+                // let that = this;
                 this.$http({
                     method: 'post',
-                    url: this.apiRoot + 'recJQFLTJB/findJQFLNumXZQHHB',
+                    url: this.apiRoot + 'recJQTJB/findNumHB',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
                         'crossDomain': true
@@ -1485,80 +2113,30 @@
                     data: {
                         qtTime: start2,
                         tjTime: start1,
-                        xzqhdm: JSON.parse(sessionStorage.getItem('city'))
+                        // tjTime: '20160909',
                     }
                 }).then(res => {
-                    if (res.status===200){
-                        let hb1='';
-                        let nameArr1=[];
-                        let yesterday1=[];
-                        let yesterdayArr1=[];
-                        if(res.data.jqflsyhb.ZTHB!=='{}'){
-                            hb1=res.data.jqflsyhb.ZTHB.slice(1,res.data.jqflsyhb.ZTHB.length-1);
-                            yesterday1=res.data.jqflsyhb.ZT.slice(1,res.data.jqflsyhb.ZT.length-1);
-                            function toJson(str) {
-                                return eval("("+toArray(str)+")");
-                            }
-                            //返回拼好json格式的字符串
-                            function toArray(str) {
-                                var list = str.split(",");
-                                var myStr = "{";
-                                for(var i=0;i<list.length;i++)
-                                {
-                                    try{
-                                        var keys = list[i].split("=");
-                                        var key = Trim(keys[0]);
-                                        var value= Trim(keys[1]);
-                                        if(i>0)
-                                        {
-                                            myStr += ",";
-                                        }
-                                        myStr += "\""+key+"\":\""+value+"\"";
-                                    }catch(e)
-                                    {
-                                        continue;
-                                    }
-                                }
-                                myStr += "}";
-                                return myStr;
-                            }
-                            //替换掉字符串中头尾的空格
-                            function Trim(str){
-                                return str.replace(/(^\s*)|(\s*$)/g, "");
-                            }
-                            hb1=toJson(hb1);
-                            yesterday1=toJson(yesterday1);
-                            for (let item in hb1) {
-                                item=item.slice(0,item.length-2);
-                                nameArr1.push(item);
-                            }
-                            for (let i=0;i<nameArr1.length;i++){
-                                if (nameArr1[i] in yesterday1){
-                                    yesterdayArr1.push(yesterday1[nameArr1[i]]);
-                                }else {
-                                    // that.jqflhbfxSource[i].yesterday='0';
-                                    yesterdayArr1.push('0');
-                                }
-                            }
+                    let crr = [];
+                    let name=res.data.aa;
+                    let yesterdayArr=[];
+                    for (let i=0;i<name.length;i++){
+                        if(name[i] in res.data.yesterday){
+                        }else {
+                            res.data.yesterday[name[i]]='0';
                         }
-                        let crr=[];
-                        yesterdayArr1.forEach(value => {
-                            crr.push({
-                                value: value,
-                                symbolPosition: 'end'
-                            })
-                        });
-                        this.jqflsjfxChart(nameArr1, yesterdayArr1, crr);
-                    }else{
-                        console.log(res.statusText);
-                    }
-                }).catch(res=>{
-                    console.log(res);
+                        yesterdayArr.push(res.data.yesterday[name[i]]);
+                    };
+                    // console.log(yesterdayHBArr);
+                    yesterdayArr.forEach(value => {
+                        crr.push({
+                            value: value,
+                            symbolPosition: 'end'
+                        })
+                    });
+                    this.jqflsjfxChart(name, yesterdayArr, crr);
                 })
             },
             getJqflHb() {
-                let that=this;
-                //1 昨天，2 前天
                 let timestamp = (new Date()).getTime();
                 let day1 = timestamp - 24 * 60 * 60 * 1000;
                 let day2 = timestamp - 2 * 24 * 60 * 60 * 1000;
@@ -1568,9 +2146,10 @@
                     .toString().padStart(2, '0');
                 let start2 = date2.getFullYear().toString() + (date2.getMonth() + 1).toString().padStart(2, '0') + date2.getDate()
                     .toString().padStart(2, '0');
+                // let that = this;
                 this.$http({
                     method: 'post',
-                    url: this.apiRoot + 'recJQFLTJB/findJQFLNumXZQHHB',
+                    url: this.apiRoot + 'recJQTJB/findNumHB',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
                         'crossDomain': true
@@ -1587,78 +2166,42 @@
                     data: {
                         qtTime: start2,
                         tjTime: start1,
-                        xzqhdm: JSON.parse(sessionStorage.getItem('city'))
+                        // tjTime: '20160909',
                     }
                 }).then(res => {
-                    if (res.status===200){
-                        let hb='';
-                        let nameArr=[];
-                        let yesterday=[];
-                        let yesterdayArr=[];
-                        let beforeYesterday=[];
-                        let beforeYesterdayArr=[];
-                        if(res.data.jqflsyhb.ZTHB!=='{}'){
-                            hb=res.data.jqflsyhb.ZTHB.slice(1,res.data.jqflsyhb.ZTHB.length-1);
-                            yesterday=res.data.jqflsyhb.ZT.slice(1,res.data.jqflsyhb.ZT.length-1);
-                            beforeYesterday=res.data.jqflsyhb.QT.slice(1,res.data.jqflsyhb.QT.length-1);
-                            function toJson(str) {
-                                return eval("("+toArray(str)+")");
-                            }
-                            //返回拼好json格式的字符串
-                            function toArray(str) {
-                                var list = str.split(",");
-                                var myStr = "{";
-                                for(var i=0;i<list.length;i++)
-                                {
-                                    try{
-                                        var keys = list[i].split("=");
-                                        var key = Trim(keys[0]);
-                                        var value= Trim(keys[1]);
-                                        if(i>0)
-                                        {
-                                            myStr += ",";
-                                        }
-                                        myStr += "\""+key+"\":\""+value+"\"";
-                                    }catch(e)
-                                    {
-                                        continue;
-                                    }
-                                }
-                                myStr += "}";
-                                return myStr;
-                            }
-                            //替换掉字符串中头尾的空格
-                            function Trim(str){
-                                return str.replace(/(^\s*)|(\s*$)/g, "");
-                            }
-                            hb=toJson(hb);
-                            yesterday=toJson(yesterday);
-                            beforeYesterday=toJson(beforeYesterday);
-                            for (let item in hb) {
-                                item=item.slice(0,item.length-2);
-                                nameArr.push(item);
-                            }
-                            for (let i=0;i<nameArr.length;i++){
-                                if (nameArr[i] in yesterday){
-                                    yesterdayArr.push(yesterday[nameArr[i]]);
-                                }else {
-                                    // that.jqflhbfxSource[i].yesterday='0';
-                                    yesterdayArr.push('0');
-                                }
-                                if (nameArr[i] in beforeYesterday){
-                                    beforeYesterdayArr.push(beforeYesterday[nameArr[i]]);
-                                }else {
-                                    // that.jqflhbfxSource[i].beforeYesterday='0';
-                                    beforeYesterdayArr.push('0');
-                                }
-                            }
+                    let crr = [];
+                    let name=res.data.aa;
+                    let yesterdayArr=[];
+                    let beforedayArr=[];
+                    let yesterdayHBArr=[];
+                    for (let i=0;i<name.length;i++){
+                        if(name[i] in res.data.yesterday){
+                        }else {
+                            res.data.yesterday[name[i]]='0';
                         }
-                        this.jqflhbfxChart(nameArr, yesterdayArr, beforeYesterdayArr, hb);
-                    }else{
-                        console.log(res.statusText);
-                    }
-                }).catch(res=>{
-                    console.log(res);
+                        if(name[i] in res.data.beforeday){
+                        }else {
+                            res.data.beforeday[name[i]]='0'
+                        }
+                        if(name[i] in res.data.yesterdayHB){
+                        }else {
+                            res.data.yesterdayHB[name[i]]='0.0'
+                        }
+                        yesterdayArr.push(res.data.yesterday[name[i]]);
+                        beforedayArr.push(res.data.beforeday[name[i]]);
+                        yesterdayHBArr.push(res.data.yesterdayHB[name[i]]);
+                    };
+                    // console.log(yesterdayHBArr);
+                    yesterdayArr.forEach(value => {
+                        crr.push({
+                            value: value,
+                            symbolPosition: 'end'
+                        })
+                    });
+
+                    // console.log(yesterdayHBArr);
+                    // this.jqflsjfxChart(name, yesterdayArr, crr);
+                    this.jqflhbfxChart(name,yesterdayArr,beforedayArr,yesterdayHBArr);
                 })
             },
             // 地图
@@ -1716,6 +2259,342 @@
                         that.mapChart();
                     })
             },
+
+            // 近七日接警类型数据分析
+            getJjlxSeven() {
+                let that = this;
+                this.$http({
+                    method: 'post',
+                    url: this.apiRoot + this.findUrl[5],
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'crossDomain': true
+                    },
+                    transformRequest: [function (data) {
+                        let ret = '';
+                        for (let it in data) {
+                            ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+                        }
+                        return ret
+                    }],
+                    // withCredentials: true,// 允许携带token ,这个是解决跨域产生的相关问题
+                    crossDomain: true,
+                    data: {
+                        startTime: this.jjlx.start,
+                        endTime: this.jjlx.end,
+                        // startTime: '20160909',
+                        // endTime: '20160915',
+                    }
+                })
+                    .then(function (res) {
+                        let s = JSON.parse(sessionStorage.getItem('jjlx'));
+                        let d = new Date(s.start.slice(0, 4) + '-' + s.start.slice(4, 6) + '-' + s.start.slice(6, 8)).getTime();
+                        let dateArr1 = [];
+                        for (let i = 0; i < 7; i++) {
+                            let t = d + i * 24 * 60 * 60 * 1000;
+                            let d1 = new Date(t);
+                            dateArr1.push(
+                                d1.getFullYear().toString() +
+                                (d1.getMonth() + 1).toString().padStart(2, '0') +
+                                d1.getDate().toString().padStart(2, '0')
+                            );
+                        }
+                        let data1 = [];
+                        let data2 = [];
+                        for (let i in res.data.sevenDays) {
+
+                            data1.push(...res.data.sevenDays[i]);
+                            if (res.data.sevenDays[i].length < 7) {
+                                for (let j = 0; j < 7; j++) {
+                                    data2.push({
+                                        tjrq: dateArr1[j],
+                                        jjlxdm: i
+                                    });
+                                }
+                            }
+                        }
+                        data1.push(...data2);
+                        res.data = data1;
+                        let r = [];
+                        let narr = [];
+                        for (let i = 0; i < res.data.length; i++) {
+                            // arr.push({name:res.data[i].fldmmc,value:res.data[i].jjsl});
+                            let n = r.indexOf(res.data[i].tjrq);
+                            if (n == -1) {
+                                r.push(res.data[i].tjrq);
+                                narr.push({
+                                    "date": res.data[i].tjrq,
+                                    dataArr: [{
+                                        name: res.data[i].jjlxdm,
+                                        value: res.data[i].jjsl
+                                    }]
+                                });
+                            } else {
+                                narr[n].dataArr.push({
+                                    name: res.data[i].jjlxdm,
+                                    value: res.data[i].jjsl
+                                })
+                            }
+                        }
+                        let dateArr = [];
+                        let data = [];
+                        narr.forEach(value => {
+                            data.push(...value.dataArr);
+                            dateArr.push(value.date);
+                        });
+                        for (let i = 0; i < dateArr.length; i++) {
+                            let Y = dateArr[i].slice(0, 4);
+                            let M = dateArr[i].slice(4, 6);
+                            let D = dateArr[i].slice(6, 8);
+                            dateArr[i] = M + '-' + D;
+                        }
+
+                        let r1 = [];
+                        let narr1 = [];
+                        for (let i = 0; i < data.length; i++) {
+
+                            let n = r1.indexOf(data[i].name);
+                            if (n == -1) {
+                                r1.push(data[i].name);
+                                narr1.push({
+                                    "name": data[i].name,
+                                    value: [data[i].value]
+                                })
+                            } else {
+                                narr1[n].value.push(data[i].value)
+                            }
+                        }
+                        that.sevensjfx1('sevenjjlxsjfxChart', narr1, that.jrjjlxsjfxSourceColor, dateArr);
+                    })
+            },
+
+            // 近七日报警方式数据分析
+            getBjfsSeven() {
+                let that = this;
+                this.$http({
+                    method: 'post',
+                    url: this.apiRoot + this.findUrl[7],
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'crossDomain': true
+                    },
+                    transformRequest: [function (data) {
+                        let ret = '';
+                        for (let it in data) {
+                            ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+                        }
+                        return ret
+                    }],
+                    // withCredentials: true,// 允许携带token ,这个是解决跨域产生的相关问题
+                    crossDomain: true,
+                    data: {
+                        startTime: this.bjfs.start,
+                        endTime: this.bjfs.end
+                        // startTime: '20160909',
+                        // endTime: '20160915',
+                    }
+                })
+                    .then(function (res) {
+                        // console.log(res)
+                        let s = JSON.parse(sessionStorage.getItem('bjfs'));
+                        let d = new Date(s.start.slice(0, 4) + '-' + s.start.slice(4, 6) + '-' + s.start.slice(6, 8)).getTime();
+                        let dateArr1 = [];
+                        for (let i = 0; i < 7; i++) {
+                            let t = d + i * 24 * 60 * 60 * 1000;
+                            let d1 = new Date(t);
+                            dateArr1.push(
+                                d1.getFullYear().toString() +
+                                (d1.getMonth() + 1).toString().padStart(2, '0') +
+                                d1.getDate().toString().padStart(2, '0')
+                            );
+                        }
+                        let data1 = [];
+                        let data2 = [];
+                        for (let i in res.data.sevenDays) {
+                            data1.push(...res.data.sevenDays[i]);
+                            if (res.data.sevenDays[i].length < 7) {
+                                for (let j = 0; j < 7; j++) {
+                                    data2.push({
+                                        tjrq: dateArr1[j],
+                                        bjfsdm: i
+                                    });
+                                }
+                            }
+                        }
+                        // data1.forEach((value, index) => {
+                        //     if (value.bjfsdm.slice(0, 2) === '其它' || value.bjfsdm.slice(0, 2) === '其他') {
+
+                        //         let v = value;
+                        //         // delete value;
+                        //     }
+                        // });
+                        // data1.push(...data2);
+                        res.data = data1;
+                        let r = [];
+                        let narr = [];
+                        for (let i = 0; i < res.data.length; i++) {
+                            // arr.push({name:res.data[i].fldmmc,value:res.data[i].jjsl});
+                            let n = r.indexOf(res.data[i].tjrq);
+                            if (n == -1) {
+                                r.push(res.data[i].tjrq);
+                                narr.push({
+                                    "date": res.data[i].tjrq,
+                                    dataArr: [{
+                                        name: res.data[i].bjfsdm,
+                                        value: res.data[i].jjsl
+                                    }]
+                                });
+                            } else {
+                                narr[n].dataArr.push({
+                                    name: res.data[i].bjfsdm,
+                                    value: res.data[i].jjsl
+                                })
+                            }
+                        }
+
+                        let dateArr = [];
+                        let data = [];
+                        narr.forEach(value => {
+                            data.push(...value.dataArr);
+                            dateArr.push(value.date);
+                        });
+                        for (let i = 0; i < dateArr.length; i++) {
+                            let Y = dateArr[i].slice(0, 4);
+                            let M = dateArr[i].slice(4, 6);
+                            let D = dateArr[i].slice(6, 8);
+                            dateArr[i] = M + '-' + D;
+                        }
+
+                        let r1 = [];
+                        let narr1 = [];
+                        for (let i = 0; i < data.length; i++) {
+
+                            let n = r1.indexOf(data[i].name);
+                            if (n == -1) {
+                                r1.push(data[i].name);
+                                narr1.push({
+                                    "name": data[i].name,
+                                    value: [data[i].value]
+                                })
+                            } else {
+                                narr1[n].value.push(data[i].value)
+                            }
+                        }
+                        that.sevensjfx1('sevenbjfssjfxChart', narr1, that.jrbjfssjfxColor, dateArr);
+                    })
+            },
+
+
+            // 近七日来话类型数据分析
+            getLhlxSeven() {
+                let that = this;
+                this.$http({
+                    method: 'post',
+                    url: this.apiRoot + this.findUrl[9],
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'crossDomain': true
+                    },
+                    transformRequest: [function (data) {
+                        let ret = '';
+                        for (let it in data) {
+                            ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+                        }
+                        return ret
+                    }],
+                    // withCredentials: true,// 允许携带token ,这个是解决跨域产生的相关问题
+                    crossDomain: true,
+                    data: {
+                        startTime: this.bjfs.start,
+                        endTime: this.bjfs.end
+                        // startTime: '20160909',
+                        // endTime: '20160915',
+                    }
+                })
+                    .then(function (res) {
+                        let s = JSON.parse(sessionStorage.getItem('jjlx'));
+                        let d = new Date(s.start.slice(0, 4) + '-' + s.start.slice(4, 6) + '-' + s.start.slice(6, 8)).getTime();
+                        let dateArr1 = [];
+                        for (let i = 0; i < 7; i++) {
+                            let t = d + i * 24 * 60 * 60 * 1000;
+                            let d1 = new Date(t);
+                            dateArr1.push(
+                                d1.getFullYear().toString() +
+                                (d1.getMonth() + 1).toString().padStart(2, '0') +
+                                d1.getDate().toString().padStart(2, '0')
+                            );
+                        }
+
+                        let data1 = [];
+                        let data2 = [];
+                        for (let i in res.data.sevenDays) {
+                            data1.push(...res.data.sevenDays[i]);
+                            if (res.data.sevenDays[i].length < 7) {
+                                for (let j = 0; j < 7; j++) {
+                                    data2.push({
+                                        tjrq: dateArr1[j],
+                                        lhlxdm: i
+                                    });
+                                }
+                            }
+                        }
+                        data1.push(...data2);
+                        res.data = data1;
+                        let r = [];
+                        let narr = [];
+                        for (let i = 0; i < res.data.length; i++) {
+                            // arr.push({name:res.data[i].fldmmc,value:res.data[i].jjsl});
+                            let n = r.indexOf(res.data[i].tjrq);
+                            if (n == -1) {
+                                r.push(res.data[i].tjrq);
+                                narr.push({
+                                    "date": res.data[i].tjrq,
+                                    dataArr: [{
+                                        name: res.data[i].lhlxdm,
+                                        value: res.data[i].jjsl
+                                    }]
+                                });
+                            } else {
+                                narr[n].dataArr.push({
+                                    name: res.data[i].lhlxdm,
+                                    value: res.data[i].jjsl
+                                })
+                            }
+                        }
+
+                        let dateArr = [];
+                        let data = [];
+                        narr.forEach(value => {
+                            data.push(...value.dataArr);
+                            dateArr.push(value.date);
+                        });
+                        for (let i = 0; i < dateArr.length; i++) {
+                            let Y = dateArr[i].slice(0, 4);
+                            let M = dateArr[i].slice(4, 6);
+                            let D = dateArr[i].slice(6, 8);
+                            dateArr[i] = M + '-' + D;
+                        }
+
+                        let r1 = [];
+                        let narr1 = [];
+                        for (let i = 0; i < data.length; i++) {
+
+                            let n = r1.indexOf(data[i].name);
+                            if (n == -1) {
+                                r1.push(data[i].name);
+                                narr1.push({
+                                    "name": data[i].name,
+                                    value: [data[i].value]
+                                })
+                            } else {
+                                narr1[n].value.push(data[i].value)
+                            }
+                        }
+
+                        that.sevensjfx1('sevenlhlxsjfxChart', narr1, that.jrrlhlxsjfxColor, dateArr);
+                    })
+
+            },
             //获取7天日期
             getDate() {
                 let date = new Date();
@@ -1730,6 +2609,112 @@
                 let date2 = new Date(day);
                 this.sevenDaysAgo = date2.getFullYear().toString() + (date2.getMonth() + 1).toString().padStart(2, '0') + date2.getDate()
                     .toString().padStart(2, '0');
+            },
+
+            // 开始轮播
+            goSwiper() {
+                let that = this;
+                let timer = setInterval(function () {
+                    that.showIndex++;
+                    if (that.showIndex === 4) {
+                        that.showIndex = 1;
+                    }
+                }, 10000)
+            },
+
+            //    获取分布占比设置
+            getGrading() {
+                let that = this;
+                this.$http({
+                    method: 'post',
+                    url: this.apiRoot + 'redGrade/findAll',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'crossDomain': true
+                    },
+                    transformRequest: [function (data) {
+                        let ret = '';
+                        for (let it in data) {
+                            ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+                        }
+                        return ret
+                    }],
+                    // withCredentials: true,// 允许携带token ,这个是解决跨域产生的相关问题
+                    crossDomain: true,
+                    data: {}
+                })
+                    .then(function (res) {
+                        that.grading = res.data;
+                        let type = ['良好', '一般', '较重', '严重'];
+                        for (let i = 0; i < that.grading.length; i++) {
+                            that.grading[i].categories = type[i];
+                        }
+
+                        that.flag.proportionValue = true;
+                        that.mapChart();
+                    })
+            },
+            //获取峰值
+            getPeak() {
+                let that = this;
+                this.$http({
+                    method: 'post',
+                    url: this.apiRoot + 'dictXZQHB/findAll',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'crossDomain': true
+                    },
+                    transformRequest: [function (data) {
+                        let ret = '';
+                        for (let it in data) {
+                            ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+                        }
+                        return ret
+                    }],
+                    // withCredentials: true,// 允许携带token ,这个是解决跨域产生的相关问题
+                    crossDomain: true,
+                    data: {}
+                })
+                    .then(function (res) {
+                        res.data.forEach(function (o, d) {
+                            for (let k in o) {
+                                that.peak.forEach(function (t) {
+                                    for (let key in t) {
+                                        if (t.xzqhdm == o.xzqhdm) {
+                                            t[k] = o[k];
+                                        }
+                                    }
+                                })
+                            }
+                        });
+                        res.data.map(item => {
+                            item.name = item.xzqhmc + '市';
+                            item.value1 = item.jjslsx;
+                            delete item.xzqhmc;
+                            delete item.jjslsx;
+                            return item;
+                        });
+                        res.data.forEach(function (o, d) {
+                            for (let k in o) {
+                                that.mapSource.forEach(function (t) {
+                                    for (let key in t) {
+                                        if (t.name == o.name) {
+                                            t[k] = o[k];
+                                        }
+                                    }
+                                })
+                            }
+                        });
+
+                        that.flag.peakValue = true;
+                        that.mapChart();
+                    });
+            },
+            // 跳转到立案数
+            skiping() {
+                this.$router.push({
+                    path: '/index/handling'
+                })
             },
 
             //获取环比
@@ -1768,49 +2753,78 @@
                 }).then(res => {
                     // console.log(res);
                     this.mapData.hb = parseFloat((res.data['Sjqhbfx']['有效警情环比'] * 100).toFixed(2));
+                    if (this.mapData.hb>100){
+                        this.mapData.hb=100;
+                    }
+                    if (this.mapData.hb<-100){
+                        this.mapData.hb=-100
+                    }
+                })
+            },
+            getData() {
+                //1 昨天，2 前天
+                let timestamp = (new Date()).getTime();
+                let day1 = timestamp - 24 * 60 * 60 * 1000;
+                let day2 = timestamp - 2 * 24 * 60 * 60 * 1000;
+                let date1 = new Date(day1);
+                let date2 = new Date(day2);
+                let start1 = date1.getFullYear().toString() + (date1.getMonth() + 1).toString().padStart(2, '0') + date1.getDate()
+                    .toString().padStart(2, '0');
+                let start2 = date2.getFullYear().toString() + (date2.getMonth() + 1).toString().padStart(2, '0') + date2.getDate()
+                    .toString().padStart(2, '0');
+                this.$http({
+                    method: 'get',
+                    url: this.apiRoot + 'recJQFLTJB/findJQFLNumXZQHHB',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'crossDomain': true
+                    },
+                    transformRequest: [function (data) {
+                        let ret = '';
+                        for (let it in data) {
+                            ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+                        }
+                        return ret
+                    }],
+                    // withCredentials: true,// 允许携带token ,这个是解决跨域产生的相关问题
+                    crossDomain: true,
+                    params: {
+                        // tjTime: 20160909,
+                        qtTime: start2,
+                        tjTime: start1,
+                        xzqhdm:'140100'
+                    }
+                }).then(res => {
+                    console.log(res);
+                    /*this.mapData.hb = parseFloat((res.data['Sjqhbfx']['有效警情环比'] * 100).toFixed(2));
                     if (this.mapData.hb > 100) {
                         this.mapData.hb = 100;
                     }
                     if (this.mapData.hb < -100) {
                         this.mapData.hb = -100
-                    }
+                    }*/
                 })
             },
         },
+
         mounted() {
-            this.setCity();
+            this.getData();
+           /* // this.getPeak();
             this.getDate();
+            this.setperiod();
             this.getScale();
-            this.panChart();
-            this.mapChart();
+            // this.selectedItem();
+            // this.renderChart();
+            // this.goSwiper();  // this.getPeak();
+            this.getDate();
+            this.setperiod();
+            this.getScale();
+            // this.selectedItem();
+            this.renderChart();
+            // this.goSwiper();
 
-            this.getJqfl();
-            /*let arr = [];
-            let brr = [];
-            let crr = [];
-            this.jqflsjfxSource.forEach(value => {
-                arr.push(value.name);
-                brr.push(value.value);
-                crr.push({
-                    value: value.value,
-                    symbolPosition: 'end'
-                })
-            });
-            this.jqflsjfxChart(arr, brr, crr);*/
-
-
-            this.getJqflHb();
-            /*let typeArr = [];
-            let yesterdayArr = [];
-            let beforeYesterdayArr = [];
-            let hb = '';
-            this.jqflhbfxSource.forEach(value => {
-                typeArr.push(value.name);
-                yesterdayArr.push(value.yesterday);
-                beforeYesterdayArr.push(value.beforeYesterday)
-            });
-            this.jqflhbfxChart(typeArr, yesterdayArr, beforeYesterdayArr, hb);*/
-			// console.log($);
+            // this.getJqfl();
+            // this.getJqflHb();*/
         },
         beforeDestroy() {
             clearInterval(counter);
@@ -1824,349 +2838,288 @@
 <style scoped lang="scss">
     //样式里的l, m, r, t, b分别代表左，中，右，上，下
     //布局
-    .myContainer{
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        width: 96%;
-        height: 100%;
-        margin: auto;
-        margin-top: -1%;
+    .filter {
+        position: relative;
     }
+
+    .options {
+        z-index: 99999;
+        display: flex;
+        flex-direction: row-reverse;
+        position: absolute;
+        width: 50%;
+        height: 26%;
+        /*background: #ffffff;*/
+        left: 20%;
+        top: 0;
+        display: none;
+        /*margin: auto;*/
+
+        // >div{
+        //     cursor: pointer;
+        //     width : 3rem;
+        //     height :2.6rem;
+        // }
+        .timer_btn {
+            width: 2rem;
+            height: 2rem;
+            cursor: pointer;
+
+            img {
+                width: 100%;
+                height: 100%;
+            }
+        }
+
+
+        .option {
+            width: 100%;
+            height: 18rem;
+            position: absolute;
+            top: 1rem;
+            right: -0.5rem;
+            background: url("../assets/images/index/filter.png");
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            /*display: none;*/
+
+            .filterTitle {
+                color: #17fff3;
+                position: absolute;
+                top: 2rem;
+                left: 0;
+                right: 0;
+                margin: auto;
+                height: 18%;
+
+                div {
+                    width: 100%;
+                    height: 100%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    /*transform: scale(0.6);*/
+                    /*transform-origin: left top;*/
+                    letter-spacing: 2px;
+                }
+            }
+
+            .filterItem {
+                position: absolute;
+                top: 33%;
+                width: 70%;
+                height: 50%;
+                left: 0;
+                right: 0;
+                margin: auto;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+
+                li {
+                    width: 100%;
+                    height: 27.4%;
+
+                    div {
+                        width: 100%;
+                        height: 100%;
+                        /*width: 167%;
+                        height: 167%;
+                        transform: scale(0.6);
+                        transform-origin: left top;*/
+                        font-size: 1.2rem;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        letter-spacing: 2px;
+                        cursor: pointer;
+                        background-image: linear-gradient(-86deg,
+                                #0b5fa7 0%,
+                                #0b5fa7 100%);
+                        border-style: solid;
+                        border-width: 1px;
+                        border-image-source: linear-gradient(268deg,
+                                #0493e4 41%,
+                                #0492e3 43%,
+                                rgba(8, 120, 197, 0.5) 71%,
+                                #0b5fa7 100%);
+                        border-image-slice: 1;
+
+                        &.active {
+                            background-image: linear-gradient(-86deg,
+                                    #53b0ff 0%,
+                                    #0b5fa7 100%);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     main {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        margin-bottom: 1.2rem;
+        margin-top: 1rem;
+        margin-bottom: .6rem;
 
         h3 {
             cursor: pointer;
+
         }
 
-        .up {
-            color: #ff5e17;
-        }
-
-        .down {
-            color: #00ffa2;
-        }
-
-        .static {
-            color: #fff900;
-        }
-
-        .title_wrap {
+        .l > div,
+        .m > div,
+        .r > div {
             width: 100%;
-            height: 3.6rem;
-            cursor: pointer;
-            box-sizing: border-box;
-            position: relative;
-            background-repeat: no-repeat;
-            background-size: auto 100%;
+            align-content: space-between;
+        }
 
-            span {
+        /*.filter {
+            position: absolute;
+            right: 0;
+            width: 1.5rem;
+            height: 1.5rem;
+            z-index: 1;
+
+            .iconBox {
+                width: 100%;
                 height: 100%;
-                display: flex;
-                align-items: center;
-                box-sizing: border-box;
-                font-size: 1.5rem;
-                letter-spacing: 2px;
+                position: absolute;
+                top: 0;
+                left: 0;
+                z-index: 1;
             }
-        }
 
-        .t {
-            width: 100%;
-            height: 40%;
+            .iconguolv {
+                color: #17fff3;
+                font-weight: lighter;
+                transform: scale(0.4);
+                transform-origin: top right;
+                margin-top: 0.1rem;
+                position: absolute;
+                top: 0.08rem;
+                right: 0.2rem;
+            }
+
+
+        }*/
+
+        .l {
+            width: 32%;
             display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-
-            .t-l {
-                width: 33%;
-                height: 100%;
-
-                .title_wrap {
-                    background-image: url("../assets/images/index/title_left.png");
-                    background-position: left;
-
-                    span {
-                        float: left;
-                        margin-left: 13%;
-                    }
-                }
-
-                .chartBox {
-                    width: 100%;
-                    height: calc(100% - 3.6rem);
-                    background-image: url("../assets/images/index/t-l.png");
-                    background-repeat: no-repeat;
-                    background-size: 100% 100%;
-                    font-weight: bold;
-                    float: left;
-
-                    //数据
-                    .statistics {
-                        width: 100%;
-                        margin: 6% 0 0;
-                        display: flex;
-                        justify-content: space-around;
-
-                        li {
-                            p {
-                                text-align: center;
-                                color: #ffe754;
-                                letter-spacing: 2px;
-
-                                &:first-child {
-                                    margin-bottom: 0.3rem;
-                                    color: #ffffff;
-                                    font-size: 1.2rem;
-                                }
-
-                                &:nth-child(2) {
-                                    font-weight: 900;
-                                    font-size: 1.4rem;
-                                }
-                            }
-                        }
-                    }
-
-                    /*图表*/
-                    #jqtjjcChart {
-                        width: 100%;
-                        // height: 8.19rem;
-                        flex: 1;
-                        height: 60%;
-                    }
-                }
-            }
-
-            .t-m {
-                width: 26%;
-                height: 100%;
-                position: relative;
-
-                .box {
-                    position: absolute;
-                    bottom: 16%;
-                    /*right: 0;*/
-                    left: 21%;
-                    /*margin: auto;*/
-                    width: 70%;
-                    height: 57%;
-
-                    table {
-                        width: 100%;
-                        height: 100%;
-                        font-weight: bold;
-
-                        .iconfont {
-                            margin-left: 0.2rem;
-                            font-size: 1.4rem;
-                        }
-
-                        tr:nth-child(1) {
-                            td:nth-child(1) {
-                                font-size: 1.6rem;
-                            }
-
-                            td:nth-child(2) {
-                                font-size: 1.3rem;
-                            }
-                        }
-
-                        tr:nth-child(2) {
-                            td:nth-child(1) {
-                                font-size: 2rem;
-                                color: #ffe754;
-                            }
-
-                            td:nth-child(2) {
-                                font-size: 1.5rem;
-                                color: #ff9c54;
-                            }
-                        }
-
-                        tr:nth-child(3) {
-                            td {
-                                font-size: 1.3rem;
-                            }
-                        }
-
-                        tr:nth-child(4) {
-                            td:nth-child(1) {
-                                font-size: 1.5rem;
-                            }
-
-                            td:nth-child(2) {
-                                font-size: 1.5rem;
-                            }
-                        }
-                    }
-                }
-
-            }
-
-            .t-r {
-                width: 41%;
-                height: 100%;
-
-                .title_wrap {
-                    background-image: url("../assets/images/index/title_right.png");
-                    background-position: right;
-
-                    span {
-                        float: right;
-                        margin-right: 10%;
-                    }
-                }
-
-                .chartBox {
-                    width: 100%;
-                    height: calc(100% - 3.6rem);
-                    background-image: url("../assets/images/index/t-r.png");
-                    background-repeat: no-repeat;
-                    background-size: 100% 100%;
-                    font-weight: bold;
-                    float: left;
-                }
-            }
-        }
-
-        .b {
-            width: 100%;
-            height: 56%;
-            display: flex;
-            flex-direction: row;
+            flex-direction: column;
             justify-content: space-around;
 
-            .b-l {
-                width: 28%;
-                height: 100%;
+            .l-t {
+                height: 39%;
+                background-image: url('../assets/images/index/l-t-bg.png');
+                background-repeat: no-repeat;
+                background-size: 100% 100%;
 
                 .title_wrap {
-                    background-image: url("../assets/images/index/title_left.png");
-                    background-position: left;
+                    cursor: pointer;
+                    box-sizing: border-box;
+                    position: relative;
+                }
+            }
 
-                    span {
-                        float: left;
-                        margin-left: 15%;
-                    }
+            .l-b {
+                height: 52%;
+                background-image: url('../assets/images/index/l-b-bg.png');
+                background-repeat: no-repeat;
+                background-size: 100% 100%;
+                position: relative;
+
+                .title_wrap {
+                    // padding-left: 1.2rem;
+                    box-sizing: border-box;
+                    margin-top: -0.5rem;
                 }
 
                 .chartBox {
-                    height: calc(100% - 3.6rem);
-                    letter-spacing: 4px;
-                    padding: 5% 4% 0;
-                    box-sizing: border-box;
-                    background-image: url("../assets/images/index/b-l.png");
-                    background-repeat: no-repeat;
-                    background-size: 100% 100%;
-                    /*position: relative;*/
-                    .myBox{
-                        width: 100%;
-                        height: 95%;
-                        overflow: auto;
-                        position: relative;
-                        &::-webkit-scrollbar {
-                            width: 1rem;     /*高宽分别对应横竖滚动条的尺寸*/
-                            height: 1px;
-                        }
-                        &::-webkit-scrollbar-thumb {/*滚动条里面小方块*/
-                            border-radius: 10px;
-                            -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
-                            background: #4c7fff;
-                        }
-                        &::-webkit-scrollbar-track {/*滚动条里面轨道*/
-                            -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
-                            border-radius: 10px;
-                            background: #e1ebff;
-                        }
-                        table {
-                            width: 100%;
-                            height: 90%;
-                            position: absolute;
-                            top: 0;
-                            left: 0;
+                    padding: 2% 12% 0;
 
-                            tr {
-                                width: 100%;
-                                td {
-                                    text-align: center;
-                                    font-size: 1.2rem;
-                                }
+                    ul {
+                        li {
+                            margin: .3rem 0;
+                            display: flex;
+                            justify-content: space-between;
 
-                                .sp1 {
-                                    /*cursor: pointer;*/
-                                    color: #FFFFFF;
-                                    font-weight: 550;
-                                }
+                            &:first-child {
+                                margin-bottom: 0.4rem;
+                            }
 
-                                .sp2 {
-                                    color: #ffe754;
-                                    font-weight: bold;
-                                    letter-spacing: 2px;
-                                }
+                            span {
+                                width: 20%;
+                                text-align: center;
+                                font-size: 1.2rem;
+                            }
 
-                                .sp3 {
-                                    color: #0effb2;
-                                    font-weight: bold;
-                                    letter-spacing: 2px;
-                                }
+                            .sp1 {
+                                cursor: pointer;
+                                color: #FFFFFF;
+                                font-weight: 550;
+                            }
+
+                            .sp2 {
+                                color: #ffe754;
+                                font-weight: bold;
+                                letter-spacing: 2px;
+                            }
+
+                            .sp3 {
+                                color: #5ae6ff;
+                                font-weight: bold;
+                                letter-spacing: 2px;
                             }
                         }
                     }
                 }
             }
 
-            .b-m {
-                width: 33%;
-                height: 110%;
-                background-image: url(../assets/images/index/mapBg.png);
-                background-size: 80% auto;
-                background-repeat: no-repeat;
-                background-position: center;
-                margin-top: -3.6%;
-                position: relative;
+            //内容
+            .chartBox {
+                height: 80%;
+                margin: 0 auto;
+                display: flex;
+                flex-direction: column;
 
-                .chartBox {
+                //数据
+                .statistics {
+                    width: 80%;
+                    /*height: 21%;*/
+                    margin: 3% 10% 0;
+                    display: flex;
+                    justify-content: space-around;
+
+                    li {
+                        p {
+                            text-align: center;
+                            color: #ffe754;
+                            letter-spacing: 2px;
+
+                            &:first-child {
+                                margin-bottom: 1rem;
+                                color: #ffffff;
+                                font-size: 1.2rem;
+                            }
+
+                            &:nth-child(2) {
+                                /*transform: scale(1.5);*/
+                                // font-family: heijian;
+                                font-weight: 900;
+                                font-size: 1.4rem;
+                            }
+                        }
+                    }
+                }
+
+                // 图表
+                #jqtjjcChart {
                     width: 100%;
-                    height: 100%;
-                }
-
-                .mapLegend {
-                    position: absolute;
-                    bottom: 0;
-                    left: 10%;
-
-                    p {
-                        font-size: 1.3rem;
-                        font-weight: bold;
-                        letter-spacing: 2px;
-                    }
-                }
-            }
-
-            .b-r {
-                width: 38.9%;
-                height: 100%;
-                flex-grow: 1;
-
-                .title_wrap {
-                    background-image: url("../assets/images/index/title_right.png");
-                    background-position: right;
-
-                    span {
-                        float: right;
-                        margin-right: 10%;
-                    }
-                }
-
-                .chartBox {
-                    background-image: url("../assets/images/index/b-r.png");
-                    background-repeat: no-repeat;
-                    background-size: 100% 100%;
-                    height: calc(100% - 3.6rem);
+                    // height: 8.19rem;
+                    flex: 1;
                 }
             }
         }
@@ -2177,13 +3130,286 @@
         }
 
         .chart-wrap {
+            // border: .0625rem solid rgba(76, 180, 231, 0.33);
             width: 100%;
             height: 100%;
+
+
+            //标题
+            .title_wrap {
+                height: 12%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 1.3rem;
+                font-weight: 600;
+                /*background: linear-gradient(-180deg, #ffffff 50%, #0731FF 70%);
+                -webkit-background-clip: text;
+                color: transparent;
+                -webkit-text-fill-color: transparent;*/
+                color: #FFFFFF;
+            }
+
+            // > h3 {
+            //     height: 15%;
+            //     text-align: center;
+            // }
         }
 
         .chartBox {
             width: 100%;
             height: 100%;
+        }
+
+        .m_wrap {
+            width: 30%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+
+            .m {
+                width: 100%;
+                height: 96%;
+                // margin: 2.5% 0;
+                background-image: url('../assets/images/index/m.png');
+                background-repeat: no-repeat;
+                background-size: 100% 100%;
+
+                .chart-wrap {
+                    width: 100%;
+                    height: 100%;
+
+
+                    .chartBox {
+                        padding: 5%;
+                    }
+                }
+
+                .chartBox {
+                    position: relative;
+                    // padding : 2%
+                    .yxjq {
+                        position: absolute;
+                        top: 5%;
+                        left: 7%;
+                        text-align: center;
+
+                        p:first-child {
+                            font-size: 1.5rem;
+                            letter-spacing: 2px;
+                            font-weight: bold;
+                            color: #fff;
+                        }
+
+                        p:nth-child(2) {
+                            color: #ffe754;
+                            font-size: 2rem;
+                            letter-spacing: 2px;
+                            font-weight: bold;
+                        }
+                    }
+
+                    .yxjqhb {
+                        position: absolute;
+                        top: 15%;
+                        left: 7%;
+                        text-align: left;
+
+                        p:first-child {
+                            font-size: 1.3rem;
+                            letter-spacing: 2px;
+                            font-weight: bold;
+                            color: #fff;
+                        }
+
+                        p:nth-child(2) {
+                            font-size: 1.8rem;
+                            letter-spacing: 2px;
+                            font-weight: bold;
+
+                            &.up {
+                                color: #ff5e17;
+                            }
+
+                            &.down {
+                                color: #00ffa2;
+                            }
+
+                            &.static {
+                                color: #fff900;
+                            }
+
+                            .iconfont {
+                                font-size: 1.5rem;
+                            }
+                        }
+                    }
+
+                    .shoulian {
+                        position: absolute;
+                        top: 5%;
+                        right: 7%;
+                        text-align: center;
+
+                        p:first-child {
+                            font-size: 1.3rem;
+                            letter-spacing: 2px;
+                            font-weight: bold;
+                            color: #fff;
+                        }
+
+                        p:nth-child(2) {
+                            color: #ff9c54;
+                            font-size: 1.8rem;
+                            letter-spacing: 2px;
+                            font-weight: bold;
+                        }
+                    }
+
+                    .shoulianhb {
+                        position: absolute;
+                        top: 13%;
+                        right: 7%;
+                        text-align: right;
+
+                        p:first-child {
+                            font-size: 1.3rem;
+                            letter-spacing: 2px;
+                            font-weight: bold;
+                            color: #fff;
+                        }
+
+                        p:nth-child(2) {
+                            font-size: 1.8rem;
+                            letter-spacing: 2px;
+                            font-weight: bold;
+
+                            &.up {
+                                color: #ff5e17;
+                            }
+
+                            &.down {
+                                color: #00ffa2;
+                            }
+
+                            &.static {
+                                color: #fff900;
+                            }
+
+                            .iconfont {
+                                font-size: 1.5rem;
+                            }
+                        }
+                    }
+
+
+                    // #mapData {
+                    // 	position: absolute;
+                    // 	top: 8%;
+                    // 	left: 10%;
+
+                    // 	p:first-child {
+                    // 		font-size: 3rem;
+                    // 		letter-spacing: 0.3rem;
+                    // 		// font-family: heijian;
+                    // 		color: #13fef8;
+                    // 	}
+
+                    // 	p:nth-child(2) {
+                    // 		transform: scale(0.6);
+                    // 		transform-origin: left;
+                    // 		color: #ffffff;
+                    // 		font-size: 2rem;
+                    // 		letter-spacing: 0.3rem;
+                    // 	}
+                    // }
+                }
+            }
+        }
+
+
+        .r {
+            width: 32%;
+            display: flex;
+            flex-direction: column;
+            // flex-direction: row;
+            justify-content: space-around;
+
+
+            .r-t {
+                width: 100%;
+                height: 39%;
+                background-image: url('../assets/images/index/l-t-bg.png');
+                background-repeat: no-repeat;
+                background-size: 100% 100%;
+                position: relative;
+
+                .title_wrap {
+                    // padding-left: 2.2rem;
+                    box-sizing: border-box;
+                }
+
+                .chart-wrap {
+                    .title_wrap {
+                        cursor: pointer;
+                    }
+
+                    .chartBox {
+                        height: 88%;
+                        padding-bottom: 2.5rem;
+                        padding-left: .2rem;
+                        padding-right: .2rem;
+
+                    }
+                }
+
+            }
+
+            .r-b {
+                width: 100%;
+                height: 52%;
+                position: relative;
+                background-image: url('../assets/images/index/l-b-bg.png');
+                background-repeat: no-repeat;
+                background-size: 100% 100%;
+
+                .title_wrap {
+                    // cursor: pointer;
+                    // padding-left: 2.2rem;
+                    box-sizing: border-box;
+                    margin-top: -0.5rem;
+                }
+
+
+                .chart-wrap {
+                    width: 100%;
+                    height: 100%;
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+
+                    .title_wrap {
+                        cursor: pointer;
+                    }
+
+                    .chartBox {
+                        padding: 3% 5% 15%;
+                    }
+                }
+
+                .showIndex {
+                    z-index: 9999;
+                    opacity: 1
+                }
+
+                .disappear {
+                    z-index: -1;
+                    opacity: 0
+                }
+
+            }
+
         }
     }
 </style>

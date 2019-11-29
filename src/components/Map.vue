@@ -20,8 +20,31 @@
                 flag : false,   //判断省市
                 scale:1,
                 date:'',
-                mapData: {name: '今日有效警情', value: 0},
-                mapArr:[]
+                mapData: {name: '有效警情', value: 0},
+                mapArr:[],
+                geoCoordMap: [{
+                    name:'太原市',value:[112.33000,37.80000,0],
+                },{
+                    name:'大同市',value:[113.50000,39.99000,0],
+                },{
+                    name:'阳泉市',value:[113.55553,38.00000,0],
+                },{
+                    name:'朔州市',value:[112.70000,39.40000,0],
+                },{
+                    name:'忻州市',value:[112.40000,38.60000,0],
+                },{
+                    name:'吕梁市',value:[111.30000,37.60000,0],
+                },{
+                    name:'晋中市',value:[113.06683,37.30000,0],
+                },{
+                    name:'临汾市',value:[111.41469,36.10000,0],
+                },{
+                    name:'长治市',value:[113.00000,36.30000,0],
+                },{
+                    name:'运城市',value:[111.10000,35.10000,0],
+                },{
+                    name:'晋城市',value:[112.80000,35.50000,0],
+                },],
             }
         },
         methods:{
@@ -29,6 +52,7 @@
             getScale() {
                 this.scale = localStorage.getItem('scale');
             },
+
             //地图
             mapChart() {
                 let cityObj = {};
@@ -50,7 +74,7 @@
                 if(refresh == '市' && num == 1 ){
                     let Session = window.sessionStorage;
                     // Session.setItem('city',0)
-                    // console.log('市刷新');
+                    console.log('市刷新');
                     let city = that.$route.query.city;
                     let sxCityObj = {
                         '临汾市': 141000,
@@ -71,12 +95,21 @@
 
                         if (res.status === 200) {
                             let d = [];
+                            let g=[];
                             that.$echarts.registerMap(city, res.data);
                             //插入获取数据
                             for (let i = 0; i < res.data.features.length; i++) {
                                 d.push({
                                     name: res.data.features[i].properties.name,
                                 })
+                            }
+                            for (let i=0;i<that.geoCoordMap.length;i++){
+                                if (city===that.geoCoordMap[i].name){
+                                    g.push({
+                                        name:city,
+                                        value:that.geoCoordMap[i].value
+                                    })
+                                }
                             }
                             // console.log(d);
 
@@ -87,15 +120,15 @@
                             let str =  '市'+that.newStr;
                             // console.log(str);
                             // that.$router.push({name:str,query:{title:str,city:city}});
-                            renderMap(city, d);
+                            renderMap(city, d,g);
 
                         }
                     });
 
                 }else if(refresh == '全'){
-                    // console.log('省刷新');
-                    Session.setItem('city',1)   // 进入省   city 标识设置为1
-                    // this.$http.get('static/json/140001_full.json').then(res => {
+                    console.log('省刷新');
+                    Session.setItem('city',1);   // 进入省   city 标识设置为1
+                    // this.$http.get('static/json/140000_full.json').then(res => {
                     this.$http.get(that.apiRoot +'dictBJFSDMB/getAll',{ params : {json : '140000_full'} }).then(res => {
 
                         if (res.status === 200) {
@@ -113,7 +146,7 @@
                             // 注册地图
                             that.$echarts.registerMap('山西省', res.data);
                             // 绘制地图
-                            renderMap('山西省', d);
+                            renderMap('山西省', d,that.geoCoordMap);
                         }
                     });
                 }
@@ -140,7 +173,8 @@
                         if(mapdata[0]){
                             // console.log('有数据');
 
-                            renderMap('山西省', mapdata);
+                            // renderMap('山西省', mapdata);
+                            renderMap('山西省', mapdata,that.geoCoordMap);
                             // console.log(that.newStr)
                             let str =  '省'+that.newStr;
                             // console.log(str);
@@ -148,7 +182,7 @@
                             // console.log(str);
                             that.$router.push({name:str,query:{title:str1}});
                         }else{
-                            console.log('无数据');
+                            // console.log('无数据');
 
                             that.$http.get(that.apiRoot +'dictBJFSDMB/getAll',{ params : {json : '140000_full'} }).then(res => {
                                 if (res.status === 200) {
@@ -167,7 +201,7 @@
                                     // 注册地图
                                     that.$echarts.registerMap('山西省', res.data);
                                     // 绘制地图
-                                    renderMap('山西省', d);
+                                    renderMap('山西省', d,that.geoCoordMap);
 
                                     let str =  '省'+that.newStr;
                                     // console.log(str);
@@ -204,6 +238,7 @@
                                 });
 
                                 let d = [];
+                                let g=[];
                                 that.$echarts.registerMap(params.name, res.data);
                                 //插入获取数据
                                 for (let i = 0; i < res.data.features.length; i++) {
@@ -211,16 +246,24 @@
                                         name: res.data.features[i].properties.name,
                                     })
                                 }
+                                for (let i=0;i<that.geoCoordMap.length;i++){
+                                    if (params.name===that.geoCoordMap[i].name){
+                                        g.push({
+                                            name:params.name,
+                                            value:that.geoCoordMap[i].value
+                                        })
+                                    }
+                                }
                                 // console.log(d);
                                 that.flag = true;
                                 // console.log('这是鬼畜的原因')
                                 let str =  '市'+that.newStr;
                                 that.$router.push({name:str,query:{title:str,city:params.name}});
                                 // console.log(params.name)
-                                renderMap(params.name, d);
+                                renderMap(params.name, d,g);
                             }
                         });
-                    } else {;
+                    } else {
                     }
                 });
                 //配置项
@@ -232,10 +275,51 @@
                     animationEasing: 'cubicOut',
                     animationDurationUpdate: 1000,
                 };
-                function renderMap(map, data) {
+                function renderMap(map, data,geo) {
+                    // console.log(geo);
                     // 初始化绘制全国地图配置
+                    // console.log(that.geoCoordMap);
                     option.title.subtext = map;
                     option.series = [
+                        {
+                            name: '',
+                            type: 'scatter',
+                            coordinateSystem: 'geo',
+                            data: geo,
+                            symbolSize: 1,
+                            label: {
+                                normal: {
+                                    formatter: function (params) {
+                                        // console.log(params);
+                                        return params.data.name
+                                    },
+                                    position: 'top',
+                                    show: true,
+                                    textStyle:{
+                                        fontSize:20*that.scale,
+                                        fontWeight:'bold',
+                                        color:'#fff'
+                                    }
+                                },
+                                emphasis: {
+                                    formatter: function (params) {
+                                        // console.log(params);
+                                        return params.data.name
+                                    },
+                                    position: 'top',
+                                    show: true,
+                                    textStyle:{
+                                        fontSize:20*that.scale,
+                                        fontWeight:'bold',
+                                        color:'#fff'
+                                    }
+                                }
+                            },
+                            itemStyle:{
+                                color:'transparent'
+                            },
+                            animation:false
+                        },
                         {
                             map: map,
                             type: 'map',
@@ -248,11 +332,11 @@
                             },
                             label: {
                                 normal: {
-                                    show: true,
+                                    show: false,
                                     fontSize:20*that.scale,
                                 },
                                 emphasis: {
-                                    show: true
+                                    show: false
                                 }
                             },
                             itemStyle: {
@@ -261,14 +345,14 @@
                                     borderColor: '#122496',
                                     borderWidth: 1,
                                     label: {
-                                        show: true,
+                                        show: false,
                                         color: '#fff',
                                         fontWeight:'bold'
                                     },
                                 },
                                 emphasis: {
                                     label: {
-                                        show: true,
+                                        show: false,
                                         color: '#00fff0',
                                         fontWeight:'bold'
                                     },
@@ -278,6 +362,20 @@
 
                         },
                     ];
+                    option.geo = {
+                        show: true,
+                        map: map,
+                        zoom: 1.1,
+                        label: {
+                            normal: {
+                                show: false,
+                            },
+                            emphasis: {
+                                show: false,
+                            }
+                        },
+                        roam: false,
+                    };
 // 渲染地图
                     myChart.setOption(option);
                 }
@@ -355,7 +453,7 @@
                             item.xzqhdm=item.xzqhdm+'市';
                         });
                         if (that.$route.query.title.substr(0,1)==='全'){
-                           
+
                         }else {
                             let city = that.$route.query.city.substr(0,3);
                             // console.log(city);
@@ -367,7 +465,7 @@
 
                         }
 
-                        
+
                         that.mapChart();
                     })
             },

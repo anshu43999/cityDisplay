@@ -7,10 +7,7 @@
                 <div class="main_context_wrap">
                     <div class="sum_type"  v-for="(value,key,index)  in sumData" :key="index">
                         <div class="sum_type1">{{key}}</div>
-                        
-                        <div class="sum_type4" v-if="index >3"> {{value}}%</div>
-
-                        <div v-else :class="index === 0 ? 'sum_type2' : index === 1 ? 'sum_type3' : 'sum_type4'  ">{{value}}</div>
+                        <div :class="index === 0 ? 'sum_type2' : index === 1 ? 'sum_type3' : 'sum_type4'  ">{{value}}</div>
                     </div>
                 </div>
             </div>            
@@ -29,7 +26,7 @@
                             <span v-else-if="index ===1 || index ===4" class="sumType2">{{value}}</span>
 
                             <span v-else-if="index ===2 || index ===5" :class="value<0 ? 'sumType3':value>0 ? 'sumType4':'sumType5' ">
-                                {{Math.abs(value)}}%
+                                {{Math.abs(value)}}
                                 <i v-if="value<0" class="iconfont iconxiangshang-copy"></i> 
                                 <i v-else-if="value>0"   class="iconfont iconxiangshang"></i>
                                 <i v-else class="iconfont iconchiping"></i>
@@ -97,61 +94,39 @@
                 myPeriod:{},
                 xAxisData :[],    //近七日接警类型数据分析     x 轴
                 findUrl : [
-                    
-                    'recJQTJB/findXZQHNumHB',   // 环比  警情环比分析top
-                    'recJQTJB/findJQNumEveryXZQH',    //警情统计监测
+                    'recJJLXTJB/findSAlarmData',   //省 近七日接警类型数据分析
+                    'recBJFSTJB/findSAlarmMode',   //省 近七日报警类型数据分析
+                    'recLHLXTJB/findSIncomingType' //省 近七日来话类型数据分析
+
                 ],
                 tableData :[],
-                // 行政区划代码
-                cityDm: {
-                    '太原市': '140100',
-                    '大同市': '140200',
-                    '阳泉市': '140300',
-                    '长治市': '140400',
-                    '晋城市': '140500',
-                    '朔州市': '140600',
-                    '晋中市': '140700',
-                    '运城市': '140800',
-                    '忻州市': '140900',
-                    '临汾市': '141000',
-                    '吕梁市': '141100'
-                },
-                // 警情统计监测
                 sumData : {
-                    "报警总数" : '0',
-                    "有效警情" : '0',
-                    "已处警数" : '0',
-                    "已反馈数" : '0',
-                    "有效警情占比" : '0',
-                    "已处警数占比" : '0',
-                    "已反馈数占比" : '0'
+                    "报警总数" : '18234',
+                    "有效警情" : '2321',
+                    "已处警数" : '1314',
+                    "已反馈数" : '1314',
+                    "有效警情占比" : '98%',
+                    "已处警数占比" : '98%',
+                    "已反馈数占比" : '98%'
                 },
-                // 警情环比分析  
                 b_sumData : {
-                    "昨日报警总数" : 0,
-                    "前日报警总数" : 0,
-                    "报警总数环比" : 0,
-                    "昨日有效警情" : 0,
-                    "前日有效警情" : 0,
-                    "有效警情环比" : 0,
+                    "昨日报警总数" : 18363,
+                    "前日报警总数" : 21312,
+                    "报警总数环比" : 18363,
+                    "昨日有效警情" : 18363,
+                    "前日有效警情" : 18363,
+                    "有效警情环比" : 18364,
                 },
-                // 细类 环比 下右
                 ratio : {
-                    '诈骗' : '',
-                    '盗窃' : '', 
-                    '贩毒' : '', 
-                    '强奸' : '', 
-                    '抢劫' : '', 
-                },
-                // 统计图   环比
-                hBData:{
-                    eventType : [],
-                    yesterday : [0, 0, 0, 0, 0],
-                    beforeDay : [0, 0, 0, 0, 0],
-                },
-                // 统计图 max
-                mixArr : [],
-
+                    '刑事警情' : -1   ,
+                    '行政(治安)警情' : 4, 
+                    '交通类警情' : -2, 
+                    '消防救援' : 1, 
+                    '群众求助' : 4, 
+                    '应急联动事件' : 5, 
+                    '纠纷' : 0,
+                    '灾害事故': -2,
+                }
 
                 
              };
@@ -253,13 +228,13 @@
             randerCharts(){
                 let that = this;
                 let myChart = this.$echarts.init(document.getElementById('charts_wrap'));
-                var myData = that.hBData['eventType'];   
-                var lineData =this.mixArr;
+                var myData = ['刑事警情', '行政(治安)警情', '交通类警情', '消防救援', '群众求助', '应急联动事件', '纠纷','灾害事故']
+                var lineData = [100, 100, 100, 100, 100, 100, 100,100]
                 var lastYearData = {
-                    1: that.hBData['yesterday'],
+                    1: [3, 20, 62, 34, 55, 65, 33,90]
                 }
                 var thisYearData = {
-                    1: that.hBData['beforeDay'],
+                    1: [11, 38, 23, 39, 66, 66, 79,90]
                 }
                 var timeLineData = [1];
                 var option = {
@@ -279,7 +254,7 @@
                             icon : 'horizontal',
                             textStyle : {
                                 color : '#ffffff',
-                                fontSize : 16,
+                                fontSize : 20,
                             },
                             data: ['昨天', '前天']
                         },
@@ -368,8 +343,7 @@
                                 show: true,
                                 textStyle: {
                                     color: '#ffffff',
-                                    fontSize: 16 ,
-                                    fontWeight : 550,
+                                    fontSize: 20 
                                 }
 
                             },
@@ -548,198 +522,7 @@
                     ]
                 });
                 myChart.setOption(option);
-            },
-            // bottom  top
-            ratioBottomData(){
-                // cityDm
-                let city = this.$route.query.city;
-                console.log(city);
-                let arr = Object.keys(this.cityDm);
-                let that = this;
-                let num ; 
-                arr.map( (item)=>{
-                    if(city === item){
-                        num= that.cityDm[item]; 
-                    }
-                } )
-                // 时间截取
-                let curDate = new Date();
-                let preDate = new Date(curDate.getTime() - 24*60*60*1000); //前一天
-                let preAginDate = new Date(curDate.getTime() - 24*60*60*1000*2); //上上天
-                let zuotian = this.timeChangAlgin(preDate);
-                let qiantian = this.timeChangAlgin(preAginDate);
-
-
-                
-
-                
-                this.$http.get(  that.apiRoot +that.findUrl[0],{
-                    params : {
-                        tjTime : zuotian ,
-                        qtTime : qiantian,
-                        xzqhdm : num, 
-                    }
-                })
-                .then(function (res) {
-                    console.log(res);
-                    this.b_sumData['昨日报警总数'] = res['data']['Sjqhbfx']['昨日报警总数'];
-                    this.b_sumData['前日报警总数'] = res['data']['Sjqhbfx']['前日报警总数'];
-                    this.b_sumData['报警总数环比'] = (parseFloat(res['data']['Sjqhbfx']['报警总数环比']) * 100).toFixed(2);
-                    this.b_sumData['昨日有效警情'] = res['data']['Sjqhbfx']['昨日有效警情'];
-                    this.b_sumData['前日有效警情'] = res['data']['Sjqhbfx']['前日有效警情'];
-                    this.b_sumData['有效警情环比'] = (parseFloat(res['data']['Sjqhbfx']['有效警情环比']) * 100).toFixed(2);
-
-                    // eventType
-                    this.hBData['eventType'] = res['data']['aa'];
-                    // this.mixArr
-                    let sum =Object.values(res['data']['beforeday']) ;
-                    let sum1 = Object.values(res['data']['yesterday'])
-                    // console.log(sum);
-                    // console.log(sum1);
-                    let sum2 = [...sum,...sum1 ];
-                    // console.log(sum2);
-                    let sum3 = 0;
-                    sum2.forEach(item=>{
-                        sum3 += parseFloat(item)  ;
-                    })
-                    // console.log(sum3);
-                    res['data']['aa'].forEach(item=>{
-                        that.mixArr.push(sum3) 
-                    });
-                    // console.log(that.mixArr);
-
-
-                    //  yesterday : [0, 0, 0, 0, 0],
-                    // beforeDay : [0, 0, 0, 0, 0],
-                    // hBData
-                    // this.hBData.yesterday 
-                    let x =[];
-                    let y = [];
-                    this.hBData['eventType'].forEach((item)=>{
-                        if(res['data']['yesterday'][item]){
-                            x.push(parseFloat(res['data']['yesterday'][item]));
-                        }else{
-                             x.push(0);
-                        }
-
-                        if(res['data']['beforeday'][item]){
-                            y.push(parseFloat(res['data']['beforeday'][item]));
-                        }else{
-                             y.push(0);
-                        }
-                    }) 
-                    that.hBData.yesterday = x;
-                    that.hBData.beforeDay = y;
-
-
-                    that.hBData['eventType'].forEach((item)=>{
-                        if(res['data']['yesterdayHB'][item]  ){
-                            that.ratio[item] =Number(res['data']['yesterdayHB'][item])   ;
-                        }else{
-                            that.ratio[item] = 0;
-                        }
-                    } )
-                    console.log(that.ratio);  
-                    let obj = {};
-                    that.hBData['eventType'].forEach( (item,index)=>{
-                        if(that.hBData.beforeDay[index] === 0){
-                            obj[item] = that.hBData.yesterday[index]*100;
-                        }else{
-                            obj[item] = parseFloat(((that.hBData.yesterday[index] - that.hBData.beforeDay[index])/ that.hBData.beforeDay[index])*100).toFixed(2);
-                        }
-                    })
-                    that.ratio = obj;
-
-
-                    this.randerCharts();
-
-
-
-
-
-                }.bind(this))
-
-
-            },
-            // 时间转化
-            timeChange(){
-                
-            },
-            timeChangAlgin(preDate){
-                let month = preDate.getMonth()+1
-                let day = preDate.getDate();
-                let year = preDate.getFullYear();
-                if(day<10){
-                    day = '0' + day;
-                }
-                if(month<10){
-                    month = "0" + month;
-                }
-                // console.log(month,day,year);
-                // console.log(year,month,day);
-                return year+''+month +''+day;
-            },
-            // top 警情统计监测   
-            monitorGetData(){
-                let that = this;
-                let date = new Date();
-                let time = this.timeChangAlgin(date);
-                // console.log(time);
-
-                // cityDm
-                let city = this.$route.query.city;
-                console.log(city);
-                let arr = Object.keys(this.cityDm);
-                // let that = this;
-                let num ; 
-                arr.map( (item)=>{
-                    if(city === item){
-                        num= that.cityDm[item]; 
-                    }
-                } )
-                console.log(num)
-                
-                this.$http({
-                    method: 'post',
-                    url: this.apiRoot + this.findUrl[1],
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                        'crossDomain': true
-                    },
-                    transformRequest: [function (data) {
-                        let ret = '';
-                        for (let it in data) {
-                            ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
-                        }
-                        return ret
-                    }],
-                    // withCredentials: true,// 允许携带token ,这个是解决跨域产生的相关问题
-                    crossDomain: true,
-                    data: {
-                        tjTime: time,
-                        xzqhdm : num
-                    }
-                })
-                .then(function(res){
-                    console.log(res);
-                    that.sumData['报警总数'] = res['data'][0]['jjsl'];
-                    that.sumData['有效警情'] = res['data'][0]['yxjq'];
-                    that.sumData['已处警数'] = res['data'][0]['cjsl'];
-                    that.sumData['已反馈数'] = res['data'][0]['fksl'];
-                    that.sumData['有效警情占比'] = parseFloat(res['data'][0]['yxjq']/res['data'][0]['jjsl'] *100).toFixed(2) ;
-                    that.sumData['已处警数占比'] = parseFloat(res['data'][0]['cjsl']/res['data'][0]['yxjq'] *100).toFixed(2);
-                    that.sumData['已反馈数占比'] = parseFloat(res['data'][0]['fksl']/res['data'][0]['cjsl'] *100).toFixed(2);
-                    // console.log(that.sumData['已处警数占比'] )
-                    if(that.sumData['已处警数占比'] > 100){
-                        that.sumData['已处警数占比'] = 100
-                    }
-                    if(that.sumData['已反馈数占比'] > 100){
-                        that.sumData['已反馈数占比'] = 100
-                    }
-
-                })
-            }    
-
+            }
 
         },
 //生命周期 - 创建完成（可以访问当前this实例）
@@ -756,9 +539,8 @@
             this.pdFilter_btn();   // 判断筛选框是否显示
             this.getScale();    //获取缩放值
             //  this.getShen();
-            this.randerCharts();
-            this.ratioBottomData();
-            this.monitorGetData();
+             this.randerCharts();
+            
 
 
         },
