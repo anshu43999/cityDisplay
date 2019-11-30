@@ -1188,11 +1188,12 @@
                     let beforeYesterday=res.data.jqflschb.QT;
                     let yesterday=res.data.jqflschb.ZT;
                     let hb=res.data.jqflschb.ZTHB;
-                    let code=res.data.jqflschb.ZTDM.slice(1,res.data.jqflschb.ZTDM.length-1);
+                    let code=res.data.jqflschb.ZTDM;
                     if(res.data.jqflschb.ZTHB!=='{}'){
                         hb=res.data.jqflschb.ZTHB.slice(1,res.data.jqflschb.ZTHB.length-1);
                         yesterday=res.data.jqflschb.ZT.slice(1,res.data.jqflschb.ZT.length-1);
                         beforeYesterday=res.data.jqflschb.QT.slice(1,res.data.jqflschb.QT.length-1);
+                        code=res.data.jqflschb.ZTDM.slice(1,res.data.jqflschb.ZTDM.length-1);
 
                         function toJson(str) {
                             return eval("("+toArray(str)+")");
@@ -1229,22 +1230,26 @@
                         beforeYesterday=toJson(beforeYesterday);
                         this.codeObj=toJson(code);
 
-                        let nameArr1=[];
-                        let nameArr2=[];
-                        let nameArr3=[];
                         let nameArr=[];
-                        let temp=[];
-                        for (let item in beforeYesterday){
-                            nameArr1.push(item)
+                        /* let nameArr1=[];
+                         let nameArr2=[];
+                         let nameArr3=[];
+                         let temp=[];
+                         for (let item in beforeYesterday){
+                             nameArr1.push(item)
+                         }
+                         for (let item in yesterday){
+                             nameArr2.push(item)
+                         }
+                         for (let item in hb){
+                             nameArr3.push(item)
+                         }
+                         nameArr1.length>nameArr2.length?temp=nameArr1:temp=nameArr2;
+                         temp.length>nameArr3.length?nameArr=temp:nameArr=nameArr3;
+                         // console.log(nameArr);*/
+                        for (let item in this.codeObj){
+                            nameArr.push(item);
                         }
-                        for (let item in yesterday){
-                            nameArr2.push(item)
-                        }
-                        for (let item in hb){
-                            nameArr3.push(item)
-                        }
-                        nameArr1.length>nameArr2.length?temp=nameArr1:temp=nameArr2;
-                        temp.length>nameArr3.length?nameArr=temp:nameArr=nameArr3;
                         // console.log(nameArr);
                         let yD=[];
                         let lD=[];
@@ -1337,7 +1342,7 @@
             },
         },
         mounted() {
-           
+
 
             this.renderChart();
             /*let myData1=[];

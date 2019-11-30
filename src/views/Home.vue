@@ -47,9 +47,9 @@
                                         <span>{{Math.abs(mapData.hb)}}</span>
                                         <i :class="['iconfont',mapHbIcon]"></i>
                                     </td>
-                                    <td :class="mapHbClass">
+                                    <td :class="shoulianClass">
                                         <span>{{Math.abs(shoulian.hb)}}</span>
-                                        <i :class="['iconfont',mapHbIcon]"></i>
+                                        <i :class="['iconfont',shoulianHbIcon]"></i>
                                     </td>
                                 </tr>
                             </table>
@@ -82,8 +82,8 @@
                             </div>
 
                             <!--内容-->
-                             <div class="chartBox">
-<!--                            <div class="chartBox">-->
+                            <div class="chartBox">
+                                <!--                            <div class="chartBox">-->
                                 <div class="myBox" v-show="rankShow">
                                     <table>
                                         <tr>
@@ -92,7 +92,7 @@
                                             <td class="span3">有效警情</td>
                                         </tr>
                                         <tr v-for="(item,index) in  ranking" :key="index">
-<!--                                            <td class="span1 sp1" @click="jump">{{item['xzqhdm']}}</td>-->
+                                            <!--                                            <td class="span1 sp1" @click="jump">{{item['xzqhdm']}}</td>-->
                                             <td class="span1 sp1">{{item['xzqhdm']}}</td>
                                             <td class="span2 sp2">{{item['jjsl']}}</td>
                                             <td class="span3 sp3">{{item['yxjq']}}</td>
@@ -136,6 +136,7 @@
 
 <script>
     import MyHeader from "../components/Header";
+    import myMap from '../../public/static/json/140100_full'
 
     export default {
         name: "Test",
@@ -151,19 +152,6 @@
                 threeDaysAgo: '',
                 sevenDaysAgo: '',
                 // select: true,
-                // 接口
-                findUrl: [
-                    'recJQTJB/findJQNum', //警情统计监测
-                    'recJQTJB/findJQSevenDayShen', //近期警情统计
-                    'recJQFLTJB/findJQFLNum', //警情分类数据分析
-                    'recJQTJB/findXZQHNum', //map
-                    'recJJLXTJB/findJJLXShen', ///  饼    今日接警类型数据分析
-                    'recJJLXTJB/findJJLXSevenDayShen', ///  右   七日接警类型数据分析
-                    'recBJFSTJB/findBJFSShen', //   今日报警方式数据分析
-                    'recBJFSTJB/findBJFSSevenDayShen', //    七日报警方式数据分析
-                    'recLHLXTJB/findLHLXShen', //今日来话类型数据分析
-                    'recLHLXTJB/findLHLXSevenDayShen' //七日来话类型数据分析
-                ],
                 //需要刷新的图表
                 refreshCharts: [],
                 //    所有的图标对象
@@ -997,7 +985,7 @@
                                     let p=hb[params.dataIndex];
                                     if (p > 0) {
                                         color = 'red';
-                                    } else if (p === 0) {
+                                    } else if (p == 0) {
                                         color = 'yellow';
                                     } else {
                                         color = 'green';
@@ -1021,7 +1009,7 @@
                                         color: '#fdff05',
                                         fontSize: 16 * this.scale,
                                         fontWeight: 'bold'
-                                    }
+                                    },
                                 }
                             }
                         },
@@ -1099,36 +1087,22 @@
                 let that = this;
                 let myChart = this.$echarts.init(document.getElementById('mapChart')); //初始化
                 this.chartsObj.mapChart = myChart; //放入charts对象方便后面的刷新缩放以及其他操作
-                this.$http.get('static/json/140100_full.json').then(res => {
+                /*this.$http.get('static/json/140100_full.json').then(res => {
                     // console.log(mapdata);
                     // 注册地图
                     that.$echarts.registerMap('太原市', res.data);
                     // 绘制地图
-                    renderMap('太原市', that.mapSource, that.geoCoordMap);
-                });
-
+                    renderMap('太原市', that.mapSource);
+                });*/
+                // 注册地图
                 let option = {
                     animationDuration: 1000,
                     animationEasing: 'cubicOut',
                     animationDurationUpdate: 1000,
                 };
-
-                let convertData = function (d) {
-                    // console.log(d);
-                    let res = [];
-                    for (let i = 0; i < d.length; i++) {
-                        let geoCoord = that.geoCoordMap[d[i].name];
-                        // console.log(that.geoCoordMap[data[i].name]);
-                        if (geoCoord) {
-                            res.push({
-                                name: d[i].name,
-                                value: geoCoord.concat(d[i].value)
-                            });
-                        }
-                        // console.log(d[i].value);
-                    }
-                    return res;
-                };
+                that.$echarts.registerMap('太原市', myMap);
+                // 绘制地图
+                renderMap('太原市', that.mapSource);
 
                 function renderMap(map, data) {
                     // console.log(geo);
@@ -1138,7 +1112,7 @@
                         name: '',
                         type: 'scatter',
                         coordinateSystem: 'geo',
-                        data: convertData(data),
+                        data: that.convertData(data),
                         symbolSize: 1,
                         label: {
                             normal: {
@@ -1240,20 +1214,38 @@
                     // console.log(option);
                 }
 
-				myChart.on('click',(params)=>{
-					$("#msg").remove();
-					let pWidth=200;
-					let content='此功能正在建设中...';
-					        var html ='<div id="msg" style="position:fixed;top:50%;width:100%;height:30px;line-height:30px;margin-top:-15px;"><p style="background:#000;opacity:0.8;width:'+ pWidth +'px;color:#fff;text-align:center;padding:10px 10px;margin:0 auto;font-size:12px;border-radius:4px;">'+ content +'</p></div>'
-					                $("body").append(html);
-					                var t=setTimeout(next,2000);
-					                function next()
-					                {
-					                    $("#msg").remove();
+                myChart.on('click',(params)=>{
+                    $("#msg").remove();
+                    let pWidth=200;
+                    let content='此功能正在建设中...';
+                    var html ='<div id="msg" style="position:fixed;top:50%;width:100%;height:30px;line-height:30px;margin-top:-15px;"><p style="background:#000;opacity:0.8;width:'+ pWidth +'px;color:#fff;text-align:center;padding:10px 10px;margin:0 auto;font-size:12px;border-radius:4px;">'+ content +'</p></div>'
+                    $("body").append(html);
+                    var t=setTimeout(next,2000);
+                    function next()
+                    {
+                        $("#msg").remove();
 
-					                }
-				})
-			},
+                    }
+                })
+            },
+
+            convertData(d){
+                // console.log(d);
+                let that=this;
+                let res = [];
+                for (let i = 0; i < d.length; i++) {
+                    let geoCoord = that.geoCoordMap[d[i].name];
+                    // console.log(that.geoCoordMap[data[i].name]);
+                    if (geoCoord) {
+                        res.push({
+                            name: d[i].name,
+                            value: geoCoord.concat(d[i].value)
+                        });
+                    }
+                    // console.log(d[i].value);
+                }
+                return res;
+            },
 
             //渲染图表
             renderChart() {
@@ -1278,7 +1270,7 @@
                             mapValue: false, // 获取地图数据
                         };
 
-                        that.getLianHb();//立案环比
+                        // that.getLianHb();//立案环比
                         that.getYxjqHb();//有效警情环比
                         that.getMapData(); // map  数据*/
                         that.getJqtj(); //警情统计监测  左上角
@@ -1567,7 +1559,7 @@
                             });
 
                             //把data合并到source
-                             res.data.forEach(function (o, d) {
+                            res.data.forEach(function (o, d) {
                                 for (let k in o) {
                                     that.mapSource.forEach(function (t) {
                                         for (let key in t) {
@@ -1587,7 +1579,7 @@
 
                     }).catch(res=>{
                     console.log(res);
-                    })
+                })
             },
             //获取7天日期
             getDate() {
@@ -1697,12 +1689,12 @@
             },
         },
         mounted() {
-            this.$http.get('static/json/140100_full.json').then(res => {
+            /*this.$http.get('static/json/140100_full.json').then(res => {
                 // console.log(res);
                 for (let i = 0; i < res.data.features.length; i++) {
                     this.areaArr[res.data.features[i].properties.name] = res.data.features[i].properties.adcode;
                 }
-            });
+            });*/
             this.setCity();
             this.getDate();
             this.getScale();
@@ -2057,6 +2049,7 @@
                     span {
                         float: right;
                         margin-right: 10%;
+                        color:#fff;
                     }
                 }
 

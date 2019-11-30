@@ -120,7 +120,7 @@ methods: {
             //             $("#msg").remove();
 
             //         }
-                
+
             //     break;
 
             case '处警单':
@@ -197,11 +197,14 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
 <style lang='scss' scoped>
 //@import url(); 引入公共css类
 .back{
-    cursor: pointer;
     position: fixed;
     left: 2%;
     top: 8%;
     z-index: 10;
+    cursor: pointer;
+    .iconfont{
+        font-size: 1rem;
+    }
 }
 
 .details_wrap{

@@ -60,13 +60,13 @@
         },
         methods:{
             select(e){
- 
+
                 let index = this.navList.indexOf(e.target.innerHTML);
                 console.log(index);
                 this.actived = index;
                 this.getData( this.dictionaries[e.target.innerHTML]    );
             },
-            
+
             //    返回
             back(){
                 this.$router.go(-1);
@@ -100,7 +100,7 @@
                     this.caseList = [];
                     this.loading = false;
                     res['data'].forEach( (item,index)=>{
-                        
+
                         this.caseList.push({
                             cameName:item['bjnr'],
                             time:item['bjsj'],
@@ -109,16 +109,16 @@
                         })
 
                     })
-                    // let caseArr 
+                    // let caseArr
                     // this.caseList.pu
-                    
+
 
                 }.bind(this))
             },
             checked1(e){
                 // console.log(e['path'][2]['className'])
             },
-           
+
             checked2(e){
                 // console.log(e);
                 this.$router.push({ name : '案件详情',query : {dm : e} })
@@ -135,7 +135,7 @@
             console.log(index);
             this.actived = index;
 
-            
+
 
             this.getData();
 
@@ -145,11 +145,14 @@
 
 <style scoped lang="scss">
     .back{
-        cursor: pointer;
         position: fixed;
         left: 2%;
         top: 8%;
         z-index: 10;
+        cursor: pointer;
+        .iconfont{
+            font-size: 1rem;
+        }
     }
     main{
         display: flex;
