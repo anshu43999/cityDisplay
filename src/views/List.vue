@@ -1,6 +1,10 @@
 <template>
     <div id="container">
         <my-header></my-header>
+        <div class="back" @click="back">
+            <i class="iconfont iconfanhui"></i>
+            <span>返回</span>
+        </div>
         <main>
             <div class="chart-wrap">
                 <!--                    标题-->
@@ -12,13 +16,13 @@
                 <div class="chartBox">
                     <div class="t">
                         <ul @click="select">
-                            <li v-for="item in navList">{{item}}</li>
+                            <li v-for="(item,index) in navList"    :key="index"  :class="index ==actived ? 'active' : ''" >{{item}}</li>
                         </ul>
                     </div>
-                    <div class="b">
+                    <div class="b"  v-loading="loading" element-loading-background="rgba(0, 0, 0, 0.5)">
                         <div class="caseWarp">
-                            <ul v-for="item in ularr">
-                                <li v-for="item in caseList">
+                            <ul @click='checked1'>
+                                <li v-for="(item,index) in caseList" :class="item.jjdbh" :data-id="item['jjdbh']" :key="index" @click="checked2(item['jjdbh'])">
                                     <div class="b-l">
                                         <img src="../assets/images/index/caseIcon.png">
                                         <p>{{item.cameName}}</p>
@@ -44,69 +48,109 @@
         components: {MyHeader},
         data(){
             return {
-                navList:['危害国家安全','危害国家安全','危害国家安全','危害国家安全','危害国家安全','危害国家安全','危害国家安全','危害国家安全','危害国家安全',
-                    '危害国家安全','危害国家安全','危害国家安全','危害国家安全','危害国家安全','危害国家安全','危害国家安全','危害国家安全','危害国家安全','危害国家安全',
-                    '危害国家安全','危害国家安全'],
+                navList:[],  //tab 栏
                 caseList:[],
                 caseListLength:7,
                 ularr:[],
+                getDataUrl : this.apiRoot + 'JJDB/findJQLXDMaj',
+                loading: true,
+                dictionaries :{},   // 字典
+                actived : '',
             }
         },
         methods:{
             select(e){
-                let li=document.querySelectorAll('.t>ul>li');
-                li.forEach(value => {
-                    value.classList.remove('active');
-                });
-                e.target.classList.add('active');
+ 
+                let index = this.navList.indexOf(e.target.innerHTML);
+                console.log(index);
+                this.actived = index;
+                this.getData( this.dictionaries[e.target.innerHTML]    );
             },
-            dueCaseList(){
-                let caseArr=[{
-                    cameName:'案件1',
-                    time:'2019.10.15  10：35：26'
-                },{
-                    cameName:'案件1',
-                    time:'2019.10.15  10：35：26'
-                },{
-                    cameName:'案件1',
-                    time:'2019.10.15  10：35：26'
-                },{
-                    cameName:'案件1',
-                    time:'2019.10.15  10：35：26'
-                },{
-                    cameName:'案件1',
-                    time:'2019.10.15  10：35：26'
-                },{
-                    cameName:'案件1',
-                    time:'2019.10.15  10：35：26'
-                },{
-                    cameName:'案件1',
-                    time:'2019.10.15  10：35：26'
-                },{
-                    cameName:'案件1',
-                    time:'2019.10.15  10：35：26'
-                },{
-                    cameName:'案件1',
-                    time:'2019.10.15  10：35：26'
-                }];
-                let l=Math.ceil(caseArr.length / this.caseListLength);
-                for (let i=0;i<l;i++){
-                    this.ularr.push('0');
-                }
-                for (let i=0;i<this.ularr.length;i++){
-                    // console.log(i);
-                    // console.log(i * 7, (i + 1) * 7);
-                    console.log(caseArr.slice(0, 10));
-                }
+            
+            //    返回
+            back(){
+                this.$router.go(-1);
+            },
+            getData(checkedDM){
+                this.loading = true;
+                let sessionStorage = window.sessionStorage;
+                let xzqhdm = sessionStorage.getItem('myArea');
+                console.log(typeof(xzqhdm)    );
+                let str = Number(xzqhdm)
+                console.log(str);
+                let timestamp = (new Date()).getTime();
+                // let day1 = timestamp;
+                let date1 = new Date(timestamp);
+                let start1 = date1.getFullYear().toString() + '-' + (date1.getMonth() + 1).toString().padStart(2, '0') + '-'  + date1.getDate().toString().padStart(2, '0');
+                console.log(start1)
+
+                let dm = this.dictionaries[this.$route.query.type];
+                console.log(dm)
+
+                // return
+                this.$http.get(this.getDataUrl,{
+                    params : {
+                        jqlxdm : checkedDM||dm,
+                        tjTime :start1,
+                        xzqhdm :JSON.parse(sessionStorage.getItem('myArea')),
+                    }
+                })
+                .then(function (res) {
+                    console.log(res['data']);
+                    this.caseList = [];
+                    this.loading = false;
+                    res['data'].forEach( (item,index)=>{
+                        
+                        this.caseList.push({
+                            cameName:item['bjnr'],
+                            time:item['bjsj'],
+                            jjdbh : item['jjdbh'],
+
+                        })
+
+                    })
+                    // let caseArr 
+                    // this.caseList.pu
+                    
+
+                }.bind(this))
+            },
+            checked1(e){
+                // console.log(e['path'][2]['className'])
+            },
+           
+            checked2(e){
+                // console.log(e);
+                this.$router.push({ name : '案件详情',query : {dm : e} })
             }
+
         },
         mounted() {
-            this.dueCaseList();
+            // this.dueCaseList();
+            let str = JSON.parse(this.$route.query.code);
+            this.dictionaries = str;
+            this.navList = Object.keys(this.dictionaries);
+            let type = this.$route.query.type;
+            let index = this.navList.indexOf(type);
+            console.log(index);
+            this.actived = index;
+
+            
+
+            this.getData();
+
         }
     }
 </script>
 
 <style scoped lang="scss">
+    .back{
+        cursor: pointer;
+        position: fixed;
+        left: 2%;
+        top: 8%;
+        z-index: 10;
+    }
     main{
         display: flex;
         flex-direction: row;
@@ -122,7 +166,6 @@
             .title_wrap {
                 width: 100%;
                 height: 3.6rem;
-                cursor: pointer;
                 box-sizing: border-box;
                 position: relative;
                 background-repeat: no-repeat;
@@ -191,7 +234,7 @@
                             li{
                                 width: 100%;
                                 height: 6.2%;
-                                margin: 1.5% 0;
+                                margin: 0.5% 0;
                                 padding: 0 1rem;
                                 box-sizing: border-box;
                                 float: left;
@@ -200,15 +243,21 @@
                                     float: left;
                                     width: 80%;
                                     height: 100%;
+                                    display: flex;
                                     img{
-                                        float: left;
+                                        // float: left;
+                                        width: 2.8rem;
+                                        height: 2.8rem;
                                     }
                                     p{
+                                        flex: 1;
                                         font-size: 1rem;
                                         height: 100%;
                                         display: flex;
                                         align-items: center;
                                         margin-left: 3.2rem;
+                                        overflow: hidden;
+                                        white-space: nowrap;
                                     }
                                 }
                                 .b-r{

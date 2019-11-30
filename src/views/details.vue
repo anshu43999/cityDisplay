@@ -3,6 +3,10 @@
 <div class='details_wrap'>
     <!-- details -->
     <my-header></my-header>
+    <div class="back" @click="back">
+        <i class="iconfont iconfanhui"></i>
+        <span>返回</span>
+    </div>
 
     <div class="details_main">
         <div class="details_tab">
@@ -48,33 +52,31 @@ components: {MyHeader},
 data() {
 //这里存放数据
 return {
+    getDataUrl : this.apiRoot + 'JJDB/findALbyId',
     activated : 1 , // active
     detailData : {
-        '报警内容'  :"报警内容报警内容报警内容报警内容报警内容报警内容报警内容报警内容报警内容报警内容报警内容报警内容报警内容报警内容报警内容报警内容报警内容报警内容报警内容报警内容报警内容报警内容报警内容报警内容",
-        "警情地址" : '警情地址警情地址',
-        "报警时间" : "2019-10-30  18:20",
-        "报警人姓名" :'idadf',
-        "报警电话" : '111111',
-        "报警方式" : '报警求助、举报投诉',
-        "来话类型代码" : '报警求助、举报投诉',
-        "被困人员情况说明" : '报警求助、举报投诉',
-        "受伤人员情况说明" : '报警求助、举报投诉',
+        '报警内容'  :"",
+        "警情地址" : '',
+        "报警时间" : "",
+        "报警人姓名" :'',
+        "报警电话" : '',
+        "报警方式" : '',
+        "来话类型代码" : '',
+        "被困人员情况说明" : '',
+        "受伤人员情况说明" : '',
     },
     detailData2 : {
-        "接警单编号" :'201910301830511',
-        "接警类型" :'110报警',
-        "接警单位代码" :'山西省太原市公安局城东派出所',
-        "接警时间" :'2019-10-30  18:30',
-        "接警完成时间" :'2019-10-30  18:30',
-        "警情分类代码" :'刑事警情',
-        "警情类型代码" :'201910301830511',
+        "接警单编号" :'',
+        "接警类型" :'',
+        "接警单位代码" :'',
+        "接警时间" :'',
+        "接警完成时间" :'',
+        "警情分类代码" :'',
+        "警情类型代码" :'',
 
-        "警情细类代码" :'201910301830511',
-        "更新时间" :'201910301830511',
-        "死亡人员情况说明" :'201910301830511',
-
-
-
+        "警情细类代码" :'',
+        "更新时间" :'',
+        "死亡人员情况说明" :'',
     }
 
 };
@@ -85,6 +87,10 @@ computed: {},
 watch: {},
 //方法集合
 methods: {
+    //    返回
+    back(){
+        this.$router.go(-1);
+    },
     check_options(e){
         console.log(e.target.innerText);
         // console.log(e.target.);
@@ -120,16 +126,50 @@ methods: {
             case '处警单':
                 alertBox();
                 break;
-
             case '反馈单':
                 alertBox();
                 break;
-
-
-
             default:
                 break;
         }
+
+    },
+    getData(){
+        this.$http.get(this.getDataUrl,{
+            params : {
+                jjdbh : this.$route.query.dm
+            }
+        })
+        .then(function(res){
+            console.log(res);
+            this.detailData = {
+                '报警内容'  :res['data'][0]['bjnr'],
+                "警情地址" : res['data'][0]['jqdz'],
+                "报警时间" : res['data'][0]['bjsj'],
+                "报警人姓名" :res['data'][0]['bjrxm'],
+                "报警电话" : res['data'][0]['bjdh'],
+                "报警方式" : res['data'][0]['bjfsdm'],
+                "来话类型代码" : res['data'][0]['lhlx'],
+                "被困人员情况说明" : res['data'][0]['bkryqksm'],
+                "受伤人员情况说明" : res['data'][0]['ssryqksm'],
+            };
+            this.detailData2 = {
+                "接警单编号" :res['data'][0]['jjdbh'],
+                "接警类型" :res['data'][0]['jjlx'],
+                "接警单位代码" :res['data'][0]['jjdwdm'],
+                "接警时间" :res['data'][0]['jjsj'],
+                "接警完成时间" :res['data'][0]['wcsj'],
+                "警情分类代码" :res['data'][0]['jqlbdm'],
+                "警情类型代码" :res['data'][0]['jqlxdm'],
+
+                "警情细类代码" :res['data'][0]['jqxldm'],
+                "更新时间" :res['data'][0]['gxsj'],
+                "死亡人员情况说明" :res['data'][0]['swryqksm'],
+            }
+            console.log(this.detailData)
+
+
+        }.bind(this))
 
     }
 
@@ -140,6 +180,7 @@ created() {
 },
 //生命周期 - 挂载完成（可以访问DOM元素）
 mounted() {
+    this.getData();
 
 },
 beforeCreate() {}, //生命周期 - 创建之前
@@ -155,6 +196,14 @@ activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
 
 <style lang='scss' scoped>
 //@import url(); 引入公共css类
+.back{
+    cursor: pointer;
+    position: fixed;
+    left: 2%;
+    top: 8%;
+    z-index: 10;
+}
+
 .details_wrap{
     width: 100%;
     height: 100%;

@@ -2,7 +2,7 @@
   <div id="app">
     <router-view/>
 
-   
+
   </div>
 </template>
 
@@ -11,7 +11,7 @@
 #app{
   width: 100%;
   height: 100%;
-  background-image: url('./assets/images/index/common_bg.gif')
+  background-image: url('./assets/images/index/cityBg.gif')
 }
 
 </style>

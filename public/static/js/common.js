@@ -8,7 +8,7 @@ let settings = {
 };
 /*******************保存配置************************/
 // localStorage.setItem('settings', JSON.stringify(settings));
-let counter;
+var counter;
 //字体缩放比例
 let scale = 1;
 let [pageH, pageW] = [$(window).height(), $(window).width()];
@@ -105,7 +105,7 @@ const Public = {
      * @param someRefresh 指定要刷新的图表，有重复指定的图表时优先权高于noRefresh
      */
     chartsReDraw(charts, t = settings.chartRefreshPeriod, noRefresh, someRefresh,callBack) {
-        
+        // console.log(charts);
         counter = setInterval(() => {
             // console.log(charts);
             Object.keys(charts).forEach(item => {
@@ -114,7 +114,7 @@ const Public = {
                 let opt = chart.getOption();
                 chart.clear();
                 chart.setOption(opt);
-            })
+            });
             if(callBack){
                 callBack();
             }

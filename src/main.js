@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import '../public/static/style/common.scss'
-// import ElementUI from 'element-ui'
-// import 'element-ui/lib/theme-chalk/index.css'
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
 import App from './App.vue'
 // import 'element-ui/lib/theme-chalk/index.css'
 // import ElementUI from 'element-ui'
@@ -20,11 +20,12 @@ import router from './router/index'
 Vue.prototype.$http = axios;
 Vue.prototype.$echarts = echarts;
 
-// Vue.use(ElementUI);
+Vue.use(ElementUI);
 //温馨提示注意同步修改ueditor.config.js
 
-Vue.prototype.apiRoot = 'http://192.168.1.248:8083/cityDisplay/'//kun
-// Vue.prototype.apiRoot = 'http://192.168.1.252:8083/dataDisplay/'//su
+// Vue.prototype.apiRoot = 'http://192.168.1.248:8083/cityDisplay/'//kun
+Vue.prototype.apiRoot = 'http://192.168.1.252:8083/cityDisplay/'//su
+
 
 
 // Vue.prototype.apiRoot ='http://my.ityyedu.com/alarmSystem/';

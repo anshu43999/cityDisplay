@@ -1,7 +1,7 @@
 <template>
-    <div id="login">
+	<div id="login">
 
-        <!-- <div class="video-container">
+		<!-- <div class="video-container">
             <div class="filter"></div>
             <video autoplay loop muted playsinline src="../assets/video/dongtu1.mp4" class="fillWidth"></video>
             <div class="poster hidden">
@@ -22,7 +22,21 @@
 
                     </div>
                 </div>
-
+                        <div>
+							<div class="inputs_wrap">
+								<div>账号</div>
+								<input v-focus='true' type="text" v-model="name">
+								<i class="iconfont iconusername icons"></i>
+							</div>
+							<div class="inputs_wrap">
+								<div>密码</div>
+								<input type="password" v-model="password"  @keyup.enter="submit()">
+								<i class="iconfont iconmima   icons"></i>
+							</div>
+							<div class="inputs_btn" :class="[ active? 'btnActive':'btnFocurs','btn','input']" @click="submit" >
+								<span>登录</span>
+							</div>
+						</div>
 
 
                 <div class="filter">
@@ -43,7 +57,7 @@
                             </div>
                             <div class="inputs_btn" :class="[ active? 'btnActive':'btnFocurs','btn','input']" @click="submit" >
                                 <span>登录</span>
-                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -56,137 +70,137 @@
 
 
 
-        <div class="copyright">山西硬汉网络科技有限公司提供技术支持</div>
+		<div class="copyright">山西硬汉网络科技有限公司提供技术支持</div>
 
 
 
 
 
-    </div>
+	</div>
 </template>
 
 <script>
-    export default {
-        name: "Login",
-        data () {
-            return {
-                active : false,
-                name : '',
-                password : '',
-            }
-        },
-        methods : {
-            submit(){
-                // console.log('进入判断');
-                let that = this;
-                 this.active = true;
-                //  this.$router.push({name:'首页'})
-                if(this.name === 'admin' && this.password === 'asdf0987'){
-                    // console.log('ok');
-                    //   this.active = false;
-                    sessionStorage.setItem("user",1);
-                    this.$router.push({name:'首页'})
-                    setTimeout(function () { 
-                        that.active = false;
-                     },300)
+	export default {
+		name: "Login",
+		data () {
+			return {
+				active : false,
+				name : '',
+				password : '',
+			}
+		},
+		methods : {
+			submit(){
+				// console.log('进入判断');
+				let that = this;
+				this.active = true;
+				//  this.$router.push({name:'首页'})
+				if(this.name === 'admin' && this.password === 'asdf0987'){
+					// console.log('ok');
+					//   this.active = false;
+					sessionStorage.setItem("user",1);
+					this.$router.push({name:'首页',query:{myArea:'140100'}});
+					setTimeout(function () {
+						that.active = false;
+					},300)
 
-                }
-                setTimeout(function () { 
-                    that.active = false;
-                },300)
+				}
+				setTimeout(function () {
+					that.active = false;
+				},300)
 
 
-            },
-            jurisdiction(){
-                let str = this.$route.query;
-                // console.log(str);
-                if(str.key === '7a57a5a743894a0e' && str.value === 'db3f623a67d57e82'){
-                    console.log('ok');
-                    //   this.active = false;
-                    sessionStorage.setItem("user",1);
-                    
-                    this.$router.push({name:'首页'})
-                    // setTimeout(function () { 
-                    //     that.active = false;
-                    //  },300)
+			},
+			jurisdiction(){
+				let str = this.$route.query;
+				// console.log(str);
+				if(str.key === '7a57a5a743894a0e' && str.value === 'db3f623a67d57e82'){
+					console.log('ok');
+					//   this.active = false;
+					sessionStorage.setItem("user",1);
 
-                }
+					this.$router.push({name:'首页'})
+					// setTimeout(function () {
+					//     that.active = false;
+					//  },300)
 
-            }
+				}
 
-        },
-        mounted(){
-            this.jurisdiction();
+			},
+		},
+		mounted(){
 
-             $( document ).ready(function() {
-                scaleVideoContainer();
+			this.jurisdiction();
 
-                initBannerVideoSize('.video-container .poster img');
-                initBannerVideoSize('.video-container .filter');
-                initBannerVideoSize('.video-container video');
+			$( document ).ready(function() {
+				scaleVideoContainer();
 
-                $(window).on('resize', function() {
-                scaleVideoContainer();
-                scaleBannerVideoSize('.video-container .poster img');
-                scaleBannerVideoSize('.video-container .filter');
-                scaleBannerVideoSize('.video-container video');
-                });
-            });
+				initBannerVideoSize('.video-container .poster img');
+				initBannerVideoSize('.video-container .filter');
+				initBannerVideoSize('.video-container video');
 
-            function scaleVideoContainer() {
-                var height = $(window).height() + 5;
-                var unitHeight = parseInt(height) + 'px';
-                $('.homepage-hero-module').css('height',unitHeight);
-            }
+				$(window).on('resize', function() {
+					scaleVideoContainer();
+					scaleBannerVideoSize('.video-container .poster img');
+					scaleBannerVideoSize('.video-container .filter');
+					scaleBannerVideoSize('.video-container video');
+				});
+			});
 
-            function initBannerVideoSize(element){
-                $(element).each(function(){
-                $(this).data('height', $(this).height());
-                $(this).data('width', $(this).width());
-                });
+			function scaleVideoContainer() {
+				var height = $(window).height() + 5;
+				var unitHeight = parseInt(height) + 'px';
+				$('.homepage-hero-module').css('height',unitHeight);
+			}
 
-                scaleBannerVideoSize(element);
-            }
+			function initBannerVideoSize(element){
+				$(element).each(function(){
+					$(this).data('height', $(this).height());
+					$(this).data('width', $(this).width());
+				});
 
-            function scaleBannerVideoSize(element) {
+				scaleBannerVideoSize(element);
+			}
 
-                var windowWidth = $(window).width(),
-                windowHeight = $(window).height() + 5,
-                videoWidth,
-                videoHeight;
+			function scaleBannerVideoSize(element) {
 
-                // console.log(windowHeight);
+				var windowWidth = $(window).width(),
+						windowHeight = $(window).height() + 5,
+						videoWidth,
+						videoHeight;
 
-                $(element).each(function(){
-                var videoAspectRatio = $(this).data('height')/$(this).data('width');
+				// console.log(windowHeight);
 
-                $(this).width(windowWidth);
+				$(element).each(function(){
+					var videoAspectRatio = $(this).data('height')/$(this).data('width');
 
-                if(windowWidth < 1000){
-                    videoHeight = windowHeight;
-                    videoWidth = videoHeight / videoAspectRatio;
-                    $(this).css({'margin-top' : 0, 'margin-left' : -(videoWidth - windowWidth) / 2 + 'px'});
+					$(this).width(windowWidth);
 
-                    $(this).width(videoWidth).height(videoHeight);
-                }
+					if(windowWidth < 1000){
+						videoHeight = windowHeight;
+						videoWidth = videoHeight / videoAspectRatio;
+						$(this).css({'margin-top' : 0, 'margin-left' : -(videoWidth - windowWidth) / 2 + 'px'});
 
-                $('.homepage-hero-module .video-container video').addClass('fadeIn animated');
+						$(this).width(videoWidth).height(videoHeight);
+					}
 
-                });
-            }
-        },
-        directives:{
-            focus:{
-                inserted : function (el,{value}) {
-                    // console.log(el,{value})
-                    if(value){
-                        el.focus();
-                    }
-                }
-            }
-        },
+					$('.homepage-hero-module .video-container video').addClass('fadeIn animated');
 
-    }
+				});
+			}
+		},
+		directives:{
+			focus:{
+				inserted : function (el,{value}) {
+					// console.log(el,{value})
+					if(value){
+						el.focus();
+					}
+				}
+			}
+		},
+
+	}
 </script>
 
 <style scoped lang="scss">
